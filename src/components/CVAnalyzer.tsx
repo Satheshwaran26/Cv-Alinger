@@ -8,11 +8,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { analyzeCVWithOpenAI } from "@/lib/openai";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { FileText } from "lucide-react";
 
-// When using this mock data in the future, you might want to adjust the recommendations
-// based on your monetization strategy and add new fields if needed
 const mockAnalysisData = {
   overallScore: 72,
   ksaoData: {
