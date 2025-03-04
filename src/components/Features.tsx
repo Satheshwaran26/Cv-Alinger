@@ -52,7 +52,10 @@ export const Features = () => {
   }, []);
 
   return (
-    <section id="features" className="py-24 bg-gray-50/50 dark:bg-gray-900/30 relative overflow-hidden">
+    <section id="features" className="py-24 bg-background relative overflow-hidden">
+      {/* Add a top gradient to create a seamless transition */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-blue-100/50 to-transparent dark:from-blue-900/30 z-0" />
+      
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/30 dark:from-blue-950/20 dark:to-purple-950/10" />
       

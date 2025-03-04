@@ -23,7 +23,7 @@ export const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="relative w-full min-h-screen pt-20 pb-16 flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 via-blue-100/50 to-background dark:from-blue-950 dark:via-blue-900/30 dark:to-background"
+      className="relative w-full min-h-screen py-20 flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 via-blue-100/50 to-background dark:from-blue-950 dark:via-blue-900/30 dark:to-background"
       ref={containerRef}
     >
       {/* Background decorative elements - using stronger opacity values */}
@@ -82,6 +82,9 @@ export const Hero = () => {
           </div>
         </div>
       </div>
+      
+      {/* Remove the gap between hero and the next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
       
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
