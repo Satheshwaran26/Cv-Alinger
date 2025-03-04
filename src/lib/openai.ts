@@ -19,6 +19,9 @@ interface OpenAIResponse {
   };
 }
 
+// Your API key - replace with your actual OpenAI API key
+const API_KEY = "your_openai_api_key_here";
+
 export async function analyzeCVWithOpenAI(
   cvText: string, 
   jobDescription: string
@@ -56,7 +59,7 @@ export async function analyzeCVWithOpenAI(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY || localStorage.getItem("openai_api_key")}`,
+        Authorization: `Bearer ${API_KEY}`,
       },
       body: JSON.stringify({
         model: "gpt-4o",
