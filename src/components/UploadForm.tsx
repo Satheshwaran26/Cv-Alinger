@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import pdfParse from "pdf-parse";
 
 interface UploadFormProps {
   onSubmit: (cvText: string, jobDescription: string) => void;
@@ -25,87 +27,102 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
     }
   };
 
+  const parsePdf = async (file: File): Promise<string> => {
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdfData = await pdfParse(new Uint8Array(arrayBuffer));
+      return pdfData.text || "";
+    } catch (error) {
+      console.error("Error parsing PDF:", error);
+      throw new Error("Failed to parse PDF content");
+    }
+  };
+
+  const handleFile = async (file: File) => {
+    try {
+      if (file.type.includes("text")) {
+        // Text files
+        const text = await file.text();
+        setCvText(text);
+        toast({
+          title: "CV uploaded",
+          description: "Your CV has been successfully uploaded"
+        });
+      } else if (file.type === "application/pdf") {
+        // PDF files
+        const pdfText = await parsePdf(file);
+        setCvText(pdfText);
+        toast({
+          title: "CV uploaded",
+          description: "Your PDF resume has been successfully parsed"
+        });
+      } else if (
+        file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        file.type === "application/msword"
+      ) {
+        // For DOC/DOCX files - we don't have direct parsing yet
+        toast({
+          title: "Document format limitation",
+          description: "We can't fully parse Word documents yet. Please upload a PDF or copy/paste the content manually.",
+          variant: "destructive"
+        });
+        setCvText(`Note: This is just the file name, not the actual content. Please paste the text manually: ${file.name}`);
+      }
+    } catch (error) {
+      console.error("Error processing file:", error);
+      toast({
+        title: "Upload failed",
+        description: "There was an error processing your file",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
     
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      try {
-        const file = e.dataTransfer.files[0];
-        
-        if (file.type !== "application/pdf" && 
-            !file.type.includes("text") && 
-            file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-          toast({
-            title: "Unsupported file",
-            description: "Please upload a PDF, DOC, DOCX, or TXT file",
-            variant: "destructive",
-          });
-          return;
-        }
-        
-        if (file.type.includes("text")) {
-          const text = await file.text();
-          setCvText(text);
-          toast({
-            title: "CV uploaded",
-            description: "Your CV has been successfully uploaded",
-          });
-        } else {
-          toast({
-            title: "CV uploaded",
-            description: "Your CV has been successfully uploaded",
-          });
-          setCvText("Sample CV content from uploaded file: " + file.name);
-        }
-      } catch (error) {
+      const file = e.dataTransfer.files[0];
+      
+      if (
+        file.type !== "application/pdf" && 
+        !file.type.includes("text") && 
+        file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document" &&
+        file.type !== "application/msword"
+      ) {
         toast({
-          title: "Upload failed",
-          description: "There was an error uploading your file",
-          variant: "destructive",
+          title: "Unsupported file",
+          description: "Please upload a PDF, DOC, DOCX, or TXT file",
+          variant: "destructive"
         });
+        return;
       }
+      
+      await handleFile(file);
     }
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      try {
-        const file = e.target.files[0];
-        
-        if (file.type !== "application/pdf" && 
-            !file.type.includes("text") && 
-            file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-          toast({
-            title: "Unsupported file",
-            description: "Please upload a PDF, DOC, DOCX, or TXT file",
-            variant: "destructive",
-          });
-          return;
-        }
-        
-        if (file.type.includes("text")) {
-          const text = await file.text();
-          setCvText(text);
-          toast({
-            title: "CV uploaded",
-            description: "Your CV has been successfully uploaded",
-          });
-        } else {
-          toast({
-            title: "CV uploaded",
-            description: "Your CV has been successfully uploaded",
-          });
-          setCvText("Sample CV content from uploaded file: " + file.name);
-        }
-      } catch (error) {
+      const file = e.target.files[0];
+      
+      if (
+        file.type !== "application/pdf" && 
+        !file.type.includes("text") && 
+        file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document" &&
+        file.type !== "application/msword"
+      ) {
         toast({
-          title: "Upload failed",
-          description: "There was an error uploading your file",
-          variant: "destructive",
+          title: "Unsupported file",
+          description: "Please upload a PDF, DOC, DOCX, or TXT file",
+          variant: "destructive"
         });
+        return;
       }
+      
+      await handleFile(file);
     }
   };
 
