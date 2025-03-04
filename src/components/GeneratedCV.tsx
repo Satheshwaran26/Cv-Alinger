@@ -71,16 +71,6 @@ export const GeneratedCV = ({
     });
   };
   
-  // Remove improvement markers for display
-  const cleanCVForDisplay = (content: string) => {
-    return content
-      .replace(/\[Improved based on recommendation\]:/g, '')
-      .replace(/\[Consider adding based on recommendation:.*?\]/g, '')
-      .trim();
-  };
-  
-  const displayContent = cleanCVForDisplay(cvContent);
-  
   return (
     <div className="animate-scale-in">
       <Card className="overflow-hidden p-8">
@@ -148,12 +138,13 @@ export const GeneratedCV = ({
           
           {/* Preview of CV text content */}
           <div className="max-h-80 overflow-y-auto whitespace-pre-wrap bg-background p-4 rounded border text-sm">
-            {displayContent}
+            {cvContent}
           </div>
         </div>
 
         {/* CV template for PDF generation - now visible for better preview */}
-        <div className="mb-8">
+        <div className="mb-8 p-4 border rounded-lg hidden">
+          <h4 className="text-lg font-medium mb-4">PDF Preview</h4>
           <div className="bg-white rounded shadow">
             <CVTemplate ref={cvTemplateRef} content={cvContent} generatePDF={handleDownloadPDF} />
           </div>
