@@ -26,6 +26,13 @@ body {
   min-height: 100vh;
 }
 
+/* Force visibility for hero elements to prevent disappearing */
+.hero-animate, .hero-animate-delayed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: none !important;
+}
+
 /* Keep other animations and styling */
 @keyframes logo-spin {
   from {

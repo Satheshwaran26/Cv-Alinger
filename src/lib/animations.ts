@@ -8,6 +8,15 @@ export const setupIntersectionObserver = (
   threshold = 0.1, 
   rootMargin = '0px'
 ) => {
+  // Only use intersection observer for non-hero elements
+  // Hero elements should be visible immediately to prevent disappearing
+  if (elements.includes('hero-')) {
+    return {
+      disconnect: () => {},
+      observe: () => {},
+    };
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {

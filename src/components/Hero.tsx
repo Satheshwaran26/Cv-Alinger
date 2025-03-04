@@ -7,12 +7,17 @@ export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = setupIntersectionObserver('.hero-animate', 'animate-slide-up');
-    setupIntersectionObserver('.hero-animate-delayed', 'animate-slide-up', 0.1, '-10px');
+    // Don't use animation for hero section to prevent disappearing
+    document.querySelectorAll('.hero-animate').forEach(el => {
+      el.classList.remove('opacity-0');
+    });
+    document.querySelectorAll('.hero-animate-delayed').forEach(el => {
+      el.classList.remove('opacity-0');
+    });
     
-    return () => {
-      observer.disconnect();
-    };
+    // Disable the intersection observer for the hero section
+    // as it's likely causing the disappearing issue
+    return () => {};
   }, []);
 
   return (
@@ -21,38 +26,38 @@ export const Hero = () => {
       className="relative w-full min-h-screen pt-20 pb-16 flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 via-blue-100/50 to-background dark:from-blue-950 dark:via-blue-900/30 dark:to-background"
       ref={containerRef}
     >
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-primary/10 to-transparent pointer-events-none" />
+      {/* Background decorative elements - using stronger opacity values */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-primary/15 to-transparent pointer-events-none" />
       
       {/* Decorative pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoNnYtNmgtNnptLTYgNnY2aDZ2LTZoLTZ6TTYgNnY2aDZ2LTZINnptNiA2djZoNnYtNmgtNnptNiAwaDZ2LTZoLTZ2NnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40 dark:opacity-20 pointer-events-none" />
       
-      {/* Decorative blurred circles */}
-      <div className="absolute -left-20 top-20 w-[400px] h-[400px] bg-primary/20 rounded-full blur-3xl opacity-60 pointer-events-none" />
-      <div className="absolute -right-20 bottom-20 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-3xl opacity-50 pointer-events-none" />
-      <div className="absolute left-1/3 bottom-40 w-[300px] h-[300px] bg-blue-300/20 rounded-full blur-3xl opacity-40 pointer-events-none" />
+      {/* Decorative blurred circles - larger and with higher opacity */}
+      <div className="absolute -left-20 top-20 w-[400px] h-[400px] bg-primary/30 rounded-full blur-3xl opacity-70 pointer-events-none" />
+      <div className="absolute -right-20 bottom-20 w-[500px] h-[500px] bg-purple-500/30 rounded-full blur-3xl opacity-60 pointer-events-none" />
+      <div className="absolute left-1/3 bottom-40 w-[300px] h-[300px] bg-blue-300/30 rounded-full blur-3xl opacity-50 pointer-events-none" />
       
       <div className="container mx-auto text-center px-4 relative z-10">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full mb-6 opacity-0 hero-animate">
+        {/* Badge - removed opacity-0 to ensure it's visible */}
+        <div className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full mb-6 hero-animate">
           <div className="w-2 h-2 bg-primary rounded-full animate-pulse-slow" />
           <span className="text-xs font-medium text-primary">AI-Powered CV Optimization</span>
         </div>
         
-        {/* Headline */}
-        <h1 className="text-4xl md:text-6xl font-semibold mb-6 mx-auto max-w-4xl text-balance opacity-0 hero-animate" style={{ animationDelay: "100ms" }}>
+        {/* Headline - removed opacity-0 to ensure it's visible */}
+        <h1 className="text-4xl md:text-6xl font-semibold mb-6 mx-auto max-w-4xl text-balance hero-animate">
           Align Your Resume With Your 
           <span className="text-primary"> Dream Job</span>
         </h1>
         
-        {/* Subheadline */}
-        <p className="text-xl text-muted-foreground mb-10 mx-auto max-w-2xl text-balance opacity-0 hero-animate" style={{ animationDelay: "200ms" }}>
+        {/* Subheadline - removed opacity-0 to ensure it's visible */}
+        <p className="text-xl text-muted-foreground mb-10 mx-auto max-w-2xl text-balance hero-animate">
           Intelligent CV analysis using the KSAO framework to maximize your potential
           and improve your chances of landing interviews.
         </p>
         
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 opacity-0 hero-animate" style={{ animationDelay: "300ms" }}>
+        {/* CTA buttons - removed opacity-0 to ensure they're visible */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 hero-animate">
           <Button size="lg" className="shadow-lg transition-all hover:shadow-xl px-8 py-6">
             Analyze My Resume
           </Button>
@@ -61,8 +66,8 @@ export const Hero = () => {
           </Button>
         </div>
         
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto opacity-0 hero-animate-delayed">
+        {/* Stats - removed opacity-0 to ensure they're visible */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto hero-animate-delayed">
           <div className="glass rounded-xl p-6 transition-transform hover:translate-y-[-5px]">
             <div className="font-semibold text-3xl mb-2 text-primary">98%</div>
             <p className="text-sm text-muted-foreground">Accuracy in skill matching</p>
