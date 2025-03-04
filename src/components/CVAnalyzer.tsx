@@ -7,7 +7,7 @@ import { GeneratedCV } from "./GeneratedCV";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { analyzeCVWithOpenAI } from "@/lib/openai";
+import { analyzeCVWithOpenAI, improveCV } from "@/lib/openai";
 import { useToast } from "@/components/ui/use-toast";
 import { FileText } from "lucide-react";
 
@@ -79,6 +79,7 @@ const mockAnalysisData = {
 export const CVAnalyzer = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isGeneratingCV, setIsGeneratingCV] = useState(false);
   const [analysisData, setAnalysisData] = useState<any>(null);
   const [selectedRecommendations, setSelectedRecommendations] = useState<any[]>([]);
   const [generatedCV, setGeneratedCV] = useState<{
@@ -93,7 +94,6 @@ export const CVAnalyzer = () => {
     setOriginalCVText(cvText);
     
     try {
-      // Call OpenAI API
       const results = await analyzeCVWithOpenAI(cvText, jobDescription);
       setAnalysisData(results);
       
@@ -110,7 +110,6 @@ export const CVAnalyzer = () => {
         variant: "destructive",
       });
       
-      // Fallback to mock data
       setAnalysisData(mockAnalysisData);
     } finally {
       setIsLoading(false);
@@ -129,7 +128,7 @@ export const CVAnalyzer = () => {
     }
   };
   
-  const generateImprovedCV = () => {
+  const generateImprovedCV = async () => {
     if (selectedRecommendations.length === 0) {
       toast({
         title: "No recommendations selected",
@@ -139,36 +138,64 @@ export const CVAnalyzer = () => {
       return;
     }
     
-    // Calculate new score (between 5-15% improvement based on selections)
-    const improvementPercentage = Math.min(15, selectedRecommendations.length * 3);
-    const scoreImprovement = Math.floor((analysisData.overallScore * improvementPercentage) / 100);
-    const newScore = Math.min(100, analysisData.overallScore + scoreImprovement);
+    setIsGeneratingCV(true);
     
-    // Apply recommendations to generate improved CV content
-    let improvedCV = originalCVText;
-    
-    // Apply each recommendation (this is simplified for demonstration)
-    // A real implementation would use more sophisticated text processing
-    selectedRecommendations.forEach(rec => {
-      if (rec.suggestedChange) {
-        // Here you would implement more sophisticated CV modifications
-        // This is just a simple example
-        improvedCV += `\n\n[Applied improvement based on: ${rec.title}]\n${rec.suggestedChange}`;
+    try {
+      const improvementPercentage = Math.min(15, selectedRecommendations.length * 3);
+      const scoreImprovement = Math.floor((analysisData.overallScore * improvementPercentage) / 100);
+      const estimatedNewScore = Math.min(100, analysisData.overallScore + scoreImprovement);
+      
+      const response = await improveCV({
+        originalCV: originalCVText,
+        recommendations: selectedRecommendations,
+        currentScore: analysisData.overallScore
+      });
+      
+      if (response.success) {
+        setGeneratedCV({
+          content: response.improved_cv,
+          newScore: response.new_score || estimatedNewScore,
+          appliedRecommendations: selectedRecommendations.map(rec => rec.title)
+        });
+        
+        toast({
+          title: "CV Generated",
+          description: "Your improved CV has been generated successfully!",
+          variant: "default",
+        });
+      } else {
+        console.error("API failed to generate CV, using fallback method");
+        
+        let improvedCV = originalCVText;
+        selectedRecommendations.forEach(rec => {
+          if (rec.suggestedChange) {
+            improvedCV += `\n\n[Applied improvement based on: ${rec.title}]\n${rec.suggestedChange}`;
+          }
+        });
+        
+        setGeneratedCV({
+          content: improvedCV,
+          newScore: estimatedNewScore,
+          appliedRecommendations: selectedRecommendations.map(rec => rec.title)
+        });
+        
+        toast({
+          title: "CV Generated",
+          description: "Your improved CV has been generated using the fallback method.",
+          variant: "default",
+        });
       }
-    });
-    
-    // Set the generated CV data
-    setGeneratedCV({
-      content: improvedCV,
-      newScore,
-      appliedRecommendations: selectedRecommendations.map(rec => rec.title)
-    });
-    
-    toast({
-      title: "CV Generated",
-      description: "Your improved CV has been generated successfully!",
-      variant: "default",
-    });
+    } catch (error) {
+      console.error("Error generating improved CV:", error);
+      
+      toast({
+        title: "Generation Failed",
+        description: "There was an error generating your improved CV. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingCV(false);
+    }
   };
   
   const handleBackToAnalysis = () => {
@@ -270,12 +297,24 @@ export const CVAnalyzer = () => {
                 <div className="mt-2 md:mt-0">
                   <Button 
                     onClick={generateImprovedCV}
-                    disabled={selectedRecommendations.length === 0}
+                    disabled={selectedRecommendations.length === 0 || isGeneratingCV}
                     className="gap-2"
                   >
-                    <FileText className="h-4 w-4" />
-                    Generate Improved CV
-                    {selectedRecommendations.length > 0 && (
+                    {isGeneratingCV ? (
+                      <>
+                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Generating...
+                      </>
+                    ) : (
+                      <>
+                        <FileText className="h-4 w-4" />
+                        Generate Improved CV
+                      </>
+                    )}
+                    {selectedRecommendations.length > 0 && !isGeneratingCV && (
                       <span className="ml-1 bg-primary-foreground text-primary rounded-full w-6 h-6 flex items-center justify-center text-xs">
                         {selectedRecommendations.length}
                       </span>

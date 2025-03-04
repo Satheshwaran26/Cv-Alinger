@@ -1,4 +1,3 @@
-
 interface OpenAIResponse {
   id: string;
   object: string;
@@ -112,5 +111,115 @@ export async function analyzeCVWithOpenAI(
   } catch (error) {
     console.error("Error analyzing CV with OpenAI:", error);
     throw error;
+  }
+}
+
+interface ImproveOptions {
+  originalCV: string;
+  recommendations: any[];
+  currentScore: number;
+}
+
+export async function improveCV({
+  originalCV,
+  recommendations,
+  currentScore
+}: ImproveOptions): Promise<{ success: boolean; improved_cv?: string; new_score?: number; error?: string }> {
+  try {
+    // System prompt to improve the CV based on recommendations
+    const systemPrompt = `
+      You are an expert CV/Resume improvement assistant. Your task is to seamlessly integrate 
+      recommendations into a CV to make it more effective and better matched to job requirements.
+      
+      You will receive:
+      1. The original CV text
+      2. A list of recommendations to apply
+      3. The current match score (0-100)
+      
+      Your response must be a JSON object with:
+      {
+        "improved_cv": "The complete improved CV with all changes integrated seamlessly",
+        "new_score": number (A realistic improved score that's higher than the current score)
+      }
+      
+      Guidelines:
+      - Maintain the original structure and formatting of the CV
+      - Integrate the recommendations naturally - don't just append them
+      - Make the recommended changes flow naturally as if they were part of the original CV
+      - Be subtle and professional - the improvements should be integrated seamlessly
+      - Return only the JSON response with no additional text or formatting
+    `;
+
+    // Combine all recommendations into a structured format
+    const recommendationsText = recommendations.map(rec => 
+      `- ${rec.title}: ${rec.description}${rec.suggestedChange ? `\n  Suggested change: ${rec.suggestedChange}` : ''}`
+    ).join('\n');
+
+    // Making the request to OpenAI API
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt,
+          },
+          {
+            role: "user",
+            content: `Original CV:\n${originalCV}\n\nRecommendations to apply:\n${recommendationsText}\n\nCurrent Score: ${currentScore}`,
+          },
+        ],
+        temperature: 0.7,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+
+    const data: OpenAIResponse = await response.json();
+    let content = data.choices[0].message.content;
+    
+    // Clean the response if it contains markdown code blocks or any non-JSON formatting
+    if (content.includes('```')) {
+      // Extract content between markdown code blocks if present
+      const match = content.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (match && match[1]) {
+        content = match[1].trim();
+      } else {
+        // Remove all markdown formatting
+        content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+      }
+    }
+    
+    // Parse the JSON response
+    try {
+      const parsedResponse = JSON.parse(content);
+      console.log("CV improvement successful with new score:", parsedResponse.new_score);
+      
+      return {
+        success: true,
+        improved_cv: parsedResponse.improved_cv,
+        new_score: parsedResponse.new_score
+      };
+    } catch (error) {
+      console.error("Failed to parse OpenAI response as JSON:", error);
+      console.log("Raw response content:", content);
+      return { 
+        success: false, 
+        error: "Invalid response format from OpenAI"
+      };
+    }
+  } catch (error) {
+    console.error("Error improving CV with OpenAI:", error);
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : "Unknown error"
+    };
   }
 }
