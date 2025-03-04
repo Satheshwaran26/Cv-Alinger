@@ -8,19 +8,12 @@ export const setupIntersectionObserver = (
   threshold = 0.1, 
   rootMargin = '0px'
 ) => {
-  // Only use intersection observer for non-hero elements
-  // Hero elements should be visible immediately to prevent disappearing
-  if (elements.includes('hero-')) {
-    return {
-      disconnect: () => {},
-      observe: () => {},
-    };
-  }
-
+  // Create a basic observer for any element type
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        // Make element visible immediately to prevent disappearing
+        if (!entry.target.classList.contains(animationClass)) {
           entry.target.classList.add(animationClass);
         }
       });
@@ -56,8 +49,7 @@ export const staggeredAnimation = (
   
   const children = parent.querySelectorAll(childSelector);
   children.forEach((child, index) => {
-    setTimeout(() => {
-      child.classList.add(animationClass);
-    }, index * staggerDelay);
+    // Make elements immediately visible
+    child.classList.add(animationClass);
   });
 };

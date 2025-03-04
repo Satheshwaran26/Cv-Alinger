@@ -47,8 +47,13 @@ const features = [
 
 export const Features = () => {
   useEffect(() => {
-    const observer = setupIntersectionObserver('.feature-animate', 'animate-slide-up', 0.1);
-    return () => observer.disconnect();
+    // Apply animation class immediately instead of waiting for intersection
+    document.querySelectorAll('.feature-animate').forEach(el => {
+      el.classList.add('animate-slide-up');
+      el.classList.remove('opacity-0');
+    });
+    
+    return () => {};
   }, []);
 
   return (
@@ -60,7 +65,7 @@ export const Features = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/30 dark:from-blue-950/20 dark:to-purple-950/10" />
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-20 opacity-0 feature-animate">
+        <div className="text-center mb-20 feature-animate">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4">Key Platform Features</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Our comprehensive toolset is designed to give you a competitive edge in today's job market.
@@ -71,7 +76,7 @@ export const Features = () => {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="glass rounded-xl p-6 transition-all hover:shadow-md opacity-0 feature-animate"
+              className="glass rounded-xl p-6 transition-all hover:shadow-md feature-animate"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
