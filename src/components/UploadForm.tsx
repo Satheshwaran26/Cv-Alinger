@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -46,8 +45,6 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
           return;
         }
         
-        // In a real app, we would process the file here
-        // For now, we just read it as text if possible
         if (file.type.includes("text")) {
           const text = await file.text();
           setCvText(text);
@@ -56,7 +53,6 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
             description: "Your CV has been successfully uploaded",
           });
         } else {
-          // Simulate a successful upload for demo purposes
           toast({
             title: "CV uploaded",
             description: "Your CV has been successfully uploaded",
@@ -89,8 +85,6 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
           return;
         }
         
-        // In a real app, we would process the file here
-        // For now, we just read it as text if possible
         if (file.type.includes("text")) {
           const text = await file.text();
           setCvText(text);
@@ -99,7 +93,6 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
             description: "Your CV has been successfully uploaded",
           });
         } else {
-          // Simulate a successful upload for demo purposes
           toast({
             title: "CV uploaded",
             description: "Your CV has been successfully uploaded",
@@ -121,7 +114,7 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
     if (cvText.trim() === "" || jobDescription.trim() === "") {
       toast({
         title: "Missing information",
-        description: "Please provide both your CV and a job description",
+        description: "Please provide both your resume and a job description",
         variant: "destructive",
       });
       return;
@@ -140,9 +133,9 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
             onDragOver={handleDrag}
             onDrop={handleDrop}
           >
-            <div className="text-lg font-medium mb-2">Your CV</div>
+            <div className="text-lg font-medium mb-2">Your Resume</div>
             <p className="text-sm text-muted-foreground mb-4">
-              Upload or paste your resume content
+              Upload or paste your resume content for AI analysis
             </p>
             
             <div className="space-y-4 flex-1 flex flex-col">
@@ -211,10 +204,10 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Analyzing...
+              Analyzing with AI...
             </>
           ) : (
-            "Analyze My CV"
+            "Analyze My Resume with AI"
           )}
         </Button>
       </div>

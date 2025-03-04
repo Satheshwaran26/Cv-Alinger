@@ -7,8 +7,13 @@ import { RecommendationCard } from "./RecommendationCard";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { analyzeCVWithOpenAI } from "@/lib/openai";
+import { useToast } from "@/components/ui/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-// Mock data for demonstration
+// Fallback mock data in case API fails
 const mockAnalysisData = {
   overallScore: 72,
   ksaoData: {
@@ -75,17 +80,57 @@ const mockAnalysisData = {
 };
 
 export const CVAnalyzer = () => {
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [analysisData, setAnalysisData] = useState<any>(null);
+  const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
+  const [apiKey, setApiKey] = useState(localStorage.getItem("openai_api_key") || "");
   
-  const handleAnalyze = (cvText: string, jobDescription: string) => {
+  const handleAnalyze = async (cvText: string, jobDescription: string) => {
     setIsLoading(true);
     
-    // Simulate API call with a delay
-    setTimeout(() => {
-      setAnalysisData(mockAnalysisData);
+    // Check if API key exists
+    if (!apiKey && !process.env.OPENAI_API_KEY) {
+      setApiKeyDialogOpen(true);
       setIsLoading(false);
-    }, 2000);
+      return;
+    }
+    
+    try {
+      // Call OpenAI API
+      const results = await analyzeCVWithOpenAI(cvText, jobDescription);
+      setAnalysisData(results);
+      
+      toast({
+        title: "Analysis Complete",
+        description: "Your CV has been analyzed successfully!",
+      });
+    } catch (error) {
+      console.error("Error during analysis:", error);
+      
+      toast({
+        title: "Analysis Failed",
+        description: "There was an error analyzing your CV. Using mock data for demonstration.",
+        variant: "destructive",
+      });
+      
+      // Fallback to mock data
+      setAnalysisData(mockAnalysisData);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const saveApiKey = () => {
+    if (apiKey) {
+      localStorage.setItem("openai_api_key", apiKey);
+      setApiKeyDialogOpen(false);
+      
+      toast({
+        title: "API Key Saved",
+        description: "Your OpenAI API key has been saved for this session",
+      });
+    }
   };
   
   return (
@@ -94,9 +139,9 @@ export const CVAnalyzer = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4">Analyze Your CV</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4">Analyze Your Resume</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Upload your CV and a job description to get personalized recommendations.
+            Upload your resume and a job description to get AI-powered personalized recommendations.
           </p>
         </div>
         
@@ -180,6 +225,34 @@ export const CVAnalyzer = () => {
           </div>
         )}
       </div>
+      
+      {/* API Key Dialog */}
+      <Dialog open={apiKeyDialogOpen} onOpenChange={setApiKeyDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>OpenAI API Key Required</DialogTitle>
+            <DialogDescription>
+              Enter your OpenAI API key to analyze your resume. This will be stored locally in your browser.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="apiKey">API Key</Label>
+              <Input
+                id="apiKey"
+                type="password" 
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                placeholder="sk-..."
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setApiKeyDialogOpen(false)}>Cancel</Button>
+            <Button onClick={saveApiKey}>Save & Continue</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
