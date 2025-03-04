@@ -71,10 +71,13 @@ export const Footer = () => {
           <div className="text-sm text-muted-foreground">
             © 2023 Resume AI. All rights reserved.
           </div>
-          <div className="flex gap-6 text-sm">
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Terms</a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy</a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Cookies</a>
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 text-sm">
+            <div className="text-primary font-medium">Built by Hanan Amos</div>
+            <div className="flex gap-6">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Terms</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Cookies</a>
+            </div>
           </div>
         </div>
       </div>
