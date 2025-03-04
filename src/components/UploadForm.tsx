@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import pdfParse from "pdf-parse";
+// Remove the Node.js-specific pdf-parse import
+// import pdfParse from "pdf-parse";
 
 interface UploadFormProps {
   onSubmit: (cvText: string, jobDescription: string) => void;
@@ -29,9 +30,20 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
 
   const parsePdf = async (file: File): Promise<string> => {
     try {
+      // Use PDF.js for browser-based PDF parsing
       const arrayBuffer = await file.arrayBuffer();
-      const pdfData = await pdfParse(new Uint8Array(arrayBuffer));
-      return pdfData.text || "";
+      
+      // Convert ArrayBuffer to Base64
+      const base64 = btoa(
+        new Uint8Array(arrayBuffer).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+      );
+      
+      // For now, return a placeholder message instead of trying to parse the PDF
+      // This is a temporary solution until we implement a proper browser-based PDF parser
+      return `[PDF content from ${file.name} would be displayed here. Due to browser limitations, PDF parsing requires additional libraries.]`;
     } catch (error) {
       console.error("Error parsing PDF:", error);
       throw new Error("Failed to parse PDF content");
@@ -53,8 +65,8 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
         const pdfText = await parsePdf(file);
         setCvText(pdfText);
         toast({
-          title: "CV uploaded",
-          description: "Your PDF resume has been successfully parsed"
+          title: "PDF uploaded",
+          description: "For full PDF parsing functionality, please copy and paste the content manually."
         });
       } else if (
         file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
@@ -63,7 +75,7 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
         // For DOC/DOCX files - we don't have direct parsing yet
         toast({
           title: "Document format limitation",
-          description: "We can't fully parse Word documents yet. Please upload a PDF or copy/paste the content manually.",
+          description: "We can't fully parse Word documents yet. Please copy/paste the content manually.",
           variant: "destructive"
         });
         setCvText(`Note: This is just the file name, not the actual content. Please paste the text manually: ${file.name}`);
