@@ -65,8 +65,11 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
         const similarityCheck = validateContentSimilarity(originalCVText, response.improved_cv);
         
         if (similarityCheck.valid) {
+          // Ensure we have the full CV content
+          const fullImprovedContent = response.improved_cv;
+          
           setGeneratedCV({
-            content: response.improved_cv,
+            content: fullImprovedContent,
             newScore: response.new_score || estimatedNewScore,
             appliedRecommendations: selectedRecommendations.map(rec => rec.title)
           });
@@ -74,7 +77,6 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
           toast({
             title: "CV Generated",
             description: "Your improved CV has been generated with natural integration of recommendations.",
-            variant: "default",
           });
         } else {
           console.warn("Generated CV failed similarity check, using conservative approach");
@@ -90,7 +92,6 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
           toast({
             title: "CV Generated",
             description: "Your improved CV has been generated with careful preservation of your original content.",
-            variant: "default",
           });
         }
       } else {
@@ -108,7 +109,6 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
         toast({
           title: "CV Generated",
           description: "Your improved CV has been generated with careful preservation of your original content.",
-          variant: "default",
         });
       }
     } catch (error) {
@@ -179,6 +179,7 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
   
   // Generate an improved CV by carefully applying recommendations to the original structure
   const generateConservativeImprovement = (original: string, recommendations: RecommendationType[]) => {
+    // IMPORTANT: Begin with the complete original CV text
     let improvedCV = original;
     
     // Identify sections in the CV
