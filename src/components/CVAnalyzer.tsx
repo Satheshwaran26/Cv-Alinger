@@ -3,13 +3,14 @@ import { UploadForm } from "./UploadForm";
 import { MatchScore } from "./MatchScore";
 import { KSAOsAnalysis } from "./KSAOsAnalysis";
 import { RecommendationCard } from "./RecommendationCard";
+import { GeneratedCV } from "./GeneratedCV";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { analyzeCVWithOpenAI } from "@/lib/openai";
 import { useToast } from "@/components/ui/use-toast";
+import { FileText } from "lucide-react";
 
-// Fallback mock data in case API fails
 const mockAnalysisData = {
   overallScore: 72,
   ksaoData: {
@@ -79,9 +80,17 @@ export const CVAnalyzer = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [analysisData, setAnalysisData] = useState<any>(null);
+  const [selectedRecommendations, setSelectedRecommendations] = useState<any[]>([]);
+  const [generatedCV, setGeneratedCV] = useState<{
+    content: string;
+    newScore: number;
+    appliedRecommendations: string[];
+  } | null>(null);
+  const [originalCVText, setOriginalCVText] = useState("");
   
   const handleAnalyze = async (cvText: string, jobDescription: string) => {
     setIsLoading(true);
+    setOriginalCVText(cvText);
     
     try {
       // Call OpenAI API
@@ -107,6 +116,64 @@ export const CVAnalyzer = () => {
       setIsLoading(false);
     }
   };
+
+  const handleRecommendationSelect = (recommendation: any, isSelected: boolean) => {
+    if (isSelected) {
+      setSelectedRecommendations([...selectedRecommendations, recommendation]);
+    } else {
+      setSelectedRecommendations(
+        selectedRecommendations.filter(
+          (rec) => rec.title !== recommendation.title
+        )
+      );
+    }
+  };
+  
+  const generateImprovedCV = () => {
+    if (selectedRecommendations.length === 0) {
+      toast({
+        title: "No recommendations selected",
+        description: "Please select at least one recommendation to improve your CV.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Calculate new score (between 5-15% improvement based on selections)
+    const improvementPercentage = Math.min(15, selectedRecommendations.length * 3);
+    const scoreImprovement = Math.floor((analysisData.overallScore * improvementPercentage) / 100);
+    const newScore = Math.min(100, analysisData.overallScore + scoreImprovement);
+    
+    // Apply recommendations to generate improved CV content
+    let improvedCV = originalCVText;
+    
+    // Apply each recommendation (this is simplified for demonstration)
+    // A real implementation would use more sophisticated text processing
+    selectedRecommendations.forEach(rec => {
+      if (rec.suggestedChange) {
+        // Here you would implement more sophisticated CV modifications
+        // This is just a simple example
+        improvedCV += `\n\n[Applied improvement based on: ${rec.title}]\n${rec.suggestedChange}`;
+      }
+    });
+    
+    // Set the generated CV data
+    setGeneratedCV({
+      content: improvedCV,
+      newScore,
+      appliedRecommendations: selectedRecommendations.map(rec => rec.title)
+    });
+    
+    toast({
+      title: "CV Generated",
+      description: "Your improved CV has been generated successfully!",
+      variant: "default",
+    });
+  };
+  
+  const handleBackToAnalysis = () => {
+    setGeneratedCV(null);
+  };
   
   return (
     <section id="tool" className="py-24 relative overflow-hidden">
@@ -122,6 +189,14 @@ export const CVAnalyzer = () => {
         
         {!analysisData ? (
           <UploadForm onSubmit={handleAnalyze} isLoading={isLoading} />
+        ) : generatedCV ? (
+          <GeneratedCV 
+            originalScore={analysisData.overallScore}
+            newScore={generatedCV.newScore}
+            appliedRecommendations={generatedCV.appliedRecommendations}
+            cvContent={generatedCV.content}
+            onBack={handleBackToAnalysis}
+          />
         ) : (
           <div className="animate-scale-in">
             <div className="glass rounded-xl p-8 mb-10 text-center">
@@ -190,10 +265,34 @@ export const CVAnalyzer = () => {
             </div>
             
             <div className="mt-10">
-              <h3 className="text-2xl font-medium mb-6">Top Recommendations</h3>
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <h3 className="text-2xl font-medium">Top Recommendations</h3>
+                <div className="mt-2 md:mt-0">
+                  <Button 
+                    onClick={generateImprovedCV}
+                    disabled={selectedRecommendations.length === 0}
+                    className="gap-2"
+                  >
+                    <FileText className="h-4 w-4" />
+                    Generate Improved CV
+                    {selectedRecommendations.length > 0 && (
+                      <span className="ml-1 bg-primary-foreground text-primary rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                        {selectedRecommendations.length}
+                      </span>
+                    )}
+                  </Button>
+                </div>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {analysisData.recommendations.map((recommendation: any, index: number) => (
-                  <RecommendationCard key={index} recommendation={recommendation} />
+                  <RecommendationCard 
+                    key={index} 
+                    recommendation={recommendation} 
+                    onSelect={handleRecommendationSelect}
+                    isSelected={selectedRecommendations.some(
+                      (rec) => rec.title === recommendation.title
+                    )}
+                  />
                 ))}
               </div>
             </div>

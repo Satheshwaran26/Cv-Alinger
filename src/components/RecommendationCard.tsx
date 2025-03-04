@@ -2,6 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { Check, Plus } from "lucide-react";
 
 interface Recommendation {
   title: string;
@@ -13,9 +15,17 @@ interface Recommendation {
 
 interface RecommendationCardProps {
   recommendation: Recommendation;
+  onSelect: (recommendation: Recommendation, isSelected: boolean) => void;
+  isSelected?: boolean;
 }
 
-export const RecommendationCard = ({ recommendation }: RecommendationCardProps) => {
+export const RecommendationCard = ({ 
+  recommendation, 
+  onSelect, 
+  isSelected = false 
+}: RecommendationCardProps) => {
+  const [selected, setSelected] = useState(isSelected);
+
   const getImpactColor = (impact: string) => {
     switch (impact) {
       case "high":
@@ -29,8 +39,14 @@ export const RecommendationCard = ({ recommendation }: RecommendationCardProps) 
     }
   };
 
+  const handleSelect = () => {
+    const newSelectedState = !selected;
+    setSelected(newSelectedState);
+    onSelect(recommendation, newSelectedState);
+  };
+
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
+    <Card className={`overflow-hidden transition-all duration-300 hover:shadow-md ${selected ? 'ring-2 ring-primary' : ''}`}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <CardTitle className="text-lg font-medium">{recommendation.title}</CardTitle>
@@ -56,8 +72,23 @@ export const RecommendationCard = ({ recommendation }: RecommendationCardProps) 
         )}
       </CardContent>
       <CardFooter className="pt-3">
-        <Button variant="secondary" size="sm" className="w-full">
-          Apply to CV
+        <Button 
+          variant={selected ? "default" : "secondary"} 
+          size="sm" 
+          className="w-full"
+          onClick={handleSelect}
+        >
+          {selected ? (
+            <>
+              <Check className="mr-2 h-4 w-4" />
+              Selected
+            </>
+          ) : (
+            <>
+              <Plus className="mr-2 h-4 w-4" />
+              Select
+            </>
+          )}
         </Button>
       </CardFooter>
     </Card>
