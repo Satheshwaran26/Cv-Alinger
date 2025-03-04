@@ -52,6 +52,7 @@ export async function analyzeCVWithOpenAI(
       }
 
       Be factual, precise, and provide actionable recommendations based on modern CV best practices.
+      IMPORTANT: Return ONLY the JSON with no markdown formatting, code blocks, or any other text.
     `;
 
     // Making the request to OpenAI API
@@ -82,13 +83,26 @@ export async function analyzeCVWithOpenAI(
     }
 
     const data: OpenAIResponse = await response.json();
-    const content = data.choices[0].message.content;
+    let content = data.choices[0].message.content;
+    
+    // Clean the response if it contains markdown code blocks or any non-JSON formatting
+    if (content.includes('```')) {
+      // Extract content between markdown code blocks if present
+      const match = content.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (match && match[1]) {
+        content = match[1].trim();
+      } else {
+        // Remove all markdown formatting
+        content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+      }
+    }
     
     // Parse the JSON response
     try {
       return JSON.parse(content);
     } catch (error) {
       console.error("Failed to parse OpenAI response as JSON:", error);
+      console.log("Raw response content:", content);
       throw new Error("Invalid response format from OpenAI");
     }
   } catch (error) {
