@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -25,24 +26,24 @@ export const Header = () => {
       )}
     >
       <div className="container mx-auto flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
             <span className="relative z-10 text-primary font-semibold">RA</span>
           </div>
           <span className="font-medium text-xl">Resume AI</span>
-        </a>
+        </Link>
 
         <nav className="hidden md:flex items-center gap-6">
-          <a href="#features" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link to="/#features" className="text-sm font-medium transition-colors hover:text-primary">
             Features
-          </a>
-          <a href="#how-it-works" className="text-sm font-medium transition-colors hover:text-primary">
+          </Link>
+          <Link to="/how-it-works" className="text-sm font-medium transition-colors hover:text-primary">
             How It Works
-          </a>
-          <a href="#tool" className="text-sm font-medium transition-colors hover:text-primary">
+          </Link>
+          <Link to="/#tool" className="text-sm font-medium transition-colors hover:text-primary">
             Try It
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
