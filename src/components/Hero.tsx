@@ -1,7 +1,7 @@
 
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { setupIntersectionObserver } from "@/lib/animations";
+import { AnimatedStat } from "./AnimatedStat";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,6 +19,12 @@ export const Hero = () => {
     // as it's likely causing the disappearing issue
     return () => {};
   }, []);
+
+  const stats = [
+    { value: "98%", label: "Accuracy in skill matching" },
+    { value: "75%", label: "Improvement in interview chances" },
+    { value: "5k+", label: "Successful job matches" }
+  ];
 
   return (
     <section 
@@ -66,20 +72,16 @@ export const Hero = () => {
           </Button>
         </div>
         
-        {/* Stats - removed opacity-0 to ensure they're visible */}
+        {/* Stats - now using animated stats with staggered delays */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto hero-animate-delayed">
-          <div className="glass rounded-xl p-6 transition-transform hover:translate-y-[-5px]">
-            <div className="font-semibold text-3xl mb-2 text-primary">98%</div>
-            <p className="text-sm text-muted-foreground">Accuracy in skill matching</p>
-          </div>
-          <div className="glass rounded-xl p-6 transition-transform hover:translate-y-[-5px]">
-            <div className="font-semibold text-3xl mb-2 text-primary">75%</div>
-            <p className="text-sm text-muted-foreground">Improvement in interview chances</p>
-          </div>
-          <div className="glass rounded-xl p-6 transition-transform hover:translate-y-[-5px]">
-            <div className="font-semibold text-3xl mb-2 text-primary">5k+</div>
-            <p className="text-sm text-muted-foreground">Successful job matches</p>
-          </div>
+          {stats.map((stat, index) => (
+            <AnimatedStat 
+              key={index} 
+              value={stat.value} 
+              label={stat.label}
+              delay={index * 200} // Stagger the animations
+            />
+          ))}
         </div>
       </div>
       
