@@ -20,7 +20,7 @@ interface OpenAIResponse {
 }
 
 // Your API key - replace with your actual OpenAI API key
-const API_KEY = "your_openai_api_key_here";
+const API_KEY = "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";
 
 export async function analyzeCVWithOpenAI(
   cvText: string, 
