@@ -10,6 +10,9 @@ export const MatchScore = ({ score, showPercentage = true }: MatchScoreProps) =>
   const [displayScore, setDisplayScore] = useState(0);
   
   useEffect(() => {
+    // Reset the animation when the score changes
+    setDisplayScore(0);
+    
     // Animate the score from 0 to the actual value
     const duration = 1500; // milliseconds
     const interval = 10;

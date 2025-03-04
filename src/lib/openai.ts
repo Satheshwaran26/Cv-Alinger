@@ -51,6 +51,8 @@ export async function analyzeCVWithOpenAI(
         "keywordsPresent": string[]
       }
 
+      Your analysis should be based solely on the CV and job description provided.
+      Make sure the score is an accurate reflection of how well the CV matches the job description, with different CVs getting different scores.
       Be factual, precise, and provide actionable recommendations based on modern CV best practices.
       IMPORTANT: Return ONLY the JSON with no markdown formatting, code blocks, or any other text.
     `;
@@ -99,7 +101,9 @@ export async function analyzeCVWithOpenAI(
     
     // Parse the JSON response
     try {
-      return JSON.parse(content);
+      const parsedResponse = JSON.parse(content);
+      console.log("Parsed response with score:", parsedResponse.overallScore);
+      return parsedResponse;
     } catch (error) {
       console.error("Failed to parse OpenAI response as JSON:", error);
       console.log("Raw response content:", content);
