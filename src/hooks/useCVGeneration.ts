@@ -204,6 +204,8 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
     
     // Apply recommendations by category to appropriate sections
     for (const rec of recommendations) {
+      if (!rec.suggestedChange) continue;
+      
       let targetSection = null;
       
       // Map recommendation category to CV section
@@ -233,43 +235,103 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
         );
       }
       
-      if (targetSection && rec.suggestedChange) {
+      if (targetSection) {
         // Get the section content
         const sectionContent = original.substring(targetSection.start, targetSection.end);
         
         // Create an improved version of the section with the recommendation
-        // Use the suggested change, but preserve the original structure
         const improvedSection = integrateRecommendation(sectionContent, rec);
         
         // Replace the section in the CV
         improvedCV = improvedCV.substring(0, targetSection.start) + 
                      improvedSection + 
                      improvedCV.substring(targetSection.end);
-      } else if (rec.suggestedChange) {
+      } else {
         // For recommendations that don't match a specific section,
-        // add them in a clearly marked section at the end
-        if (!improvedCV.includes("IMPROVEMENT SUGGESTIONS")) {
-          improvedCV += "\n\nIMPROVEMENT SUGGESTIONS:\n";
-        }
+        // either find a relevant part of the CV or add at the end
+        const relevantSectionMatch = findRelevantSection(original, rec.suggestedChange);
         
-        improvedCV += `\n• ${rec.title}: ${rec.suggestedChange}\n`;
+        if (relevantSectionMatch.found) {
+          // Insert at the relevant position
+          const insertPosition = relevantSectionMatch.position;
+          improvedCV = improvedCV.substring(0, insertPosition) +
+                       `\n[Improved based on recommendation]: ${rec.suggestedChange}\n` +
+                       improvedCV.substring(insertPosition);
+        } else {
+          // Add to the end with clear indicator if no section is found
+          improvedCV += `\n\n[Consider adding based on recommendation: ${rec.title}]\n${rec.suggestedChange}\n`;
+        }
       }
     }
     
     return improvedCV;
   };
   
+  // Find a relevant position in the CV to insert a recommendation
+  const findRelevantSection = (cvText: string, recommendation: string) => {
+    // Extract key terms from the recommendation
+    const keyTerms = recommendation
+      .toLowerCase()
+      .split(' ')
+      .filter(word => word.length > 5) // Only consider longer, more meaningful words
+      .slice(0, 5);     // Limit to first few terms to avoid noise
+    
+    // Try to find a position where the recommendation would fit naturally
+    for (const term of keyTerms) {
+      const termIndex = cvText.toLowerCase().indexOf(term);
+      if (termIndex > 0) {
+        // Find the beginning of the paragraph/section
+        const precedingNewline = cvText.lastIndexOf('\n', termIndex);
+        return { found: true, position: precedingNewline > 0 ? precedingNewline : termIndex };
+      }
+    }
+    
+    return { found: false, position: -1 };
+  };
+  
   // Helper to integrate a recommendation into a section
   const integrateRecommendation = (sectionContent: string, recommendation: RecommendationType) => {
-    // This is a simplified implementation - a more sophisticated version would
-    // parse the section structure more carefully and make targeted edits
+    // This identifies distinct parts like bullet points or paragraphs
+    const contentParts = sectionContent.split('\n').filter(line => line.trim().length > 0);
     
-    // Add a comment to indicate the change being made
-    const recommendationNote = `[Improvement based on: ${recommendation.title}]`;
+    // If the recommendation is about enhancing existing content
+    const enhancementKeywords = ['enhance', 'improve', 'revise', 'rewrite', 'strengthen', 'clarify'];
+    const isEnhancement = enhancementKeywords.some(keyword => 
+      recommendation.description.toLowerCase().includes(keyword) || 
+      (recommendation.suggestedChange && recommendation.suggestedChange.toLowerCase().includes(keyword))
+    );
     
-    // For now, we'll append the suggestion to the end of the section in a way
-    // that clearly indicates it's an improvement suggestion
-    return `${sectionContent}\n${recommendationNote}\n${recommendation.suggestedChange}\n`;
+    if (isEnhancement && contentParts.length > 0) {
+      // Find the most relevant part to enhance using keyword matching
+      let bestMatchIndex = 0;
+      let bestMatchScore = 0;
+      
+      const recKeywords = recommendation.suggestedChange?.toLowerCase().split(' ') || [];
+      
+      contentParts.forEach((part, index) => {
+        const partKeywords = part.toLowerCase().split(' ');
+        let matchScore = 0;
+        
+        // Count keywords in common
+        recKeywords.forEach(keyword => {
+          if (partKeywords.includes(keyword)) matchScore++;
+        });
+        
+        if (matchScore > bestMatchScore) {
+          bestMatchScore = matchScore;
+          bestMatchIndex = index;
+        }
+      });
+      
+      // Update the best matching part with the improvement
+      contentParts[bestMatchIndex] = `${contentParts[bestMatchIndex]}\n[Improved based on recommendation]: ${recommendation.suggestedChange}`;
+    } else {
+      // For additions, simply append to the section with appropriate formatting
+      contentParts.push(`[Improved based on recommendation]: ${recommendation.suggestedChange}`);
+    }
+    
+    // Reconstruct the section content
+    return contentParts.join('\n\n');
   };
   
   const handleBackToAnalysis = () => {

@@ -41,10 +41,12 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
         if (isSectionHeader) {
           // First section header found, previous lines are the header
           firstSectionFound = true;
-          sections.push({
-            title: "HEADER",
-            content: headerLines
-          });
+          if (headerLines.length > 0) {
+            sections.push({
+              title: "HEADER",
+              content: headerLines
+            });
+          }
           
           // Start the new section
           currentSectionTitle = trimmedLine;
@@ -67,7 +69,7 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
           // Start a new section
           currentSectionTitle = trimmedLine;
           currentSectionContent = [];
-        } else if (trimmedLine.length > 0 || (currentSectionContent.length > 0 && index > 0)) {
+        } else {
           // Add line to current section content
           // Also preserve empty lines within sections for formatting
           currentSectionContent.push(line);
@@ -189,7 +191,15 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
                   {section.title.replace(/:$/, "")}
                 </h2>
                 <div className="section-content whitespace-pre-line">
-                  {section.content.join("\n")}
+                  {section.content
+                    .filter(line => {
+                      // Filter out any remaining recommendation markers
+                      const lowerLine = line.toLowerCase();
+                      return !lowerLine.includes('[improved based on') && 
+                             !lowerLine.includes('[consider adding') &&
+                             !lowerLine.includes('[improvement based');
+                    })
+                    .join("\n")}
                 </div>
               </div>
             ))}

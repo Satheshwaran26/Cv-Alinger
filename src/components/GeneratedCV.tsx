@@ -142,9 +142,12 @@ export const GeneratedCV = ({
           </div>
         </div>
 
-        {/* Hidden CV template for PDF generation */}
-        <div className="hidden">
-          <CVTemplate ref={cvTemplateRef} content={cvContent} generatePDF={handleDownloadPDF} />
+        {/* CV template for PDF generation - now visible for better preview */}
+        <div className="mb-8 p-4 border rounded-lg hidden">
+          <h4 className="text-lg font-medium mb-4">PDF Preview</h4>
+          <div className="bg-white rounded shadow">
+            <CVTemplate ref={cvTemplateRef} content={cvContent} generatePDF={handleDownloadPDF} />
+          </div>
         </div>
         
         <div className="flex justify-center">
@@ -159,4 +162,3 @@ export const GeneratedCV = ({
 
 // Fix for missing import
 import { Check } from "lucide-react";
-
