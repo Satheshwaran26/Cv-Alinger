@@ -10,12 +10,12 @@ export const Footer = () => {
             <a href="/" className="flex items-center gap-2 mb-4">
               <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
-                <span className="relative z-10 text-primary font-semibold">CV</span>
+                <span className="relative z-10 text-primary font-semibold">RA</span>
               </div>
-              <span className="font-medium text-xl">CV Aligner</span>
+              <span className="font-medium text-xl">Resume AI</span>
             </a>
             <p className="text-muted-foreground max-w-sm mb-5">
-              AI-powered CV optimization to align your resume with job descriptions using the KSAO framework.
+              AI-powered resume optimization to align your resume with job descriptions using the KSAO framework.
             </p>
             <div className="flex gap-4">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
@@ -46,7 +46,7 @@ export const Footer = () => {
             <ul className="space-y-3">
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Features</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">CV Templates</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Resume Templates</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Success Stories</a></li>
             </ul>
           </div>
@@ -69,7 +69,7 @@ export const Footer = () => {
         
         <div className="mt-12 pt-8 border-t border-muted/30 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm text-muted-foreground">
-            © 2023 CV Aligner. All rights reserved.
+            © 2023 Resume AI. All rights reserved.
           </div>
           <div className="flex gap-6 text-sm">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Terms</a>

@@ -11,7 +11,7 @@ const features = [
     ),
     title: "AI-Powered Matching",
     description:
-      "Our system evaluates how well your CV aligns with a specific job description, providing a precise compatibility score.",
+      "Our system evaluates how well your resume aligns with a specific job description, providing a precise compatibility score.",
   },
   {
     icon: (
@@ -31,7 +31,7 @@ const features = [
     ),
     title: "Actionable Insights",
     description:
-      "Receive detailed feedback on gaps and strengths, with specific recommendations to enhance your CV and improve your chances.",
+      "Receive detailed feedback on gaps and strengths, with specific recommendations to enhance your resume and improve your chances.",
   },
   {
     icon: (

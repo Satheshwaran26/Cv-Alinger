@@ -41,7 +41,7 @@ export const Hero = () => {
         {/* Badge - removed opacity-0 to ensure it's visible */}
         <div className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full mb-6 hero-animate">
           <div className="w-2 h-2 bg-primary rounded-full animate-pulse-slow" />
-          <span className="text-xs font-medium text-primary">AI-Powered CV Optimization</span>
+          <span className="text-xs font-medium text-primary">AI-Powered Resume Optimization</span>
         </div>
         
         {/* Headline - removed opacity-0 to ensure it's visible */}
@@ -52,7 +52,7 @@ export const Hero = () => {
         
         {/* Subheadline - removed opacity-0 to ensure it's visible */}
         <p className="text-xl text-muted-foreground mb-10 mx-auto max-w-2xl text-balance hero-animate">
-          Intelligent CV analysis using the KSAO framework to maximize your potential
+          Intelligent resume analysis using the KSAO framework to maximize your potential
           and improve your chances of landing interviews.
         </p>
         
