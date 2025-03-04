@@ -19,9 +19,9 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="flex flex-col w-full min-h-screen bg-background text-foreground">
       <Header />
-      <main className="relative flex-grow">
+      <main className="flex-grow w-full">
         <Hero />
         <Features />
         <CVAnalyzer />

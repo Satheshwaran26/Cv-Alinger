@@ -18,6 +18,12 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: hsl(var(--background));
+}
+
+/* Fix for the container to take full height */
+.min-h-screen {
+  min-height: 100vh;
 }
 
 /* Keep other animations and styling */

@@ -16,17 +16,21 @@ export const Hero = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full pt-20 flex flex-col items-center justify-center overflow-hidden" ref={containerRef}>
-      {/* Background gradient - Increased opacity and added more layers */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-50/80 via-primary/10 to-transparent dark:from-blue-950/40 dark:via-primary/15 dark:to-transparent" />
+    <section 
+      id="hero" 
+      className="relative w-full min-h-screen pt-20 pb-16 flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 via-blue-100/50 to-background dark:from-blue-950 dark:via-blue-900/30 dark:to-background"
+      ref={containerRef}
+    >
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-primary/10 to-transparent pointer-events-none" />
       
-      {/* Subtle grid pattern - increased opacity */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoNnYtNmgtNnptLTYgNnY2aDZ2LTZoLTZ6TTYgNnY2aDZ2LTZINnptNiA2djZoNnYtNmgtNnptNiAwaDZ2LTZoLTZ2NnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40 dark:opacity-20" />
+      {/* Decorative pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoNnYtNmgtNnptLTYgNnY2aDZ2LTZoLTZ6TTYgNnY2aDZ2LTZINnptNiA2djZoNnYtNmgtNnptNiAwaDZ2LTZoLTZ2NnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40 dark:opacity-20 pointer-events-none" />
       
-      {/* Decorative blurred shapes - increased size and opacity */}
-      <div className="absolute left-1/4 top-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-50" />
-      <div className="absolute right-1/4 bottom-20 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl opacity-40" />
+      {/* Decorative blurred circles */}
+      <div className="absolute -left-20 top-20 w-[400px] h-[400px] bg-primary/20 rounded-full blur-3xl opacity-60 pointer-events-none" />
+      <div className="absolute -right-20 bottom-20 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-3xl opacity-50 pointer-events-none" />
+      <div className="absolute left-1/3 bottom-40 w-[300px] h-[300px] bg-blue-300/20 rounded-full blur-3xl opacity-40 pointer-events-none" />
       
       <div className="container mx-auto text-center px-4 relative z-10">
         {/* Badge */}
@@ -80,6 +84,6 @@ export const Hero = () => {
           <path d="M12 5v14M5 12l7 7 7-7" />
         </svg>
       </div>
-    </div>
+    </section>
   );
 };
