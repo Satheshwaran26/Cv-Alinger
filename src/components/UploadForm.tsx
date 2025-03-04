@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import pdfParse from "pdf-parse";
 
 interface UploadFormProps {
   onSubmit: (cvText: string, jobDescription: string) => void;
@@ -27,17 +26,9 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
     }
   };
 
-  const parsePdf = async (file: File): Promise<string> => {
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdfData = await pdfParse(new Uint8Array(arrayBuffer));
-      return pdfData.text || "";
-    } catch (error) {
-      console.error("Error parsing PDF:", error);
-      throw new Error("Failed to parse PDF content");
-    }
-  };
-
+  // Browser-compatible PDF parsing isn't directly supported
+  // For proper PDF parsing, we would need to use a library like PDF.js
+  // This is a simplified version that informs users about the limitation
   const handleFile = async (file: File) => {
     try {
       if (file.type.includes("text")) {
@@ -49,24 +40,24 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
           description: "Your CV has been successfully uploaded"
         });
       } else if (file.type === "application/pdf") {
-        // PDF files
-        const pdfText = await parsePdf(file);
-        setCvText(pdfText);
+        // For PDF files - inform about limitation
         toast({
-          title: "CV uploaded",
-          description: "Your PDF resume has been successfully parsed"
+          title: "PDF detected",
+          description: "Please copy and paste the content from your PDF manually for best results.",
+          variant: "destructive"
         });
+        setCvText(`Please copy and paste the content from your PDF: ${file.name}`);
       } else if (
         file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
         file.type === "application/msword"
       ) {
-        // For DOC/DOCX files - we don't have direct parsing yet
+        // For DOC/DOCX files - we don't have direct parsing
         toast({
           title: "Document format limitation",
-          description: "We can't fully parse Word documents yet. Please upload a PDF or copy/paste the content manually.",
+          description: "We can't fully parse Word documents. Please copy/paste the content manually.",
           variant: "destructive"
         });
-        setCvText(`Note: This is just the file name, not the actual content. Please paste the text manually: ${file.name}`);
+        setCvText(`Please copy and paste the content from your document: ${file.name}`);
       }
     } catch (error) {
       console.error("Error processing file:", error);
