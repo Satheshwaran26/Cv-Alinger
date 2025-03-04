@@ -4,6 +4,9 @@ import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
 import { Download, Copy, FileText } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { useRef } from "react";
+import html2pdf from "html2pdf.js";
+import { CVTemplate } from "./CVTemplate";
 
 interface GeneratedCVProps {
   originalScore: number;
@@ -21,6 +24,7 @@ export const GeneratedCV = ({
   onBack
 }: GeneratedCVProps) => {
   const { toast } = useToast();
+  const cvTemplateRef = useRef<HTMLDivElement>(null);
   
   const handleCopy = () => {
     navigator.clipboard.writeText(cvContent);
@@ -30,7 +34,7 @@ export const GeneratedCV = ({
     });
   };
   
-  const handleDownload = () => {
+  const handleDownloadText = () => {
     const blob = new Blob([cvContent], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -44,6 +48,26 @@ export const GeneratedCV = ({
     toast({
       title: "CV Downloaded",
       description: "Your improved CV has been downloaded as a text file."
+    });
+  };
+
+  const handleDownloadPDF = () => {
+    if (!cvTemplateRef.current) return;
+
+    const element = cvTemplateRef.current;
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: 'improved_cv.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+      toast({
+        title: "CV Downloaded",
+        description: "Your improved CV has been downloaded as a PDF file."
+      });
     });
   };
   
@@ -101,15 +125,26 @@ export const GeneratedCV = ({
                 <Copy className="mr-2 h-4 w-4" />
                 Copy
               </Button>
-              <Button variant="outline" size="sm" onClick={handleDownload}>
+              <Button variant="outline" size="sm" onClick={handleDownloadText}>
+                <FileText className="mr-2 h-4 w-4" />
+                Text
+              </Button>
+              <Button variant="default" size="sm" onClick={handleDownloadPDF}>
                 <Download className="mr-2 h-4 w-4" />
-                Download
+                PDF
               </Button>
             </div>
           </div>
+          
+          {/* Preview of CV text content */}
           <div className="max-h-80 overflow-y-auto whitespace-pre-wrap bg-background p-4 rounded border text-sm">
             {cvContent}
           </div>
+        </div>
+
+        {/* Hidden CV template for PDF generation */}
+        <div className="hidden">
+          <CVTemplate ref={cvTemplateRef} content={cvContent} generatePDF={handleDownloadPDF} />
         </div>
         
         <div className="flex justify-center">
@@ -124,3 +159,4 @@ export const GeneratedCV = ({
 
 // Fix for missing import
 import { Check } from "lucide-react";
+
