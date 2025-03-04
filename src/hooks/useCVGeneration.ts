@@ -48,9 +48,10 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
     setIsGeneratingCV(true);
     
     try {
-      const improvementPercentage = Math.min(15, selectedRecommendations.length * 3);
+      // Calculate a conservative improvement score based on number of recommendations
+      const improvementPercentage = Math.min(10, selectedRecommendations.length * 2);
       const scoreImprovement = Math.floor((analysisScore * improvementPercentage) / 100);
-      const estimatedNewScore = Math.min(100, analysisScore + scoreImprovement);
+      const estimatedNewScore = Math.min(90, analysisScore + scoreImprovement);
       
       const response = await improveCV({
         originalCV: originalCVText,
@@ -58,7 +59,7 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
         currentScore: analysisScore
       });
       
-      if (response.success) {
+      if (response.success && response.improved_cv) {
         setGeneratedCV({
           content: response.improved_cv,
           newScore: response.new_score || estimatedNewScore,
@@ -67,16 +68,22 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
         
         toast({
           title: "CV Generated",
-          description: "Your improved CV has been generated successfully!",
+          description: "Your improved CV has been generated based on your original content.",
           variant: "default",
         });
       } else {
         console.error("API failed to generate CV, using fallback method");
         
+        // Conservative fallback approach that clearly adds recommendations without changing original content
         let improvedCV = originalCVText;
+        improvedCV += "\n\n--- RECOMMENDED IMPROVEMENTS ---\n";
+        
         selectedRecommendations.forEach(rec => {
+          improvedCV += `\n• ${rec.title}: `;
           if (rec.suggestedChange) {
-            improvedCV += `\n\n[Applied improvement based on: ${rec.title}]\n${rec.suggestedChange}`;
+            improvedCV += rec.suggestedChange;
+          } else {
+            improvedCV += rec.description;
           }
         });
         
@@ -88,7 +95,7 @@ export const useCVGeneration = (originalCVText: string, analysisScore: number) =
         
         toast({
           title: "CV Generated",
-          description: "Your improved CV has been generated using the fallback method.",
+          description: "Your improved CV has been generated with the recommendations appended.",
           variant: "default",
         });
       }

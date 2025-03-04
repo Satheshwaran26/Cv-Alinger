@@ -142,8 +142,8 @@ export async function improveCV({
   try {
     // System prompt to improve the CV based on recommendations
     const systemPrompt = `
-      You are an expert CV/Resume improvement assistant. Your task is to seamlessly integrate 
-      recommendations into a CV to make it more effective and better matched to job requirements.
+      You are an expert CV/Resume improvement assistant. Your task is to make targeted improvements to a CV
+      based on specific recommendations while preserving the original content and structure.
       
       You will receive:
       1. The original CV text
@@ -156,12 +156,16 @@ export async function improveCV({
         "new_score": number (A realistic improved score that's measurably higher than the current score)
       }
       
-      Guidelines:
-      - Maintain the original structure and formatting of the CV
-      - Integrate the recommendations naturally - don't just append them
-      - Make the recommended changes flow naturally as if they were part of the original CV
-      - Be subtle and professional - the improvements should be integrated seamlessly
-      - Ensure the new score is between 5-20 points higher than the current score, reflecting realistic improvement
+      IMPORTANT GUIDELINES:
+      - You MUST retain all original information from the CV - don't remove or replace actual facts
+      - You MUST maintain the same original structure and sections of the CV
+      - You MUST NOT invent new jobs, education, or experience that wasn't in the original CV
+      - You MUST NOT add fictitious skills, certifications, or qualifications
+      - You SHOULD improve the phrasing, formatting, and emphasis of existing content
+      - You SHOULD add quantifiable metrics to existing achievements when relevant
+      - You SHOULD adjust keyword usage to better match job requirements
+      - You SHOULD implement the specific recommendations provided
+      - The new score should be between 5-15 points higher than the current score, reflecting realistic improvement
       - Do not make the new score more than 90, as that would be unrealistic
       - Return only the JSON response with no additional text or formatting
     `;
@@ -190,7 +194,7 @@ export async function improveCV({
             content: `Original CV:\n${originalCV}\n\nRecommendations to apply:\n${recommendationsText}\n\nCurrent Score: ${currentScore}`,
           },
         ],
-        temperature: 0.7,
+        temperature: 0.5,
       }),
     });
 
@@ -222,14 +226,49 @@ export async function improveCV({
         const scoreIncrease = parsedResponse.new_score - currentScore;
         
         // If score increase is too high, adjust it to a more realistic improvement
-        if (scoreIncrease > 20) {
+        if (scoreIncrease > 15) {
           console.log("Adjusting an unrealistically large score improvement");
-          parsedResponse.new_score = Math.min(currentScore + 15, 90);
+          parsedResponse.new_score = Math.min(currentScore + 10, 90);
         }
         
         // Ensure the score isn't already too high
-        if (parsedResponse.new_score > 95) {
-          parsedResponse.new_score = 95;
+        if (parsedResponse.new_score > 90) {
+          parsedResponse.new_score = 90;
+        }
+      }
+
+      // Implement a fallback method if the improved CV seems too different from the original
+      // This is a basic check to ensure content preservation
+      if (parsedResponse.improved_cv) {
+        const originalWords = originalCV.split(/\s+/).length;
+        const improvedWords = parsedResponse.improved_cv.split(/\s+/).length;
+        const wordCountDiff = Math.abs(improvedWords - originalWords) / originalWords;
+        
+        // If the word count changed by more than 30%, it's likely the content was too drastically changed
+        if (wordCountDiff > 0.3) {
+          console.log("Improved CV differs too much from original, using conservative fallback");
+          
+          // Apply more conservative improvements
+          let improvedCV = originalCV;
+          
+          // Process each recommendation to make targeted changes
+          for (const rec of recommendations) {
+            if (rec.suggestedChange) {
+              // Look for a section or line that could be improved based on recommendation
+              const relevantSection = findRelevantSection(originalCV, rec.category, rec.title);
+              
+              if (relevantSection) {
+                // Make targeted replacement of just the relevant section
+                improvedCV = improvedCV.replace(relevantSection, 
+                  applyConservativeImprovement(relevantSection, rec.suggestedChange));
+              } else {
+                // If no clear section found, append the suggestion at the end with a note
+                improvedCV += `\n\n[Consider adding based on recommendation: ${rec.title}]\n${rec.suggestedChange}`;
+              }
+            }
+          }
+          
+          parsedResponse.improved_cv = improvedCV;
         }
       }
       
@@ -255,4 +294,56 @@ export async function improveCV({
       error: error instanceof Error ? error.message : "Unknown error"
     };
   }
+}
+
+// Helper function to find a relevant section in the CV based on a recommendation
+function findRelevantSection(originalCV: string, category: string, title: string): string | null {
+  // Split CV into sections by common headers
+  const sections = originalCV.split(/\n\s*([A-Z][A-Z\s]+):\s*\n/);
+  
+  // Check for sections that might be relevant to the recommendation
+  if (category.toLowerCase().includes('skills')) {
+    const skillsSection = sections.find(s => 
+      s.toLowerCase().includes('skills') || 
+      s.toLowerCase().includes('technical') || 
+      s.toLowerCase().includes('competencies')
+    );
+    return skillsSection || null;
+  }
+  
+  if (category.toLowerCase().includes('experience')) {
+    const expSection = sections.find(s => 
+      s.toLowerCase().includes('experience') || 
+      s.toLowerCase().includes('employment') || 
+      s.toLowerCase().includes('work history')
+    );
+    return expSection || null;
+  }
+  
+  if (category.toLowerCase().includes('education')) {
+    const eduSection = sections.find(s => 
+      s.toLowerCase().includes('education') || 
+      s.toLowerCase().includes('academic') || 
+      s.toLowerCase().includes('qualifications')
+    );
+    return eduSection || null;
+  }
+  
+  // For structure or format recommendations, return the full CV
+  if (category.toLowerCase().includes('structure') || 
+      category.toLowerCase().includes('format') ||
+      category.toLowerCase().includes('layout')) {
+    return originalCV;
+  }
+  
+  // If no specific section matches, return null
+  return null;
+}
+
+// Helper function to apply conservative improvements
+function applyConservativeImprovement(originalSection: string, suggestedChange: string): string {
+  // For now, we're just appending the suggestion to the section
+  // In a more sophisticated implementation, this would parse the section
+  // and make targeted replacements
+  return `${originalSection}\n\n[Improved based on recommendation]:\n${suggestedChange}`;
 }
