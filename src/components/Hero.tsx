@@ -16,16 +16,17 @@ export const Hero = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen pt-20 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-background to-background/95" ref={containerRef}>
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 via-primary/5 to-transparent dark:from-blue-950/30 dark:via-primary/10 dark:to-transparent" />
+    <div className="relative min-h-screen w-full pt-20 flex flex-col items-center justify-center overflow-hidden" ref={containerRef}>
+      {/* Background gradient - Increased opacity and added more layers */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-50/80 via-primary/10 to-transparent dark:from-blue-950/40 dark:via-primary/15 dark:to-transparent" />
       
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoNnYtNmgtNnptLTYgNnY2aDZ2LTZoLTZ6TTYgNnY2aDZ2LTZINnptNiA2djZoNnYtNmgtNnptNiAwaDZ2LTZoLTZ2NnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30 dark:opacity-10" />
+      {/* Subtle grid pattern - increased opacity */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoNnYtNmgtNnptLTYgNnY2aDZ2LTZoLTZ6TTYgNnY2aDZ2LTZINnptNiA2djZoNnYtNmgtNnptNiAwaDZ2LTZoLTZ2NnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40 dark:opacity-20" />
       
-      {/* Decorative blurred shapes */}
-      <div className="absolute left-1/4 top-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl opacity-40" />
-      <div className="absolute right-1/4 bottom-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl opacity-30" />
+      {/* Decorative blurred shapes - increased size and opacity */}
+      <div className="absolute left-1/4 top-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-50" />
+      <div className="absolute right-1/4 bottom-20 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl opacity-40" />
       
       <div className="container mx-auto text-center px-4 relative z-10">
         {/* Badge */}
