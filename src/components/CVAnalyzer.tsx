@@ -1,12 +1,9 @@
-
 import { useState } from "react";
 import { UploadForm } from "./UploadForm";
 import { MatchScore } from "./MatchScore";
 import { KSAOsAnalysis } from "./KSAOsAnalysis";
 import { RecommendationCard } from "./RecommendationCard";
 import { GeneratedCV } from "./GeneratedCV";
-import { PricingPlan } from "./PricingPlan";
-import { PaymentForm } from "./PaymentForm";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -92,11 +89,6 @@ export const CVAnalyzer = () => {
     appliedRecommendations: string[];
   } | null>(null);
   const [originalCVText, setOriginalCVText] = useState("");
-  
-  // Add new state for payment flow
-  const [showPaymentFlow, setShowPaymentFlow] = useState(true);
-  const [selectedPlan, setSelectedPlan] = useState<{ id: string; price: number } | null>(null);
-  const [paymentComplete, setPaymentComplete] = useState(false);
   
   const handleAnalyze = async (cvText: string, jobDescription: string) => {
     setIsLoading(true);
@@ -185,20 +177,6 @@ export const CVAnalyzer = () => {
     setGeneratedCV(null);
   };
   
-  // Add new handlers for payment flow
-  const handleSelectPlan = (planId: string, price: number) => {
-    setSelectedPlan({ id: planId, price });
-  };
-  
-  const handlePaymentSuccess = () => {
-    setPaymentComplete(true);
-    setShowPaymentFlow(false);
-  };
-  
-  const handleCancelPayment = () => {
-    setSelectedPlan(null);
-  };
-  
   return (
     <section id="tool" className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-gray-50/50 to-transparent dark:from-gray-900/30 dark:to-transparent" />
@@ -211,18 +189,7 @@ export const CVAnalyzer = () => {
           </p>
         </div>
         
-        {showPaymentFlow && !paymentComplete ? (
-          selectedPlan ? (
-            <PaymentForm 
-              planId={selectedPlan.id}
-              price={selectedPlan.price}
-              onPaymentSuccess={handlePaymentSuccess}
-              onCancel={handleCancelPayment}
-            />
-          ) : (
-            <PricingPlan onSelectPlan={handleSelectPlan} />
-          )
-        ) : !analysisData ? (
+        {!analysisData ? (
           <UploadForm onSubmit={handleAnalyze} isLoading={isLoading} />
         ) : generatedCV ? (
           <GeneratedCV 
