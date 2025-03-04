@@ -23,7 +23,7 @@ export const Hero = () => {
   const stats = [
     { value: "98%", label: "Accuracy in skill matching" },
     { value: "75%", label: "Improvement in interview chances" },
-    { value: "5k+", label: "Successful job matches" }
+    { value: "250", label: "Successful job matches" }
   ];
 
   return (
