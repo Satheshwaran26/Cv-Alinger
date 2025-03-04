@@ -4,12 +4,22 @@ import { useState, useEffect } from "react";
 interface MatchScoreProps {
   score: number;
   showPercentage?: boolean;
+  animated?: boolean;
 }
 
-export const MatchScore = ({ score, showPercentage = true }: MatchScoreProps) => {
-  const [displayScore, setDisplayScore] = useState(0);
+export const MatchScore = ({ 
+  score, 
+  showPercentage = true, 
+  animated = true 
+}: MatchScoreProps) => {
+  const [displayScore, setDisplayScore] = useState(animated ? 0 : score);
   
   useEffect(() => {
+    if (!animated) {
+      setDisplayScore(score);
+      return;
+    }
+    
     // Reset the animation when the score changes
     setDisplayScore(0);
     
@@ -31,7 +41,7 @@ export const MatchScore = ({ score, showPercentage = true }: MatchScoreProps) =>
     }, interval);
     
     return () => clearInterval(timer);
-  }, [score]);
+  }, [score, animated]);
   
   const getScoreColor = () => {
     if (score >= 80) return "text-green-500";

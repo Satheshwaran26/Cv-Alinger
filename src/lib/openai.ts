@@ -26,10 +26,10 @@ export async function analyzeCVWithOpenAI(
   jobDescription: string
 ): Promise<any> {
   try {
-    // System prompt to analyze CV against job description
+    // Updated system prompt with more guidance on scoring
     const systemPrompt = `
       You are an expert CV/Resume analyzer assistant. You will analyze a CV text against a job description to provide:
-      1. An overall match score from 0-100
+      1. An overall match score from 0-100 that MUST be fair and accurate
       2. KSAO analysis (Knowledge, Skills, Abilities, Other) with scores and recommendations
       3. Specific recommendations for CV improvements
       4. Missing and present keywords
@@ -50,8 +50,15 @@ export async function analyzeCVWithOpenAI(
         "keywordsPresent": string[]
       }
 
+      SCORING GUIDELINES:
+      - The overall score MUST reflect how well the CV matches the job description requirements and should NOT be inflated
+      - Most CVs should score between 40-75 for their initial submission, with exceptional matches scoring higher
+      - Be critical and realistic - a perfect match is extremely rare
+      - Consider both keyword matching AND substantive qualifications
+      - Higher scores should only be given when there is clear evidence the candidate meets all key requirements
+      - Lower scores should be given when major requirements are missing
+      
       Your analysis should be based solely on the CV and job description provided.
-      Make sure the score is an accurate reflection of how well the CV matches the job description, with different CVs getting different scores.
       Be factual, precise, and provide actionable recommendations based on modern CV best practices.
       IMPORTANT: Return ONLY the JSON with no markdown formatting, code blocks, or any other text.
     `;
@@ -101,6 +108,13 @@ export async function analyzeCVWithOpenAI(
     // Parse the JSON response
     try {
       const parsedResponse = JSON.parse(content);
+      
+      // Add validation to ensure scores are reasonable
+      if (parsedResponse.overallScore > 90) {
+        console.log("Adjusting an unusually high score to be more realistic");
+        parsedResponse.overallScore = Math.floor(parsedResponse.overallScore * 0.85);
+      }
+      
       console.log("Parsed response with score:", parsedResponse.overallScore);
       return parsedResponse;
     } catch (error) {
@@ -139,7 +153,7 @@ export async function improveCV({
       Your response must be a JSON object with:
       {
         "improved_cv": "The complete improved CV with all changes integrated seamlessly",
-        "new_score": number (A realistic improved score that's higher than the current score)
+        "new_score": number (A realistic improved score that's measurably higher than the current score)
       }
       
       Guidelines:
@@ -147,6 +161,8 @@ export async function improveCV({
       - Integrate the recommendations naturally - don't just append them
       - Make the recommended changes flow naturally as if they were part of the original CV
       - Be subtle and professional - the improvements should be integrated seamlessly
+      - Ensure the new score is between 5-20 points higher than the current score, reflecting realistic improvement
+      - Do not make the new score more than 90, as that would be unrealistic
       - Return only the JSON response with no additional text or formatting
     `;
 
@@ -200,6 +216,23 @@ export async function improveCV({
     // Parse the JSON response
     try {
       const parsedResponse = JSON.parse(content);
+      
+      // Validate the improved score - ensure it's higher but not unrealistically high
+      if (parsedResponse.new_score) {
+        const scoreIncrease = parsedResponse.new_score - currentScore;
+        
+        // If score increase is too high, adjust it to a more realistic improvement
+        if (scoreIncrease > 20) {
+          console.log("Adjusting an unrealistically large score improvement");
+          parsedResponse.new_score = Math.min(currentScore + 15, 90);
+        }
+        
+        // Ensure the score isn't already too high
+        if (parsedResponse.new_score > 95) {
+          parsedResponse.new_score = 95;
+        }
+      }
+      
       console.log("CV improvement successful with new score:", parsedResponse.new_score);
       
       return {

@@ -5,27 +5,27 @@ import { useToast } from "@/components/ui/use-toast";
 
 // Mock data for fallback when API fails
 const mockAnalysisData = {
-  overallScore: 72,
+  overallScore: 62, // Lowered default score to be more realistic
   ksaoData: {
     knowledge: [
-      { name: "Marketing Strategy", score: 85, jobReqScore: 90, gap: 5, recommendation: "Include more specific examples of implementing marketing strategies" },
-      { name: "Social Media Platforms", score: 95, jobReqScore: 80, gap: -15 },
-      { name: "Content Management", score: 65, jobReqScore: 85, gap: 20, recommendation: "Highlight experience with modern CMS platforms like WordPress or Contentful" },
+      { name: "Marketing Strategy", score: 65, jobReqScore: 90, gap: 25, recommendation: "Include more specific examples of implementing marketing strategies" },
+      { name: "Social Media Platforms", score: 75, jobReqScore: 80, gap: 5, recommendation: "Add details about your experience with newer platforms like TikTok or LinkedIn content strategy" },
+      { name: "Content Management", score: 55, jobReqScore: 85, gap: 30, recommendation: "Highlight experience with modern CMS platforms like WordPress or Contentful" },
     ],
     skills: [
-      { name: "Data Analysis", score: 60, jobReqScore: 90, gap: 30, recommendation: "Mention specific data analysis tools you've used such as Google Analytics or Tableau" },
-      { name: "Copywriting", score: 80, jobReqScore: 75, gap: -5 },
-      { name: "Project Management", score: 70, jobReqScore: 80, gap: 10, recommendation: "Add measurable outcomes from projects you've managed" },
+      { name: "Data Analysis", score: 50, jobReqScore: 90, gap: 40, recommendation: "Mention specific data analysis tools you've used such as Google Analytics or Tableau" },
+      { name: "Copywriting", score: 70, jobReqScore: 75, gap: 5, recommendation: "Include examples of successful copy that drove conversions" },
+      { name: "Project Management", score: 60, jobReqScore: 80, gap: 20, recommendation: "Add measurable outcomes from projects you've managed" },
     ],
     abilities: [
-      { name: "Team Collaboration", score: 85, jobReqScore: 85, gap: 0 },
-      { name: "Problem Solving", score: 75, jobReqScore: 90, gap: 15, recommendation: "Include specific examples of complex problems you've solved" },
-      { name: "Adaptability", score: 60, jobReqScore: 80, gap: 20, recommendation: "Demonstrate examples of adapting to changing priorities or situations" },
+      { name: "Team Collaboration", score: 75, jobReqScore: 85, gap: 10, recommendation: "Highlight specific team achievements where your collaboration was key" },
+      { name: "Problem Solving", score: 65, jobReqScore: 90, gap: 25, recommendation: "Include specific examples of complex problems you've solved" },
+      { name: "Adaptability", score: 50, jobReqScore: 80, gap: 30, recommendation: "Demonstrate examples of adapting to changing priorities or situations" },
     ],
     other: [
-      { name: "Industry Certifications", score: 50, jobReqScore: 70, gap: 20, recommendation: "Consider obtaining relevant industry certifications" },
-      { name: "Leadership Experience", score: 65, jobReqScore: 75, gap: 10, recommendation: "Highlight leadership roles or initiatives you've led" },
-      { name: "Remote Work Experience", score: 90, jobReqScore: 80, gap: -10 },
+      { name: "Industry Certifications", score: 40, jobReqScore: 70, gap: 30, recommendation: "Consider obtaining relevant industry certifications" },
+      { name: "Leadership Experience", score: 55, jobReqScore: 75, gap: 20, recommendation: "Highlight leadership roles or initiatives you've led" },
+      { name: "Remote Work Experience", score: 80, jobReqScore: 80, gap: 0 },
     ],
   },
   recommendations: [
@@ -81,6 +81,14 @@ export const useAnalysis = () => {
     
     try {
       const results = await analyzeCVWithOpenAI(cvText, jobDescription);
+      
+      // Validate score to ensure it's not too high for initial analysis
+      // This helps ensure the scoring is realistic
+      if (results && typeof results.overallScore === 'number') {
+        // Ensure score is within reasonable range (not always high)
+        results.overallScore = Math.min(results.overallScore, 85); 
+      }
+      
       setAnalysisData(results);
       
       toast({
