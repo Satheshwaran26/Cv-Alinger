@@ -19,6 +19,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: hsl(var(--background));
+  overflow-x: hidden;
 }
 
 /* Fix for the container to take full height */
@@ -38,6 +39,9 @@ section {
   margin: 0;
   padding-top: 2rem;
   padding-bottom: 2rem;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Ensure sections have appropriate backgrounds */

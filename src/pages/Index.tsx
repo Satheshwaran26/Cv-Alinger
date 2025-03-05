@@ -1,11 +1,9 @@
-
 import { useEffect } from "react";
-import { Header } from "@/components/Header";
+import { Layout } from "@/components/Layout";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
 import { CVAnalyzer } from "@/components/CVAnalyzer";
 import { CTASection } from "@/components/CTASection";
-import { Footer } from "@/components/Footer";
 
 const Index = () => {
   // Scroll to element if URL has hash
@@ -19,16 +17,12 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-background text-foreground">
-      <Header />
-      <main className="flex-grow w-full flex flex-col">
-        <Hero />
-        <Features />
-        <CVAnalyzer />
-        <CTASection />
-      </main>
-      <Footer />
-    </div>
+    <Layout>
+      <Hero />
+      <Features />
+      <CVAnalyzer />
+      <CTASection />
+    </Layout>
   );
 };
 
