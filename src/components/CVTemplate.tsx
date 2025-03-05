@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 
 interface CVTemplateProps {
@@ -14,6 +15,30 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
 
     if (!content) {
       return <div ref={ref}>No CV content available</div>;
+    }
+
+    // Check if content appears to be a PDF filename (from the mock upload)
+    const isPDFFilename = content.includes("PDF file uploaded:") && content.includes(".pdf");
+    
+    if (isPDFFilename) {
+      console.log("Detected PDF filename in content, not actual CV text");
+      return (
+        <div 
+          ref={ref} 
+          className="cv-template bg-white text-black p-8 max-w-[800px] mx-auto shadow-lg"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          <div className="text-center p-8">
+            <h1 className="text-2xl font-bold mb-4">CV Preview Unavailable</h1>
+            <p className="text-gray-600 mb-4">
+              {content}
+            </p>
+            <p className="text-gray-600">
+              Please use the "Text" download button instead, or paste your CV content manually.
+            </p>
+          </div>
+        </div>
+      );
     }
 
     // Clean up any special format markers that were added during improvement

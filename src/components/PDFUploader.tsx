@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { UploadCloud, FileText, CheckCircle, AlertCircle } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface PDFUploaderProps {
   onUploadSuccess: (text: string) => void;
@@ -15,6 +16,8 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
   const [fileName, setFileName] = useState<string | null>(null);
   const [uploadStatus, setUploadStatus] = useState<"idle" | "success" | "error">("idle");
   const [dragActive, setDragActive] = useState(false);
+  const [manualCVText, setManualCVText] = useState("");
+  const [useManualInput, setUseManualInput] = useState(false);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -47,13 +50,12 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
       // Simulate processing delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Pass file metadata (filename) rather than content
-      onUploadSuccess(`PDF file uploaded: ${file.name}`);
-      
+      // Since we can't actually parse PDF content in this demo, show a prompt to manually add CV text
+      setUseManualInput(true);
       setUploadStatus("success");
       toast({
         title: "PDF uploaded successfully",
-        description: `${file.name} has been processed`,
+        description: `${file.name} has been processed. Please paste your CV content below.`,
       });
     } catch (error) {
       console.error("Error processing PDF:", error);
@@ -86,6 +88,29 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
     }
   };
 
+  const handleManualSubmit = () => {
+    if (manualCVText.trim()) {
+      onUploadSuccess(manualCVText);
+      toast({
+        title: "CV text submitted",
+        description: "Your CV content has been processed successfully.",
+      });
+    } else {
+      toast({
+        title: "Empty content",
+        description: "Please paste your CV content before submitting.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const resetUpload = () => {
+    setUploadStatus("idle");
+    setFileName(null);
+    setUseManualInput(false);
+    setManualCVText("");
+  };
+
   return (
     <Card 
       className={`overflow-hidden border-2 border-dashed ${
@@ -104,82 +129,95 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
           Upload your resume PDF for AI analysis
         </p>
         
-        <div className="flex flex-col items-center justify-center gap-4 p-8 text-center transition-all">
-          {uploadStatus === "idle" && (
-            <>
-              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                <UploadCloud className="h-8 w-8 text-primary" />
-              </div>
-              <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 text-center transition-all hover:bg-muted/50 cursor-pointer relative w-full">
-                <input
-                  type="file"
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  onChange={handleFileUpload}
-                  accept=".pdf"
-                />
-                <div className="flex flex-col items-center justify-center gap-2">
-                  <FileText className="h-10 w-10 text-muted-foreground" />
-                  <div className="text-base font-medium">
-                    Drag & drop or click to upload
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    Supports PDF files only
+        {!useManualInput ? (
+          <div className="flex flex-col items-center justify-center gap-4 p-8 text-center transition-all">
+            {uploadStatus === "idle" && (
+              <>
+                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <UploadCloud className="h-8 w-8 text-primary" />
+                </div>
+                <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 text-center transition-all hover:bg-muted/50 cursor-pointer relative w-full">
+                  <input
+                    type="file"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    onChange={handleFileUpload}
+                    accept=".pdf"
+                  />
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <FileText className="h-10 w-10 text-muted-foreground" />
+                    <div className="text-base font-medium">
+                      Drag & drop or click to upload
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Supports PDF files only
+                    </div>
                   </div>
                 </div>
+              </>
+            )}
+            
+            {isUploading && (
+              <div className="flex flex-col items-center py-8">
+                <div className="h-10 w-10 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4"></div>
+                <p className="text-base font-medium">Uploading {fileName}...</p>
+                <p className="text-sm text-muted-foreground mt-1">Processing PDF file...</p>
               </div>
-            </>
-          )}
-          
-          {isUploading && (
-            <div className="flex flex-col items-center py-8">
-              <div className="h-10 w-10 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4"></div>
-              <p className="text-base font-medium">Uploading {fileName}...</p>
-              <p className="text-sm text-muted-foreground mt-1">Processing PDF file...</p>
-            </div>
-          )}
-          
-          {uploadStatus === "success" && !isUploading && (
-            <div className="flex flex-col items-center py-8">
+            )}
+            
+            {uploadStatus === "error" && !isUploading && (
+              <div className="flex flex-col items-center py-8">
+                <div className="h-16 w-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4">
+                  <AlertCircle className="h-8 w-8 text-red-600 dark:text-red-400" />
+                </div>
+                <p className="text-base font-medium">Upload Failed</p>
+                <p className="text-sm text-muted-foreground mt-1">Please try again with a valid PDF file</p>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-4"
+                  onClick={resetUpload}
+                >
+                  Try Again
+                </Button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="animate-fade-in">
+            <div className="flex flex-col items-center py-4">
               <div className="h-16 w-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
                 <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
               </div>
               <p className="text-base font-medium">Upload Complete</p>
               <p className="text-sm text-muted-foreground mt-1">{fileName}</p>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="mt-4"
-                onClick={() => {
-                  setUploadStatus("idle");
-                  setFileName(null);
-                }}
-              >
-                Upload Another Resume
-              </Button>
             </div>
-          )}
-          
-          {uploadStatus === "error" && !isUploading && (
-            <div className="flex flex-col items-center py-8">
-              <div className="h-16 w-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4">
-                <AlertCircle className="h-8 w-8 text-red-600 dark:text-red-400" />
+            
+            <div className="mt-4">
+              <p className="text-sm font-medium mb-2">Paste your resume content below:</p>
+              <Textarea 
+                placeholder="Paste the content of your resume here..." 
+                className="min-h-[200px]"
+                value={manualCVText}
+                onChange={(e) => setManualCVText(e.target.value)}
+              />
+              <div className="flex gap-2 mt-4">
+                <Button 
+                  variant="default" 
+                  onClick={handleManualSubmit}
+                  disabled={!manualCVText.trim()}
+                >
+                  Submit Resume Content
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={resetUpload}
+                >
+                  Cancel
+                </Button>
               </div>
-              <p className="text-base font-medium">Upload Failed</p>
-              <p className="text-sm text-muted-foreground mt-1">Please try again with a valid PDF file</p>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="mt-4"
-                onClick={() => {
-                  setUploadStatus("idle");
-                  setFileName(null);
-                }}
-              >
-                Try Again
-              </Button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </Card>
   );

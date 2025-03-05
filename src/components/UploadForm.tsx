@@ -29,9 +29,9 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
     onSubmit(cvText, jobDescription);
   };
 
-  const handlePDFUploadSuccess = (pdfMetadata: string) => {
-    // Store the metadata about the PDF, not its content
-    setCvText(pdfMetadata);
+  const handlePDFUploadSuccess = (text: string) => {
+    // Now storing the actual CV text content, not just metadata
+    setCvText(text);
   };
 
   return (
@@ -62,7 +62,7 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
         <Button 
           type="submit" 
           size="lg" 
-          disabled={isLoading} 
+          disabled={isLoading || !cvText.trim()} 
           className="w-full md:w-auto px-8 py-6 shadow-md transition-all hover:shadow-lg"
         >
           {isLoading ? (
