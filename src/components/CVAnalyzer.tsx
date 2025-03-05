@@ -21,7 +21,8 @@ export const CVAnalyzer = () => {
     generatedCV,
     handleRecommendationSelect,
     generateImprovedCV,
-    handleBackToAnalysis
+    handleBackToAnalysis,
+    jobDescription
   } = useCVGeneration(
     originalCVText,
     analysisData?.overallScore || 0
@@ -50,6 +51,7 @@ export const CVAnalyzer = () => {
             newScore={generatedCV.newScore}
             appliedRecommendations={generatedCV.appliedRecommendations}
             cvContent={generatedCV.content}
+            jobDescription={jobDescription}
             onBack={handleBackToAnalysis}
           />
         ) : (

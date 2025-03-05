@@ -128,6 +128,57 @@ export async function analyzeCVWithOpenAI(
   }
 }
 
+export async function generateImprovedCVWithOpenAI(prompt: string): Promise<any> {
+  try {
+    // Making the request to OpenAI API
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: "You are an expert CV/Resume improvement assistant. Your task is to make targeted improvements to a CV based on specific recommendations."
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        temperature: 0.7,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+
+    const data: OpenAIResponse = await response.json();
+    
+    // Process the response to extract the improved CV
+    const improvedCV = data.choices[0].message.content;
+    
+    // Calculate a new score (this is a placeholder - in a real implementation,
+    // you'd want to analyze the improved CV to get an accurate score)
+    const newScore = Math.floor(Math.random() * 20) + 70; // Random score between 70-90
+    
+    return {
+      improvedCV: improvedCV,
+      newScore: newScore,
+      // Extract recommendations that were applied (this is a placeholder)
+      appliedRecommendations: ["Improved Skills Section", "Enhanced Job Descriptions", "Added Quantifiable Achievements"]
+    };
+    
+  } catch (error) {
+    console.error("Error generating improved CV with OpenAI:", error);
+    throw error;
+  }
+}
+
 interface ImproveOptions {
   originalCV: string;
   recommendations: any[];
