@@ -2,6 +2,13 @@
 import { Button } from "@/components/ui/button";
 
 export const CTASection = () => {
+  const scrollToAnalyzer = () => {
+    const analyzerSection = document.getElementById("tool");
+    if (analyzerSection) {
+      analyzerSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="py-24 relative overflow-hidden">
       {/* Background gradient */}
@@ -21,7 +28,11 @@ export const CTASection = () => {
             Join thousands of successful job seekers who have enhanced their careers with our tools.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="shadow-md transition-all hover:shadow-lg px-8 py-6">
+            <Button 
+              size="lg" 
+              className="shadow-md transition-all hover:shadow-lg px-8 py-6"
+              onClick={scrollToAnalyzer}
+            >
               Get Started For Free
             </Button>
             <Button size="lg" variant="outline" className="border-2 px-8 py-6">
