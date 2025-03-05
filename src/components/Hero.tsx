@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { AnimatedStat } from "./AnimatedStat";
+import { Rocket } from "lucide-react";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,70 +30,75 @@ export const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="relative w-full min-h-screen py-20 flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 via-blue-100/50 to-background dark:from-blue-950 dark:via-blue-900/30 dark:to-background"
+      className="relative w-full min-h-screen py-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
       ref={containerRef}
     >
-      {/* Background decorative elements - using stronger opacity values */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-primary/15 to-transparent pointer-events-none" />
-      
-      {/* Decorative pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoNnYtNmgtNnptLTYgNnY2aDZ2LTZoLTZ6TTYgNnY2aDZ2LTZINnptNiA2djZoNnYtNmgtNnptNiAwaDZ2LTZoLTZ2NnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40 dark:opacity-20 pointer-events-none" />
-      
-      {/* Decorative blurred circles - larger and with higher opacity */}
-      <div className="absolute -left-20 top-20 w-[400px] h-[400px] bg-primary/30 rounded-full blur-3xl opacity-70 pointer-events-none" />
-      <div className="absolute -right-20 bottom-20 w-[500px] h-[500px] bg-purple-500/30 rounded-full blur-3xl opacity-60 pointer-events-none" />
-      <div className="absolute left-1/3 bottom-40 w-[300px] h-[300px] bg-blue-300/30 rounded-full blur-3xl opacity-50 pointer-events-none" />
+      {/* Background light elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>
+      </div>
       
       <div className="container mx-auto text-center px-4 relative z-10">
-        {/* Badge - removed opacity-0 to ensure it's visible */}
-        <div className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full mb-6 hero-animate">
-          <div className="w-2 h-2 bg-primary rounded-full animate-pulse-slow" />
-          <span className="text-xs font-medium text-primary">AI-Powered Resume Optimization</span>
+        {/* Performance badge like in the image */}
+        <div className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full mb-6 shadow-md hero-animate mx-auto">
+          <Rocket className="text-blue-600 h-4 w-4" />
+          <span className="text-sm font-medium text-slate-800">Predicted Performance</span>
+          <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
         </div>
         
-        {/* Headline - removed opacity-0 to ensure it's visible */}
-        <h1 className="text-4xl md:text-6xl font-semibold mb-6 mx-auto max-w-4xl text-balance hero-animate">
-          Align Your Resume With Your 
-          <span className="text-primary"> Dream Job</span>
-        </h1>
+        {/* Main headline */}
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="bg-blue-50 w-[80%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
+          </div>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-5xl text-slate-900 leading-tight relative z-10 dark:text-white">
+            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900">AI that knows</span>
+            <br />
+            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900">what works</span>
+          </h1>
+        </div>
         
-        {/* Subheadline - removed opacity-0 to ensure it's visible */}
-        <p className="text-xl text-muted-foreground mb-10 mx-auto max-w-2xl text-balance hero-animate">
-          Intelligent resume analysis using the KSAO framework to maximize your potential
-          and improve your chances of landing interviews.
+        {/* Subheadline */}
+        <p className="text-lg md:text-xl text-slate-600 mb-10 mx-auto max-w-3xl leading-relaxed dark:text-slate-300">
+          Resume AI supercharges your job search with performance predictions and results-driven analysis,
+          optimizing your resume for business goals, target audiences, and job requirements.
         </p>
         
-        {/* CTA buttons - removed opacity-0 to ensure they're visible */}
+        {/* Category badge */}
+        <div className="flex flex-wrap gap-3 justify-center mb-10">
+          <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400">
+            Category
+          </span>
+          <span className="bg-green-100 text-green-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-green-900/30 dark:text-green-400">
+            Benefit
+          </span>
+          <span className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400">
+            Solution
+          </span>
+        </div>
+        
+        {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 hero-animate">
-          <Button size="lg" className="shadow-lg transition-all hover:shadow-xl px-8 py-6">
-            Analyze My Resume
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg transition-all px-8 py-6">
+            Start for free
           </Button>
-          <Button size="lg" variant="outline" className="border-2 transition-all px-8 py-6">
-            How It Works
+          <Button size="lg" variant="outline" className="border-2 rounded-full transition-all px-8 py-6 border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-300">
+            Request demo
           </Button>
         </div>
         
-        {/* Stats - now using animated stats with staggered delays */}
+        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto hero-animate-delayed">
           {stats.map((stat, index) => (
             <AnimatedStat 
               key={index} 
               value={stat.value} 
               label={stat.label}
-              delay={index * 200} // Stagger the animations
+              delay={index * 200}
             />
           ))}
         </div>
-      </div>
-      
-      {/* Remove the gap between hero and the next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
-      
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 5v14M5 12l7 7 7-7" />
-        </svg>
       </div>
     </section>
   );

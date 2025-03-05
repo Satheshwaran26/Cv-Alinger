@@ -38,17 +38,17 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <PDFUploader onUploadSuccess={handleCVTextSubmit} />
         
-        <Card className="overflow-hidden border-2 border-dashed border-muted-foreground/20 transition-all">
+        <Card className="overflow-hidden border bg-white shadow-md rounded-xl dark:bg-slate-900">
           <div className="p-6 h-full flex flex-col">
-            <div className="text-lg font-medium mb-2">Job Description</div>
-            <p className="text-sm text-muted-foreground mb-4">
+            <div className="text-lg font-medium mb-2 text-slate-900 dark:text-white">Job Description</div>
+            <p className="text-sm text-slate-500 mb-4 dark:text-slate-400">
               Paste the job description you're applying for
             </p>
             
             <div className="relative flex-1 min-h-[300px]">
               <Textarea
                 placeholder="Paste the job description here..."
-                className="resize-none absolute inset-0 h-full"
+                className="resize-none absolute inset-0 h-full border-slate-200 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
               />
@@ -62,7 +62,7 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
           type="submit" 
           size="lg" 
           disabled={isLoading || !cvText.trim()} 
-          className="w-full md:w-auto px-8 py-6 shadow-md transition-all hover:shadow-lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-md transition-all px-8 py-6"
         >
           {isLoading ? (
             <>

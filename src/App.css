@@ -6,7 +6,14 @@ body {
   overflow-x: hidden;
   width: 100%;
   min-height: 100vh;
-  background-color: hsl(var(--background));
+  background-color: white;
+  color: #0f172a;
+}
+
+/* Dark mode colors */
+.dark body {
+  background-color: #0f172a;
+  color: #f8fafc;
 }
 
 /* Remove the default root styling that might cause white backgrounds */
@@ -18,8 +25,12 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: hsl(var(--background));
   overflow-x: hidden;
+  background-color: white;
+}
+
+.dark #root {
+  background-color: #0f172a;
 }
 
 /* Fix for the container to take full height */
@@ -48,6 +59,22 @@ section {
 section + section {
   margin-top: 0;
   padding-top: 0;
+}
+
+/* Round the buttons */
+.rounded-full {
+  border-radius: 9999px;
+}
+
+/* Shadow for floating elements */
+.shadow-float {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+/* Blue focus ring for inputs */
+.focus\:ring-blue-500:focus {
+  --tw-ring-color: rgb(59 130 246);
+  --tw-ring-opacity: 1;
 }
 
 /* Keep other animations and styling */

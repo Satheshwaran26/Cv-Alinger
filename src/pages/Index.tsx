@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { Hero } from "@/components/Hero";
@@ -18,10 +19,12 @@ const Index = () => {
 
   return (
     <Layout>
-      <Hero />
-      <Features />
-      <CVAnalyzer />
-      <CTASection />
+      <div className="min-h-screen bg-white dark:bg-gray-950">
+        <Hero />
+        <Features />
+        <CVAnalyzer />
+        <CTASection />
+      </div>
     </Layout>
   );
 };

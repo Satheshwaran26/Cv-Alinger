@@ -13,10 +13,10 @@ import { Link } from "react-router-dom";
 const HowItWorks = () => {
   return (
     <Layout>
-      <div className="container mx-auto py-16 px-4 md:py-24">
+      <div className="container mx-auto py-16 px-4 md:py-24 bg-white dark:bg-gray-950">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">How Resume AI Works</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white">How Resume AI Works</h1>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto dark:text-slate-400">
             Our AI-powered platform analyzes your resume against job descriptions to maximize your chances of landing interviews.
           </p>
         </div>
@@ -25,40 +25,40 @@ const HowItWorks = () => {
           {/* Step 1 */}
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="order-2 md:order-1">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4 dark:bg-blue-900/30 dark:text-blue-400">
                 <FileText size={24} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900 dark:text-white">
                 1. Paste Your Resume
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-slate-600 mb-6 dark:text-slate-400">
                 Start by pasting the content of your current resume. Our system will analyze your skills, experience, education, and other key elements.
               </p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Simple copy and paste</span>
+                  <span className="text-slate-700 dark:text-slate-300">Simple copy and paste</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Secure and private text handling</span>
+                  <span className="text-slate-700 dark:text-slate-300">Secure and private text handling</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Advanced text analysis technology</span>
+                  <span className="text-slate-700 dark:text-slate-300">Advanced text analysis technology</span>
                 </li>
               </ul>
             </div>
-            <div className="order-1 md:order-2 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 flex items-center justify-center">
-              <div className="max-w-xs w-full bg-card p-6 rounded-lg shadow-lg border border-border">
-                <div className="w-full h-6 bg-muted rounded mb-4"></div>
-                <div className="w-2/3 h-6 bg-muted rounded mb-8"></div>
-                <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 flex flex-col items-center justify-center gap-4">
-                  <FileText className="text-primary" size={32} />
-                  <p className="text-sm text-muted-foreground text-center">
+            <div className="order-1 md:order-2 bg-gradient-to-br from-blue-50 to-blue-100/20 rounded-xl p-8 flex items-center justify-center dark:from-blue-900/20 dark:to-blue-900/5">
+              <div className="max-w-xs w-full bg-white p-6 rounded-lg shadow-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
+                <div className="w-full h-6 bg-slate-100 rounded mb-4 dark:bg-slate-700"></div>
+                <div className="w-2/3 h-6 bg-slate-100 rounded mb-8 dark:bg-slate-700"></div>
+                <div className="border-2 border-dashed border-slate-200 rounded-lg p-8 flex flex-col items-center justify-center gap-4 dark:border-slate-700">
+                  <FileText className="text-blue-500" size={32} />
+                  <p className="text-sm text-slate-500 text-center dark:text-slate-400">
                     Paste the content of your resume here
                   </p>
-                  <div className="w-full h-20 bg-muted/30 rounded-md"></div>
+                  <div className="w-full h-20 bg-slate-50 rounded-md dark:bg-slate-700/50"></div>
                 </div>
               </div>
             </div>
@@ -66,48 +66,48 @@ const HowItWorks = () => {
 
           {/* Step 2 */}
           <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 flex items-center justify-center">
-              <div className="max-w-xs w-full bg-card p-6 rounded-lg shadow-lg border border-border">
-                <div className="w-full h-6 bg-muted rounded mb-4"></div>
-                <div className="w-2/3 h-6 bg-muted rounded mb-6"></div>
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100/20 rounded-xl p-8 flex items-center justify-center dark:from-blue-900/20 dark:to-blue-900/5">
+              <div className="max-w-xs w-full bg-white p-6 rounded-lg shadow-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
+                <div className="w-full h-6 bg-slate-100 rounded mb-4 dark:bg-slate-700"></div>
+                <div className="w-2/3 h-6 bg-slate-100 rounded mb-6 dark:bg-slate-700"></div>
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                    <Search size={16} className="text-primary shrink-0" />
-                    <div className="w-full h-4 bg-muted rounded"></div>
+                    <Search size={16} className="text-blue-500 shrink-0" />
+                    <div className="w-full h-4 bg-slate-100 rounded"></div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Search size={16} className="text-primary shrink-0" />
-                    <div className="w-full h-4 bg-muted rounded"></div>
+                    <Search size={16} className="text-blue-500 shrink-0" />
+                    <div className="w-full h-4 bg-slate-100 rounded"></div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Search size={16} className="text-primary shrink-0" />
-                    <div className="w-full h-4 bg-muted rounded"></div>
+                    <Search size={16} className="text-blue-500 shrink-0" />
+                    <div className="w-full h-4 bg-slate-100 rounded"></div>
                   </div>
                 </div>
               </div>
             </div>
             <div>
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4 dark:bg-blue-900/30 dark:text-blue-400">
                 <FileText size={24} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900 dark:text-white">
                 2. Provide Job Description
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-slate-600 mb-6 dark:text-slate-400">
                 Enter the job description for the position you're applying to. Our AI analyzes the requirements and expectations to create a tailored comparison.
               </p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Copy-paste convenience</span>
+                  <span className="text-slate-700 dark:text-slate-300">Copy-paste convenience</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Keyword and requirement extraction</span>
+                  <span className="text-slate-700 dark:text-slate-300">Keyword and requirement extraction</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Industry-specific context understanding</span>
+                  <span className="text-slate-700 dark:text-slate-300">Industry-specific context understanding</span>
                 </li>
               </ul>
             </div>
@@ -116,59 +116,59 @@ const HowItWorks = () => {
           {/* Step 3 */}
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="order-2 md:order-1">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4 dark:bg-blue-900/30 dark:text-blue-400">
                 <BarChart size={24} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900 dark:text-white">
                 3. Get Detailed Analysis
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-slate-600 mb-6 dark:text-slate-400">
                 Our AI compares your resume against the job description, providing a comprehensive match analysis and highlighting areas for improvement.
               </p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Skills match percentage</span>
+                  <span className="text-slate-700 dark:text-slate-300">Skills match percentage</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Missing keywords identification</span>
+                  <span className="text-slate-700 dark:text-slate-300">Missing keywords identification</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Experience alignment scoring</span>
+                  <span className="text-slate-700 dark:text-slate-300">Experience alignment scoring</span>
                 </li>
               </ul>
             </div>
-            <div className="order-1 md:order-2 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 flex items-center justify-center">
-              <div className="max-w-xs w-full bg-card p-6 rounded-lg shadow-lg border border-border">
-                <div className="w-1/2 h-6 bg-muted rounded mb-6"></div>
+            <div className="order-1 md:order-2 bg-gradient-to-br from-blue-50 to-blue-100/20 rounded-xl p-8 flex items-center justify-center dark:from-blue-900/20 dark:to-blue-900/5">
+              <div className="max-w-xs w-full bg-white p-6 rounded-lg shadow-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
+                <div className="w-1/2 h-6 bg-slate-100 rounded mb-6 dark:bg-slate-700"></div>
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <div className="w-1/3 h-4 bg-muted rounded"></div>
-                      <div className="w-1/4 h-4 bg-muted rounded"></div>
+                      <div className="w-1/3 h-4 bg-slate-100 rounded"></div>
+                      <div className="w-1/4 h-4 bg-slate-100 rounded"></div>
                     </div>
-                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                      <div className="bg-primary h-full rounded-full" style={{width: "75%"}}></div>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <div className="w-1/3 h-4 bg-muted rounded"></div>
-                      <div className="w-1/4 h-4 bg-muted rounded"></div>
-                    </div>
-                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                      <div className="bg-primary h-full rounded-full" style={{width: "60%"}}></div>
+                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="bg-blue-500 h-full rounded-full" style={{width: "75%"}}></div>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <div className="w-1/3 h-4 bg-muted rounded"></div>
-                      <div className="w-1/4 h-4 bg-muted rounded"></div>
+                      <div className="w-1/3 h-4 bg-slate-100 rounded"></div>
+                      <div className="w-1/4 h-4 bg-slate-100 rounded"></div>
                     </div>
-                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                      <div className="bg-primary h-full rounded-full" style={{width: "85%"}}></div>
+                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="bg-blue-500 h-full rounded-full" style={{width: "60%"}}></div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <div className="w-1/3 h-4 bg-slate-100 rounded"></div>
+                      <div className="w-1/4 h-4 bg-slate-100 rounded"></div>
+                    </div>
+                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="bg-blue-500 h-full rounded-full" style={{width: "85%"}}></div>
                     </div>
                   </div>
                 </div>
@@ -178,49 +178,49 @@ const HowItWorks = () => {
 
           {/* Step 4 */}
           <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 flex items-center justify-center">
-              <div className="max-w-xs w-full bg-card p-6 rounded-lg shadow-lg border border-border">
-                <div className="w-full h-6 bg-muted rounded mb-4"></div>
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100/20 rounded-xl p-8 flex items-center justify-center dark:from-blue-900/20 dark:to-blue-900/5">
+              <div className="max-w-xs w-full bg-white p-6 rounded-lg shadow-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
+                <div className="w-full h-6 bg-slate-100 rounded mb-4 dark:bg-slate-700"></div>
                 <div className="space-y-4">
                   <div className="flex items-start gap-2">
                     <Lightbulb size={18} className="text-yellow-500 mt-1 shrink-0" />
                     <div className="w-full">
-                      <div className="w-full h-4 bg-muted rounded mb-2"></div>
-                      <div className="w-5/6 h-4 bg-muted rounded"></div>
+                      <div className="w-full h-4 bg-slate-100 rounded mb-2 dark:bg-slate-700"></div>
+                      <div className="w-5/6 h-4 bg-slate-100 rounded"></div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <Lightbulb size={18} className="text-yellow-500 mt-1 shrink-0" />
                     <div className="w-full">
-                      <div className="w-full h-4 bg-muted rounded mb-2"></div>
-                      <div className="w-5/6 h-4 bg-muted rounded"></div>
+                      <div className="w-full h-4 bg-slate-100 rounded mb-2 dark:bg-slate-700"></div>
+                      <div className="w-5/6 h-4 bg-slate-100 rounded"></div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div>
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4 dark:bg-blue-900/30 dark:text-blue-400">
                 <Lightbulb size={24} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900 dark:text-white">
                 4. Receive Tailored Recommendations
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-slate-600 mb-6 dark:text-slate-400">
                 Get personalized suggestions to optimize your resume for the specific job, including wording improvements, skills to highlight, and content restructuring.
               </p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>AI-generated improvement suggestions</span>
+                  <span className="text-slate-700 dark:text-slate-300">AI-generated improvement suggestions</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>ATS-friendly formatting tips</span>
+                  <span className="text-slate-700 dark:text-slate-300">ATS-friendly formatting tips</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Content prioritization guidance</span>
+                  <span className="text-slate-700 dark:text-slate-300">Content prioritization guidance</span>
                 </li>
               </ul>
             </div>
@@ -228,12 +228,12 @@ const HowItWorks = () => {
         </div>
 
         <div className="mt-20 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">Ready to Optimize Your Resume?</h2>
-          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-slate-900 dark:text-white">Ready to Optimize Your Resume?</h2>
+          <p className="text-slate-600 mb-8 max-w-2xl mx-auto dark:text-slate-400">
             Start using Resume AI today and maximize your chances of landing interviews for the jobs you really want.
           </p>
           <Link to="/#tool">
-            <Button size="lg" className="px-8 gap-2 shadow-sm transition-all hover:shadow-md">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-md transition-all px-8 py-6 gap-2">
               Try It Now <ArrowRight size={16} />
             </Button>
           </Link>
