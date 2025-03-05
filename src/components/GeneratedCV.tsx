@@ -55,20 +55,35 @@ export const GeneratedCV = ({
     if (!cvTemplateRef.current) return;
 
     const element = cvTemplateRef.current;
-    const opt = {
-      margin: [10, 10, 10, 10],
-      filename: 'improved_cv.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(element).save().then(() => {
-      toast({
-        title: "CV Downloaded",
-        description: "Your improved CV has been downloaded as a PDF file."
+    
+    // Log content to check what's being rendered
+    console.log("PDF content length:", cvContent.length);
+    console.log("PDF template element:", element);
+    
+    // Add a small delay to ensure template is properly rendered
+    setTimeout(() => {
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: 'improved_cv.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+  
+      html2pdf().set(opt).from(element).save().then(() => {
+        toast({
+          title: "CV Downloaded",
+          description: "Your improved CV has been downloaded as a PDF file."
+        });
+      }).catch(error => {
+        console.error("PDF generation error:", error);
+        toast({
+          title: "PDF Generation Failed",
+          description: "There was an error creating your PDF. Please try again or use text download.",
+          variant: "destructive"
+        });
       });
-    });
+    }, 100);
   };
   
   return (
@@ -142,8 +157,8 @@ export const GeneratedCV = ({
           </div>
         </div>
 
-        {/* CV template for PDF generation - make it visible but hidden in UI flow */}
-        <div className="mb-8 border rounded-lg overflow-hidden hidden">
+        {/* CV template for PDF generation - hide from normal flow but ensure it renders */}
+        <div className="mb-8 overflow-hidden" style={{ position: 'absolute', left: '-9999px', top: 0, width: '800px', height: 'auto' }}>
           <CVTemplate ref={cvTemplateRef} content={cvContent} generatePDF={handleDownloadPDF} />
         </div>
         
@@ -159,4 +174,3 @@ export const GeneratedCV = ({
 
 // Fix for missing import
 import { Check } from "lucide-react";
-

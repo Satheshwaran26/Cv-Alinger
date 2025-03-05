@@ -96,7 +96,7 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
     if (sections.length === 0) {
       sections.push({
         title: "CONTENT",
-        content: cleanedContent.split('\n')
+        content: cleanedContent.split('\n').filter(line => line.trim().length > 0)
       });
     }
     
@@ -130,6 +130,10 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
     // Find location (often contains city or country names)
     const locationMatch = personalInfo.match(/([A-Za-z\s]+,\s*[A-Za-z\s]+)/);
     if (locationMatch) location = locationMatch[0];
+
+    console.log("Debug - Sections found:", sections.length);
+    console.log("Debug - First section:", sections[0]?.title);
+    console.log("Debug - Name found:", name);
 
     return (
       <div 
@@ -188,6 +192,13 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
           </div>
         )}
 
+        {/* Fallback for minimal or no header info */}
+        {headerSection.content.length === 0 && (
+          <div className="header border-b-2 border-gray-800 pb-4 mb-6">
+            <h1 className="text-3xl font-bold mb-2">CV Document</h1>
+          </div>
+        )}
+
         {/* Content Sections - Skip the HEADER section */}
         <div className="content space-y-6">
           {sections
@@ -197,16 +208,17 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
                 <h2 className="text-xl font-semibold mb-3 text-gray-800 border-b border-gray-300 pb-1">
                   {section.title.replace(/:$/, "")}
                 </h2>
-                <div className="section-content whitespace-pre-line">
-                  {section.content
-                    .filter(line => {
-                      // Filter out any remaining recommendation markers
-                      const lowerLine = line.toLowerCase();
-                      return !lowerLine.includes('[improved based on') && 
-                             !lowerLine.includes('[consider adding') &&
-                             !lowerLine.includes('[improvement based');
-                    })
-                    .join("\n")}
+                <div className="section-content">
+                  {section.content.map((line, lineIdx) => {
+                    // Filter out any remaining recommendation markers
+                    const lowerLine = line.toLowerCase();
+                    if (lowerLine.includes('[improved based on') || 
+                        lowerLine.includes('[consider adding') ||
+                        lowerLine.includes('[improvement based')) {
+                      return null;
+                    }
+                    return <p key={`line-${lineIdx}`} className="mb-1">{line}</p>;
+                  })}
                 </div>
               </div>
             ))}
@@ -214,8 +226,10 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
         
         {/* Fallback for CVs that couldn't be properly parsed into sections */}
         {sections.length === 0 && (
-          <div className="raw-content whitespace-pre-wrap">
-            {cleanedContent}
+          <div className="raw-content">
+            {cleanedContent.split('\n').filter(line => line.trim().length > 0).map((line, idx) => (
+              <p key={`raw-${idx}`} className="mb-1">{line}</p>
+            ))}
           </div>
         )}
       </div>
@@ -224,4 +238,3 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
 );
 
 CVTemplate.displayName = "CVTemplate";
-
