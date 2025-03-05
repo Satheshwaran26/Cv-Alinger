@@ -1,12 +1,12 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
-import { Download, Copy, FileText } from "lucide-react";
+import { Download, Copy, FileText, Eye } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRef, useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { CVTemplate } from "./CVTemplate";
+import { BrowserViewCV } from "./BrowserViewCV";
 
 interface GeneratedCVProps {
   originalScore: number;
@@ -26,6 +26,7 @@ export const GeneratedCV = ({
   const { toast } = useToast();
   const cvTemplateRef = useRef<HTMLDivElement>(null);
   const [pdfReady, setPdfReady] = useState(false);
+  const [viewInBrowser, setViewInBrowser] = useState(false);
   
   // Ensure template is fully rendered and initialized before allowing PDF generation
   useEffect(() => {
@@ -126,6 +127,22 @@ export const GeneratedCV = ({
     }
   };
   
+  const toggleBrowserView = () => {
+    setViewInBrowser(!viewInBrowser);
+  };
+  
+  // If browser view is active, render the BrowserViewCV component
+  if (viewInBrowser) {
+    return (
+      <div className="animate-scale-in">
+        <BrowserViewCV 
+          content={cvContent} 
+          onBack={toggleBrowserView}
+        />
+      </div>
+    );
+  }
+  
   return (
     <div className="animate-scale-in">
       <Card className="overflow-hidden p-8">
@@ -188,6 +205,15 @@ export const GeneratedCV = ({
                 <Download className="mr-2 h-4 w-4" />
                 PDF
               </Button>
+              <Button 
+                variant="secondary" 
+                size="sm" 
+                onClick={toggleBrowserView}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                <Eye className="mr-2 h-4 w-4" />
+                View in Browser
+              </Button>
             </div>
           </div>
           
@@ -197,7 +223,7 @@ export const GeneratedCV = ({
           </div>
         </div>
 
-        {/* CV template for PDF generation - now visible for debugging */}
+        {/* CV template for PDF generation - now displayed as an optional preview */}
         <div className="mb-8 border p-4 rounded-lg" style={{ display: 'block', width: '100%' }}>
           <h4 className="text-lg font-medium mb-2">PDF Preview</h4>
           <div style={{ backgroundColor: 'white', padding: '20px', border: '1px solid #ddd' }}>
