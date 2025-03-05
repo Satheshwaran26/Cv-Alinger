@@ -1,9 +1,8 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
 
 interface PDFUploaderProps {
   onUploadSuccess: (text: string) => void;
@@ -13,18 +12,21 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
   const { toast } = useToast();
   const [cvText, setCvText] = useState("");
 
-  const handleSubmit = () => {
+  // Update parent component whenever text changes
+  useEffect(() => {
     if (cvText.trim()) {
       onUploadSuccess(cvText);
+    }
+  }, [cvText, onUploadSuccess]);
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCvText(e.target.value);
+    
+    // Show toast only on first input
+    if (!cvText.trim() && e.target.value.trim()) {
       toast({
-        title: "CV Content Submitted",
-        description: "Your CV content has been processed successfully.",
-      });
-    } else {
-      toast({
-        title: "Empty Content",
-        description: "Please paste your CV content before submitting.",
-        variant: "destructive",
+        title: "CV Content Updated",
+        description: "Your CV content is being processed as you type.",
       });
     }
   };
@@ -42,18 +44,8 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
             placeholder="Paste the content of your resume here..." 
             className="resize-none flex-1 min-h-[250px]"
             value={cvText}
-            onChange={(e) => setCvText(e.target.value)}
+            onChange={handleTextChange}
           />
-          
-          <div className="mt-4">
-            <Button 
-              variant="default" 
-              onClick={handleSubmit}
-              disabled={!cvText.trim()}
-            >
-              Submit Resume Content
-            </Button>
-          </div>
         </div>
       </div>
     </Card>
