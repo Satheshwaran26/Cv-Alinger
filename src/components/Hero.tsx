@@ -47,15 +47,15 @@ export const Hero = () => {
           <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
         </div>
         
-        {/* Main headline */}
+        {/* Main headline - Updated from "AI that knows what works" to the new title */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="bg-blue-50 w-[80%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-5xl text-slate-900 leading-tight relative z-10 dark:text-white">
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900">AI that knows</span>
+            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900">AI-Powered Resume Analysis:</span>
             <br />
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900">what works</span>
+            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900">Get Hired Faster with Data-Driven Insights</span>
           </h1>
         </div>
         
