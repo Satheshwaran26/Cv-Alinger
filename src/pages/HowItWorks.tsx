@@ -1,11 +1,9 @@
-
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { 
   ArrowRight, 
-  Upload, 
-  Search, 
   FileText, 
+  Search, 
   CheckCircle, 
   BarChart, 
   Lightbulb
@@ -28,26 +26,26 @@ const HowItWorks = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="order-2 md:order-1">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-4">
-                <Upload size={24} />
+                <FileText size={24} />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                1. Upload Your Resume
+                1. Paste Your Resume
               </h2>
               <p className="text-muted-foreground mb-6">
-                Start by uploading your current resume in PDF format. Our system will extract and analyze your skills, experience, education, and other key elements.
+                Start by pasting the content of your current resume. Our system will analyze your skills, experience, education, and other key elements.
               </p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Supports PDF format</span>
+                  <span>Simple copy and paste</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Secure and private document handling</span>
+                  <span>Secure and private text handling</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
-                  <span>Advanced text extraction technology</span>
+                  <span>Advanced text analysis technology</span>
                 </li>
               </ul>
             </div>
@@ -56,11 +54,11 @@ const HowItWorks = () => {
                 <div className="w-full h-6 bg-muted rounded mb-4"></div>
                 <div className="w-2/3 h-6 bg-muted rounded mb-8"></div>
                 <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 flex flex-col items-center justify-center gap-4">
-                  <Upload className="text-primary" size={32} />
+                  <FileText className="text-primary" size={32} />
                   <p className="text-sm text-muted-foreground text-center">
-                    Drag and drop your resume or click to browse
+                    Paste the content of your resume here
                   </p>
-                  <Button size="sm">Upload Resume</Button>
+                  <div className="w-full h-20 bg-muted/30 rounded-md"></div>
                 </div>
               </div>
             </div>
