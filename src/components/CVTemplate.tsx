@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 
 interface CVTemplateProps {
@@ -56,7 +55,8 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
       const trimmedLine = line.trim();
       
       // Check if line appears to be a section header
-      const isSectionHeader = (
+      // Using let instead of const so we can modify it later
+      let isSectionHeader = (
         // Matches strings that are all caps or Title Case with common section headings
         ((/^[A-Z\s]+$/.test(trimmedLine) || /^[A-Z][a-z]+(\s+[A-Z][a-z]+)*$/.test(trimmedLine)) 
           && trimmedLine.length < 30 
