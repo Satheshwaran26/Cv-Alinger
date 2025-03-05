@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
 import { Download, Copy, FileText } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { CVTemplate } from "./CVTemplate";
 
@@ -25,6 +25,20 @@ export const GeneratedCV = ({
 }: GeneratedCVProps) => {
   const { toast } = useToast();
   const cvTemplateRef = useRef<HTMLDivElement>(null);
+  const [pdfReady, setPdfReady] = useState(false);
+  
+  // Ensure template is fully rendered and initialized before allowing PDF generation
+  useEffect(() => {
+    if (cvContent && cvTemplateRef.current) {
+      // Short delay to ensure DOM is fully updated
+      const timer = setTimeout(() => {
+        setPdfReady(true);
+        console.log("PDF template ready for generation");
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [cvContent]);
   
   const handleCopy = () => {
     navigator.clipboard.writeText(cvContent);
@@ -52,24 +66,43 @@ export const GeneratedCV = ({
   };
 
   const handleDownloadPDF = () => {
-    if (!cvTemplateRef.current) return;
+    if (!cvTemplateRef.current || !pdfReady) {
+      toast({
+        title: "Please wait",
+        description: "CV template is still preparing. Try again in a moment.",
+        variant: "destructive"
+      });
+      return;
+    }
 
     const element = cvTemplateRef.current;
     
     // Log content to check what's being rendered
     console.log("PDF content length:", cvContent.length);
     console.log("PDF template element:", element);
+    console.log("PDF template HTML:", element.innerHTML.substring(0, 200) + '...');
     
-    // Add a small delay to ensure template is properly rendered
-    setTimeout(() => {
-      const opt = {
-        margin: [10, 10, 10, 10],
-        filename: 'improved_cv.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
+    // Prepare PDF generation options
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: 'improved_cv.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true, 
+        logging: true,
+        letterRendering: true,
+      },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
   
+    // Show loading toast
+    toast({
+      title: "Generating PDF",
+      description: "Please wait while we prepare your CV..."
+    });
+
+    try {
       html2pdf().set(opt).from(element).save().then(() => {
         toast({
           title: "CV Downloaded",
@@ -83,7 +116,14 @@ export const GeneratedCV = ({
           variant: "destructive"
         });
       });
-    }, 100);
+    } catch (err) {
+      console.error("PDF generation exception:", err);
+      toast({
+        title: "PDF Generation Failed",
+        description: "There was an unexpected error. Please try the text download option instead.",
+        variant: "destructive"
+      });
+    }
   };
   
   return (
@@ -157,9 +197,12 @@ export const GeneratedCV = ({
           </div>
         </div>
 
-        {/* CV template for PDF generation - hide from normal flow but ensure it renders */}
-        <div className="mb-8 overflow-hidden" style={{ position: 'absolute', left: '-9999px', top: 0, width: '800px', height: 'auto' }}>
-          <CVTemplate ref={cvTemplateRef} content={cvContent} generatePDF={handleDownloadPDF} />
+        {/* CV template for PDF generation - now visible for debugging */}
+        <div className="mb-8 border p-4 rounded-lg" style={{ display: 'block', width: '100%' }}>
+          <h4 className="text-lg font-medium mb-2">PDF Preview</h4>
+          <div style={{ backgroundColor: 'white', padding: '20px', border: '1px solid #ddd' }}>
+            <CVTemplate ref={cvTemplateRef} content={cvContent} />
+          </div>
         </div>
         
         <div className="flex justify-center">
