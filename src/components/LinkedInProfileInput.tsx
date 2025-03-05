@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { LinkedIn } from "lucide-react";
+import { Linkedin } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 interface LinkedInProfileInputProps {
@@ -84,7 +84,7 @@ SKILLS
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex items-center gap-2">
-        <LinkedIn className="h-5 w-5 text-blue-600" />
+        <Linkedin className="h-5 w-5 text-blue-600" />
         <div className="text-lg font-medium text-slate-900 dark:text-white">LinkedIn Profile</div>
       </div>
       
