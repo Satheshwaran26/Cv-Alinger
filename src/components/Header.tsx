@@ -39,7 +39,8 @@ export const Header = () => {
       )}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
+        {/* Make the entire logo area clickable */}
+        <Link to="/" className="flex items-center gap-2 cursor-pointer">
           <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
             <span className="relative z-10 text-primary font-semibold">RA</span>
