@@ -15,7 +15,7 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
       .replace(/\[Consider adding based on recommendation:.*?\]/g, '');
     
     // Parse the plain text CV content
-    const contentLines = cleanedContent.split("\n");
+    const contentLines = cleanedContent.split("\n").filter(line => line.trim().length > 0);
     const sections: { title: string; content: string[] }[] = [];
     
     let currentSectionTitle = "";
@@ -71,7 +71,6 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
           currentSectionContent = [];
         } else {
           // Add line to current section content
-          // Also preserve empty lines within sections for formatting
           currentSectionContent.push(line);
         }
       }
@@ -90,6 +89,14 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
       sections.push({
         title: "CONTENT",
         content: headerLines
+      });
+    }
+    
+    // If no sections were identified at all, just use the raw content
+    if (sections.length === 0) {
+      sections.push({
+        title: "CONTENT",
+        content: cleanedContent.split('\n')
       });
     }
     
@@ -217,3 +224,4 @@ export const CVTemplate = React.forwardRef<HTMLDivElement, CVTemplateProps>(
 );
 
 CVTemplate.displayName = "CVTemplate";
+
