@@ -42,29 +42,31 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
           <div className="p-6 h-full flex flex-col">
             <div className="text-lg font-medium mb-4 text-slate-900 dark:text-white">Your Resume</div>
             
-            <Tabs defaultValue="manual" className="w-full">
+            <Tabs defaultValue="manual" className="w-full flex-1 flex flex-col">
               <TabsList className="grid w-full grid-cols-3 mb-4">
                 <TabsTrigger value="manual">Manual Input</TabsTrigger>
                 <TabsTrigger value="pdf">PDF Upload</TabsTrigger>
                 <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
               </TabsList>
               
-              <TabsContent value="manual" className="flex-1 min-h-[300px] flex flex-col">
-                <Textarea 
-                  placeholder="Paste the content of your resume here..." 
-                  className="resize-none flex-1 min-h-[250px] border-slate-200 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                  value={cvText}
-                  onChange={(e) => setCvText(e.target.value)}
-                />
-              </TabsContent>
-              
-              <TabsContent value="pdf" className="min-h-[300px]">
-                <PDFUploader onUploadSuccess={handleCVTextSubmit} />
-              </TabsContent>
-              
-              <TabsContent value="linkedin" className="min-h-[300px]">
-                <LinkedInProfileInput onProfileExtracted={handleCVTextSubmit} />
-              </TabsContent>
+              <div className="flex-1 flex flex-col min-h-[350px]">
+                <TabsContent value="manual" className="flex-1 flex flex-col h-full m-0">
+                  <Textarea 
+                    placeholder="Paste the content of your resume here..." 
+                    className="resize-none flex-1 min-h-[350px] border-slate-200 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
+                    value={cvText}
+                    onChange={(e) => setCvText(e.target.value)}
+                  />
+                </TabsContent>
+                
+                <TabsContent value="pdf" className="flex-1 h-full m-0">
+                  <PDFUploader onUploadSuccess={handleCVTextSubmit} />
+                </TabsContent>
+                
+                <TabsContent value="linkedin" className="flex-1 h-full m-0">
+                  <LinkedInProfileInput onProfileExtracted={handleCVTextSubmit} />
+                </TabsContent>
+              </div>
             </Tabs>
           </div>
         </Card>
@@ -76,7 +78,7 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
               Paste the job description you're applying for
             </p>
             
-            <div className="relative flex-1 min-h-[300px]">
+            <div className="relative flex-1 min-h-[350px]">
               <Textarea
                 placeholder="Paste the job description here..."
                 className="resize-none absolute inset-0 h-full border-slate-200 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
