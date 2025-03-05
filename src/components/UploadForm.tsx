@@ -5,6 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { PDFUploader } from "./PDFUploader";
+import { LinkedInProfileInput } from "./LinkedInProfileInput";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface UploadFormProps {
   onSubmit: (cvText: string, jobDescription: string) => void;
@@ -36,7 +38,36 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PDFUploader onUploadSuccess={handleCVTextSubmit} />
+        <Card className="overflow-hidden border bg-white shadow-md rounded-xl dark:bg-slate-900">
+          <div className="p-6 h-full flex flex-col">
+            <div className="text-lg font-medium mb-4 text-slate-900 dark:text-white">Your Resume</div>
+            
+            <Tabs defaultValue="manual" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-4">
+                <TabsTrigger value="manual">Manual Input</TabsTrigger>
+                <TabsTrigger value="pdf">PDF Upload</TabsTrigger>
+                <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="manual" className="flex-1 min-h-[300px] flex flex-col">
+                <Textarea 
+                  placeholder="Paste the content of your resume here..." 
+                  className="resize-none flex-1 min-h-[250px] border-slate-200 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
+                  value={cvText}
+                  onChange={(e) => setCvText(e.target.value)}
+                />
+              </TabsContent>
+              
+              <TabsContent value="pdf" className="min-h-[300px]">
+                <PDFUploader onUploadSuccess={handleCVTextSubmit} />
+              </TabsContent>
+              
+              <TabsContent value="linkedin" className="min-h-[300px]">
+                <LinkedInProfileInput onProfileExtracted={handleCVTextSubmit} />
+              </TabsContent>
+            </Tabs>
+          </div>
+        </Card>
         
         <Card className="overflow-hidden border bg-white shadow-md rounded-xl dark:bg-slate-900">
           <div className="p-6 h-full flex flex-col">
