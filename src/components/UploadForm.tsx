@@ -29,15 +29,14 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
     onSubmit(cvText, jobDescription);
   };
 
-  const handlePDFUploadSuccess = (text: string) => {
-    // Now storing the actual CV text content, not just metadata
+  const handleCVTextSubmit = (text: string) => {
     setCvText(text);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PDFUploader onUploadSuccess={handlePDFUploadSuccess} />
+        <PDFUploader onUploadSuccess={handleCVTextSubmit} />
         
         <Card className="overflow-hidden border-2 border-dashed border-muted-foreground/20 transition-all">
           <div className="p-6 h-full flex flex-col">
