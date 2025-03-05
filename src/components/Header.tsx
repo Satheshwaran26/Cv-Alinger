@@ -36,6 +36,7 @@ export const Header = () => {
           <span className="font-medium text-xl">Resume AI</span>
         </Link>
 
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
           <Link to="/#features" className="text-sm font-medium transition-colors hover:text-primary">
             Features
@@ -54,6 +55,17 @@ export const Header = () => {
           </Button>
           <Button size="sm" className="shadow-sm transition-all hover:shadow-md whitespace-nowrap">
             Get Started
+          </Button>
+          
+          {/* Mobile Menu Toggle Button */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <Menu className="h-5 w-5" />
           </Button>
         </div>
       </div>
