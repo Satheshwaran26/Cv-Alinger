@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,17 @@ export const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const scrollToAnalyzer = () => {
+    const analyzerSection = document.getElementById("tool");
+    if (analyzerSection) {
+      analyzerSection.scrollIntoView({ behavior: "smooth" });
+    }
+    // Close mobile menu if open
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  };
 
   return (
     <header 
@@ -52,7 +64,11 @@ export const Header = () => {
           <Button variant="ghost" size="sm" className="hidden sm:flex">
             Log In
           </Button>
-          <Button size="sm" className="shadow-sm transition-all hover:shadow-md whitespace-nowrap">
+          <Button 
+            size="sm" 
+            className="shadow-sm transition-all hover:shadow-md whitespace-nowrap"
+            onClick={scrollToAnalyzer}
+          >
             Get Started
           </Button>
           
@@ -99,6 +115,7 @@ export const Header = () => {
                 variant="default" 
                 size="sm" 
                 className="w-full justify-center shadow-sm"
+                onClick={scrollToAnalyzer}
               >
                 Log In
               </Button>
