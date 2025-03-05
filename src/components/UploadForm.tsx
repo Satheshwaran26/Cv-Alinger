@@ -5,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { PDFUploader } from "./PDFUploader";
-import { LinkedInProfileInput } from "./LinkedInProfileInput";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface UploadFormProps {
@@ -43,10 +42,9 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
             <div className="text-lg font-medium mb-4 text-slate-900 dark:text-white">Your Resume</div>
             
             <Tabs defaultValue="manual" className="w-full flex-1 flex flex-col">
-              <TabsList className="grid w-full grid-cols-3 mb-4">
+              <TabsList className="grid w-full grid-cols-2 mb-4">
                 <TabsTrigger value="manual">Manual Input</TabsTrigger>
                 <TabsTrigger value="pdf">PDF Upload</TabsTrigger>
-                <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
               </TabsList>
               
               <div className="flex-1 flex flex-col min-h-[350px]">
@@ -61,10 +59,6 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
                 
                 <TabsContent value="pdf" className="flex-1 h-full m-0">
                   <PDFUploader onUploadSuccess={handleCVTextSubmit} />
-                </TabsContent>
-                
-                <TabsContent value="linkedin" className="flex-1 h-full m-0">
-                  <LinkedInProfileInput onProfileExtracted={handleCVTextSubmit} />
                 </TabsContent>
               </div>
             </Tabs>
