@@ -65,16 +65,16 @@ export const Hero = () => {
           optimizing your resume for business goals, target audiences, and job requirements.
         </p>
         
-        {/* Category badge */}
+        {/* Category badges - Updated texts to requested phrases */}
         <div className="flex flex-wrap gap-3 justify-center mb-10">
           <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400">
-            Category
+            Boost Your Interview Chances
           </span>
           <span className="bg-green-100 text-green-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-green-900/30 dark:text-green-400">
-            Benefit
+            Optimize Your Resume with AI
           </span>
           <span className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400">
-            Solution
+            Get Instant, Data-Driven Feedback
           </span>
         </div>
         
