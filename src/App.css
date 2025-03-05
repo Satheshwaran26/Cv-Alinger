@@ -71,10 +71,48 @@ section + section {
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
 }
 
+.dark .shadow-float {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
 /* Blue focus ring for inputs */
 .focus\:ring-blue-500:focus {
   --tw-ring-color: rgb(59 130 246);
   --tw-ring-opacity: 1;
+}
+
+/* Responsive padding adjustments */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  section {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* Dark mode adjustments for PDF preview */
+.dark .bg-white {
+  background-color: white !important;
+  color: #0f172a !important;
+}
+
+/* Mobile responsive font sizes */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  h3 {
+    font-size: 1.125rem !important;
+  }
 }
 
 /* Keep other animations and styling */

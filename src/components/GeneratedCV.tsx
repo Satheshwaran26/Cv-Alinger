@@ -7,12 +7,14 @@ import { useRef, useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { CVTemplate } from "./CVTemplate";
 import { BrowserViewCV } from "./BrowserViewCV";
+import { InterviewPreparation } from "./InterviewPreparation";
 
 interface GeneratedCVProps {
   originalScore: number;
   newScore: number;
   appliedRecommendations: string[];
   cvContent: string;
+  jobDescription?: string;
   onBack: () => void;
 }
 
@@ -21,17 +23,17 @@ export const GeneratedCV = ({
   newScore,
   appliedRecommendations,
   cvContent,
+  jobDescription = "",
   onBack
 }: GeneratedCVProps) => {
   const { toast } = useToast();
   const cvTemplateRef = useRef<HTMLDivElement>(null);
   const [pdfReady, setPdfReady] = useState(false);
   const [viewInBrowser, setViewInBrowser] = useState(false);
+  const [showInterviewPrep, setShowInterviewPrep] = useState(false);
   
-  // Ensure template is fully rendered and initialized before allowing PDF generation
   useEffect(() => {
     if (cvContent && cvTemplateRef.current) {
-      // Short delay to ensure DOM is fully updated
       const timer = setTimeout(() => {
         setPdfReady(true);
         console.log("PDF template ready for generation");
@@ -78,12 +80,10 @@ export const GeneratedCV = ({
 
     const element = cvTemplateRef.current;
     
-    // Log content to check what's being rendered
     console.log("PDF content length:", cvContent.length);
     console.log("PDF template element:", element);
     console.log("PDF template HTML:", element.innerHTML.substring(0, 200) + '...');
     
-    // Prepare PDF generation options
     const opt = {
       margin: [10, 10, 10, 10],
       filename: 'improved_cv.pdf',
@@ -97,7 +97,6 @@ export const GeneratedCV = ({
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
   
-    // Show loading toast
     toast({
       title: "Generating PDF",
       description: "Please wait while we prepare your CV..."
@@ -131,7 +130,10 @@ export const GeneratedCV = ({
     setViewInBrowser(!viewInBrowser);
   };
   
-  // If browser view is active, render the BrowserViewCV component
+  const toggleInterviewPrep = () => {
+    setShowInterviewPrep(!showInterviewPrep);
+  };
+  
   if (viewInBrowser) {
     return (
       <div className="animate-scale-in">
@@ -145,14 +147,14 @@ export const GeneratedCV = ({
   
   return (
     <div className="animate-scale-in">
-      <Card className="overflow-hidden p-8">
-        <div className="flex flex-col items-center mb-8">
-          <h3 className="text-2xl font-semibold mb-2">Your Enhanced CV</h3>
+      <Card className="overflow-hidden p-6 md:p-8">
+        <div className="flex flex-col items-center mb-6 md:mb-8">
+          <h3 className="text-xl md:text-2xl font-semibold mb-2">Your Enhanced CV</h3>
           <p className="text-muted-foreground text-center max-w-2xl">
             We've applied your selected recommendations to create an improved version of your CV.
           </p>
           
-          <div className="mt-8 flex flex-col md:flex-row gap-8 items-center justify-center w-full">
+          <div className="mt-6 md:mt-8 flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-center w-full">
             <div className="text-center">
               <div className="text-sm text-muted-foreground mb-2">Original Score</div>
               <MatchScore score={originalScore} showPercentage={true} />
@@ -177,8 +179,8 @@ export const GeneratedCV = ({
           </div>
         </div>
         
-        <div className="mb-8">
-          <h4 className="text-lg font-medium mb-4">Applied Recommendations</h4>
+        <div className="mb-6 md:mb-8">
+          <h4 className="text-lg font-medium mb-3 md:mb-4">Applied Recommendations</h4>
           <ul className="space-y-2">
             {appliedRecommendations.map((rec, index) => (
               <li key={index} className="flex items-start gap-2">
@@ -189,10 +191,10 @@ export const GeneratedCV = ({
           </ul>
         </div>
         
-        <div className="border rounded-lg p-4 bg-muted/20 mb-8">
-          <div className="flex items-center justify-between mb-2">
+        <div className="border rounded-lg p-3 md:p-4 bg-muted/20 mb-6 md:mb-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-2">
             <h4 className="text-lg font-medium">CV Content</h4>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={handleCopy}>
                 <Copy className="mr-2 h-4 w-4" />
                 Copy
@@ -217,22 +219,36 @@ export const GeneratedCV = ({
             </div>
           </div>
           
-          {/* Preview of CV text content */}
-          <div className="max-h-80 overflow-y-auto whitespace-pre-wrap bg-background p-4 rounded border text-sm">
+          <div className="max-h-60 md:max-h-80 overflow-y-auto whitespace-pre-wrap bg-background p-3 md:p-4 rounded border text-sm">
             {cvContent}
           </div>
         </div>
 
-        {/* CV template for PDF generation - now displayed as an optional preview */}
-        <div className="mb-8 border p-4 rounded-lg" style={{ display: 'block', width: '100%' }}>
+        <div className="mb-6 md:mb-8 border p-3 md:p-4 rounded-lg" style={{ display: 'block', width: '100%' }}>
           <h4 className="text-lg font-medium mb-2">PDF Preview</h4>
           <div style={{ backgroundColor: 'white', padding: '20px', border: '1px solid #ddd' }}>
             <CVTemplate ref={cvTemplateRef} content={cvContent} />
           </div>
         </div>
         
+        <div className="mb-6 md:mb-8 flex justify-center">
+          <Button 
+            onClick={toggleInterviewPrep} 
+            variant="outline"
+            className="w-full md:w-auto"
+          >
+            {showInterviewPrep ? "Hide Interview Questions" : "Prepare for Interview"}
+          </Button>
+        </div>
+        
+        {showInterviewPrep && (
+          <div className="mb-6 md:mb-8">
+            <InterviewPreparation cvContent={cvContent} jobDescription={jobDescription} />
+          </div>
+        )}
+        
         <div className="flex justify-center">
-          <Button variant="outline" onClick={onBack}>
+          <Button variant="outline" onClick={onBack} className="w-full md:w-auto">
             Go Back
           </Button>
         </div>
@@ -241,5 +257,4 @@ export const GeneratedCV = ({
   );
 };
 
-// Fix for missing import
 import { Check } from "lucide-react";

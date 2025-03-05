@@ -73,6 +73,15 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 230 60% 60%;
+    
+    --sidebar-background: 230 20% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 210 40% 98%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 230 60% 60%;
   }
 }
 
@@ -118,6 +127,18 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-muted-foreground/30;
   }
+  
+  /* Dark mode image adjustments */
+  .dark img {
+    filter: brightness(0.9);
+  }
+  
+  /* Mobile responsive adjustments */
+  @media (max-width: 640px) {
+    .container {
+      @apply px-4;
+    }
+  }
 }
 
 @layer utilities {
@@ -127,5 +148,14 @@
   
   .text-balance {
     text-wrap: balance;
+  }
+  
+  /* Mobile responsive utilities */
+  .py-responsive {
+    @apply py-6 md:py-12;
+  }
+  
+  .px-responsive {
+    @apply px-4 md:px-8;
   }
 }
