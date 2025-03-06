@@ -54,7 +54,7 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
           <div className="p-6 h-full flex flex-col">
             <div className="text-lg font-medium mb-2 text-slate-900 dark:text-white">Job Description</div>
             <p className="text-sm text-slate-500 mb-4 dark:text-slate-400">
-              <!-- Removed the text "Paste the job description you're applying for" -->
+              {/* The text was removed as requested */}
             </p>
             
             <div className="relative flex-1 min-h-[350px]">
