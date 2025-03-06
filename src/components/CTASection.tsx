@@ -1,14 +1,5 @@
 
-import { Button } from "@/components/ui/button";
-
 export const CTASection = () => {
-  const scrollToAnalyzer = () => {
-    const analyzerSection = document.getElementById("tool");
-    if (analyzerSection) {
-      analyzerSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <section className="py-24 relative overflow-hidden bg-white dark:bg-gray-950">
       {/* Background light elements */}
@@ -22,26 +13,10 @@ export const CTASection = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">
             Ready to Land Your Dream Job?
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto mb-10 dark:text-slate-400">
+          <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400">
             Optimize your CV with our AI-powered platform and increase your chances of getting interviews.
             Join thousands of successful job seekers who have enhanced their careers with our tools.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-md transition-all px-8 py-6"
-              onClick={scrollToAnalyzer}
-            >
-              Start for free
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-2 rounded-full transition-all px-8 py-6 border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-300"
-            >
-              Request demo
-            </Button>
-          </div>
         </div>
       </div>
     </section>

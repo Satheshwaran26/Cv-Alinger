@@ -1,6 +1,5 @@
 
 import { useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket } from "lucide-react";
 
@@ -66,7 +65,7 @@ export const Hero = () => {
         </p>
         
         {/* Category badges - Updated texts to requested phrases */}
-        <div className="flex flex-wrap gap-3 justify-center mb-10">
+        <div className="flex flex-wrap gap-3 justify-center mb-16">
           <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400">
             Boost Your Interview Chances
           </span>
@@ -76,16 +75,6 @@ export const Hero = () => {
           <span className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400">
             Get Instant, Data-Driven Feedback
           </span>
-        </div>
-        
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 hero-animate">
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg transition-all px-8 py-6">
-            Start for free
-          </Button>
-          <Button size="lg" variant="outline" className="border-2 rounded-full transition-all px-8 py-6 border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-300">
-            Request demo
-          </Button>
         </div>
         
         {/* Stats */}
