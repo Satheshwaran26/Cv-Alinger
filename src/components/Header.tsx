@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -11,7 +10,6 @@ export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   
-  // Handle scroll event to change header appearance
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -21,7 +19,6 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   
-  // Close mobile menu when changing routes
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
@@ -41,7 +38,11 @@ export const Header = () => {
     >
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/" className="flex items-center space-x-2">
-          <span className="font-bold text-lg md:text-xl">CV Aligner</span>
+          <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
+            <span className="relative z-10 text-primary font-semibold">RA</span>
+          </div>
+          <span className="font-bold text-lg md:text-xl">Resume AI</span>
         </Link>
         
         <div className="hidden md:flex space-x-1">
@@ -64,7 +65,6 @@ export const Header = () => {
         </div>
       </div>
       
-      {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden">
           <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm" onClick={toggleMobileMenu}></div>
