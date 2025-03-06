@@ -21,11 +21,23 @@ interface OpenAIResponse {
 // Your API key - replace with your actual OpenAI API key
 const API_KEY = "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";
 
+// Cache to store analysis results for the same CV and job description
+const analysisCache = new Map<string, any>();
+
 export async function analyzeCVWithOpenAI(
   cvText: string, 
   jobDescription: string
 ): Promise<any> {
   try {
+    // Create a cache key from the CV text and job description
+    const cacheKey = `${cvText.trim()}_${jobDescription.trim()}`;
+    
+    // Check if we have a cached result
+    if (analysisCache.has(cacheKey)) {
+      console.log("Using cached analysis result");
+      return analysisCache.get(cacheKey);
+    }
+    
     // Updated system prompt with more guidance on scoring
     const systemPrompt = `
       You are an expert CV/Resume analyzer assistant. You will analyze a CV text against a job description to provide:
@@ -57,6 +69,7 @@ export async function analyzeCVWithOpenAI(
       - Consider both keyword matching AND substantive qualifications
       - Higher scores should only be given when there is clear evidence the candidate meets all key requirements
       - Lower scores should be given when major requirements are missing
+      - BE CONSISTENT in your scoring approach - if you analyze the same CV and job description multiple times, the score should be very similar
       
       Your analysis should be based solely on the CV and job description provided.
       Be factual, precise, and provide actionable recommendations based on modern CV best practices.
@@ -82,7 +95,8 @@ export async function analyzeCVWithOpenAI(
             content: `CV Text:\n${cvText}\n\nJob Description:\n${jobDescription}`,
           },
         ],
-        temperature: 0.7,
+        temperature: 0.3, // Lower temperature for more consistent results
+        seed: 12345, // Fixed seed for deterministic results
       }),
     });
 
@@ -116,6 +130,10 @@ export async function analyzeCVWithOpenAI(
       }
       
       console.log("Parsed response with score:", parsedResponse.overallScore);
+      
+      // Cache the result
+      analysisCache.set(cacheKey, parsedResponse);
+      
       return parsedResponse;
     } catch (error) {
       console.error("Failed to parse OpenAI response as JSON:", error);
