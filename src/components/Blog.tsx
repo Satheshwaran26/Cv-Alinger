@@ -31,7 +31,7 @@ export const Blog: FC = () => {
   ];
 
   return (
-    <section id="blog" className="py-16 -mt-12 relative overflow-hidden bg-white dark:bg-gray-950">
+    <section id="blog" className="py-16 relative overflow-hidden bg-white dark:bg-gray-950">
       {/* Background light elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>

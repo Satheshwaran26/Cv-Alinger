@@ -23,8 +23,8 @@ const Index = () => {
       <div className="min-h-screen bg-white dark:bg-gray-950">
         <Hero />
         <Features />
-        <Blog />
         <CVAnalyzer />
+        <Blog />
         <CTASection />
       </div>
     </Layout>
