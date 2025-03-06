@@ -46,7 +46,7 @@ const BlogIndex = () => {
       id: 6,
       title: 'Career Pivots: Navigating Industry Transitions With AI Tools',
       date: 'November 8, 2023',
-      excerpt: 'Changing industries doesn't have to mean starting from scratch. Explore how AI can help identify transferable skills, fill knowledge gaps, and position yourself effectively for a successful career transition.',
+      excerpt: 'Changing industries doesn\'t have to mean starting from scratch. Explore how AI can help identify transferable skills, fill knowledge gaps, and position yourself effectively for a successful career transition.',
       slug: 'ai-assisted-career-pivots'
     },
     {
@@ -88,7 +88,7 @@ const BlogIndex = () => {
       id: 12,
       title: 'Gaps in Employment: Strategies to Address Them Confidently',
       date: 'February 17, 2024',
-      excerpt: 'Employment gaps don't have to be red flags. Learn how to frame time away from the workforce positively, focusing on growth, learning, and other valuable experiences gained during that period.',
+      excerpt: 'Employment gaps don\'t have to be red flags. Learn how to frame time away from the workforce positively, focusing on growth, learning, and other valuable experiences gained during that period.',
       slug: 'addressing-employment-gaps'
     },
     {
@@ -109,7 +109,7 @@ const BlogIndex = () => {
       id: 15,
       title: 'Cover Letters That Convert: From Template to Personalized Pitch',
       date: 'April 8, 2024',
-      excerpt: 'The cover letter isn't dead - it's evolved. Discover how to craft compelling, personalized cover letters that complement your resume and create a compelling case for your candidacy.',
+      excerpt: 'The cover letter isn\'t dead - it\'s evolved. Discover how to craft compelling, personalized cover letters that complement your resume and create a compelling case for your candidacy.',
       slug: 'effective-cover-letters'
     },
     {
@@ -144,7 +144,7 @@ const BlogIndex = () => {
       id: 20,
       title: 'AI and the Future of Work: Preparing for Emerging Career Opportunities',
       date: 'July 2, 2024',
-      excerpt: 'AI isn't just changing how we find jobs - it's changing the jobs themselves. Explore emerging career paths, skills in growing demand, and strategies to position yourself for the AI-augmented workplace.',
+      excerpt: 'AI isn\'t just changing how we find jobs - it\'s changing the jobs themselves. Explore emerging career paths, skills in growing demand, and strategies to position yourself for the AI-augmented workplace.',
       slug: 'ai-future-career-opportunities'
     },
     {
