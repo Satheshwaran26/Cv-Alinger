@@ -1,4 +1,3 @@
-
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +6,13 @@ import { Calendar } from 'lucide-react';
 
 const BlogIndex = () => {
   const posts = [
+    {
+      id: 22,
+      title: 'Generative AI: Revolutionizing Industries and Reshaping the Future',
+      date: 'April 30, 2024',
+      excerpt: 'Explore how generative AI is transforming industries through AI-powered content creation, business automation, and innovative applications across sectors.',
+      slug: 'generative-ai-revolution'
+    },
     {
       id: 1,
       title: 'AI Revolution in Job Hunting: A Personalized Approach',
