@@ -4,9 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { PDFUploader } from "./PDFUploader";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FileUp, Edit } from "lucide-react";
+import { Edit } from "lucide-react";
 
 interface UploadFormProps {
   onSubmit: (cvText: string, jobDescription: string) => void;
@@ -31,44 +29,24 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
     onSubmit(cvText, jobDescription);
   };
 
-  const handleCVTextSubmit = (text: string) => {
-    setCvText(text);
-  };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="overflow-hidden border bg-white shadow-md rounded-xl dark:bg-slate-900">
           <div className="p-6 h-full flex flex-col">
-            <div className="text-lg font-medium mb-4 text-slate-900 dark:text-white">Your Resume</div>
+            <div className="flex items-center gap-2 mb-4">
+              <Edit className="h-5 w-5 text-orange-500" />
+              <div className="text-lg font-medium text-slate-900 dark:text-white">Your Resume</div>
+            </div>
             
-            <Tabs defaultValue="manual" className="w-full flex-1 flex flex-col">
-              <TabsList className="grid w-full grid-cols-2 mb-4">
-                <TabsTrigger value="manual" className="flex items-center gap-2">
-                  <Edit className="h-4 w-4" />
-                  Manual Input
-                </TabsTrigger>
-                <TabsTrigger value="upload" className="flex items-center gap-2">
-                  <FileUp className="h-4 w-4" />
-                  File Upload
-                </TabsTrigger>
-              </TabsList>
-              
-              <div className="flex-1 flex flex-col min-h-[350px]">
-                <TabsContent value="manual" className="flex-1 flex flex-col h-full m-0">
-                  <Textarea 
-                    placeholder="Paste the content of your resume here..." 
-                    className="resize-none flex-1 min-h-[350px] border-slate-200 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
-                    value={cvText}
-                    onChange={(e) => setCvText(e.target.value)}
-                  />
-                </TabsContent>
-                
-                <TabsContent value="upload" className="flex-1 h-full m-0">
-                  <PDFUploader onUploadSuccess={handleCVTextSubmit} />
-                </TabsContent>
-              </div>
-            </Tabs>
+            <div className="flex-1 min-h-[350px]">
+              <Textarea 
+                placeholder="Paste the content of your resume here..." 
+                className="resize-none w-full h-full min-h-[350px] border-slate-200 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800"
+                value={cvText}
+                onChange={(e) => setCvText(e.target.value)}
+              />
+            </div>
           </div>
         </Card>
         

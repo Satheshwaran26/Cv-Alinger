@@ -39,7 +39,7 @@ export const CVAnalyzer = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Analyze Your Resume</h2>
           <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400">
-            Upload your resume and a job description to get AI-powered personalized recommendations.
+            Paste your resume and a job description to get AI-powered personalized recommendations.
           </p>
         </div>
         
