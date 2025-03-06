@@ -17,7 +17,6 @@ interface GeneratedCVProps {
   jobDescription?: string;
   onBack: () => void;
   addedKeywords?: string[];
-  initialViewInBrowser?: boolean;
 }
 
 export const GeneratedCV = ({
@@ -27,13 +26,12 @@ export const GeneratedCV = ({
   cvContent,
   jobDescription = "",
   onBack,
-  addedKeywords = [],
-  initialViewInBrowser = false
+  addedKeywords = []
 }: GeneratedCVProps) => {
   const { toast } = useToast();
   const cvTemplateRef = useRef<HTMLDivElement>(null);
   const [pdfReady, setPdfReady] = useState(false);
-  const [viewInBrowser, setViewInBrowser] = useState(initialViewInBrowser);
+  const [viewInBrowser, setViewInBrowser] = useState(false);
   const [showInterviewPrep, setShowInterviewPrep] = useState(false);
   
   useEffect(() => {
@@ -46,10 +44,6 @@ export const GeneratedCV = ({
       return () => clearTimeout(timer);
     }
   }, [cvContent]);
-  
-  useEffect(() => {
-    setViewInBrowser(initialViewInBrowser);
-  }, [initialViewInBrowser]);
   
   const handleCopy = () => {
     navigator.clipboard.writeText(cvContent);
