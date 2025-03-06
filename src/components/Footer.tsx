@@ -45,9 +45,6 @@ export const Footer = () => {
             <h3 className="font-medium mb-4">Product</h3>
             <ul className="space-y-3">
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Features</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Resume Templates</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Success Stories</a></li>
             </ul>
           </div>
           
