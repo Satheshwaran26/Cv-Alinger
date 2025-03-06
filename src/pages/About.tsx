@@ -18,7 +18,7 @@ const About = () => {
                 />
               </div>
               
-              {/* Collaboration section under profile image - removed Contact Me, kept LinkedIn without icon */}
+              {/* Collaboration section under profile image - changed LinkedIn text to Let's connect */}
               <div className="mt-6 p-5 bg-card rounded-xl shadow-md">
                 <h3 className="text-xl font-bold mb-4">Ready to Collaborate?</h3>
                 <p className="text-base mb-5">
@@ -32,7 +32,7 @@ const About = () => {
                     className="w-full"
                   >
                     <Button variant="outline" className="w-full justify-center">
-                      LinkedIn
+                      Let's connect
                     </Button>
                   </a>
                 </div>
@@ -120,7 +120,7 @@ const About = () => {
                 <div className="flex flex-wrap gap-3">
                   <a href="https://www.linkedin.com/in/hanan-amos/" target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="flex items-center gap-2">
-                      <span>LinkedIn</span>
+                      <span>Let's connect</span>
                     </Button>
                   </a>
                 </div>
