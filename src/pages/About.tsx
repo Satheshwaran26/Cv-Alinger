@@ -18,6 +18,33 @@ const About = () => {
                   className="w-full h-auto"
                 />
               </div>
+              
+              {/* Added Collaboration section under profile image */}
+              <div className="mt-6 p-5 bg-card rounded-xl shadow-md">
+                <h3 className="text-xl font-bold mb-4">Ready to Collaborate?</h3>
+                <p className="text-base mb-5">
+                  If you want to consult with me, please reach out.
+                </p>
+                <div className="flex flex-col gap-3">
+                  <a href="mailto:hanan.amos@gmail.com" className="w-full">
+                    <Button variant="default" className="w-full justify-center">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Contact Me
+                    </Button>
+                  </a>
+                  <a 
+                    href="https://www.linkedin.com/in/hanan-amos/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-full"
+                  >
+                    <Button variant="outline" className="w-full justify-center">
+                      <Linkedin className="h-4 w-4 mr-2" />
+                      LinkedIn
+                    </Button>
+                  </a>
+                </div>
+              </div>
             </div>
             
             {/* Profile Information */}
