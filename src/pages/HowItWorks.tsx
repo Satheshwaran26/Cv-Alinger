@@ -52,7 +52,7 @@ const HowItWorks = () => {
             <div className="order-1 md:order-2 bg-gradient-to-br from-blue-50 to-blue-100/20 rounded-xl p-8 flex items-center justify-center dark:from-blue-900/20 dark:to-blue-900/5">
               <div className="max-w-xs w-full bg-white p-6 rounded-lg shadow-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
                 <div className="w-full h-6 bg-slate-100 rounded mb-4 dark:bg-slate-700"></div>
-                <div className="w-2/3 h-6 bg-slate-100 rounded mb-8 dark:bg-slate-700"></div>
+                <div className="w-2/3 h-6 bg-slate-100 rounded mb-6 dark:bg-slate-700"></div>
                 <div className="border-2 border-dashed border-slate-200 rounded-lg p-8 flex flex-col items-center justify-center gap-4 dark:border-slate-700">
                   <FileText className="text-blue-500" size={32} />
                   <p className="text-sm text-slate-500 text-center dark:text-slate-400">
@@ -223,6 +223,48 @@ const HowItWorks = () => {
                   <span className="text-slate-700 dark:text-slate-300">Content prioritization guidance</span>
                 </li>
               </ul>
+            </div>
+          </div>
+
+          {/* Result Showcase - NEW SECTION */}
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="order-2 md:order-1">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-600 mb-4 dark:bg-blue-900/30 dark:text-blue-400">
+                <CheckCircle size={24} />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900 dark:text-white">
+                5. Get Your Improved Resume
+              </h2>
+              <p className="text-slate-600 mb-6 dark:text-slate-400">
+                Receive your enhanced resume with all recommendations applied, relevant keywords added, and a significant improvement in match score.
+              </p>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
+                  <span className="text-slate-700 dark:text-slate-300">Download in PDF or text format</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
+                  <span className="text-slate-700 dark:text-slate-300">Significantly improved match score</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
+                  <span className="text-slate-700 dark:text-slate-300">Added relevant keywords and optimized content</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="text-green-500 mt-1 shrink-0" size={18} />
+                  <span className="text-slate-700 dark:text-slate-300">Interview preparation questions</span>
+                </li>
+              </ul>
+            </div>
+            <div className="order-1 md:order-2 bg-gradient-to-br from-blue-50 to-blue-100/20 rounded-xl p-8 flex items-center justify-center dark:from-blue-900/20 dark:to-blue-900/5">
+              <div className="overflow-hidden rounded-lg shadow-xl border border-slate-100 dark:border-slate-700">
+                <img 
+                  src="/lovable-uploads/f1e201ea-cc59-4317-81e9-da4f83a81eb7.png" 
+                  alt="CV Improvement Result" 
+                  className="w-full h-auto object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>
