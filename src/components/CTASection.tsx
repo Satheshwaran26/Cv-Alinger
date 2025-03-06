@@ -63,9 +63,6 @@ export const CTASection = () => {
             ></iframe>
           </div>
           
-          <p className="text-slate-600 max-w-2xl mx-auto mb-8 dark:text-white">
-            How did you find us?
-          </p>
           <a 
             href="#hero" 
             className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
