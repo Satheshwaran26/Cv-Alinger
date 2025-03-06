@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Edit } from "lucide-react";
+import { Edit, FileText } from "lucide-react";
 
 interface UploadFormProps {
   onSubmit: (cvText: string, jobDescription: string) => void;
@@ -52,7 +52,10 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
         
         <Card className="overflow-hidden border bg-white shadow-md rounded-xl dark:bg-slate-900">
           <div className="p-6 h-full flex flex-col">
-            <div className="text-lg font-medium mb-2 text-slate-900 dark:text-white">Job Description</div>
+            <div className="flex items-center gap-2 mb-4">
+              <FileText className="h-5 w-5 text-blue-500" />
+              <div className="text-lg font-medium text-slate-900 dark:text-white">Job Description</div>
+            </div>
             <p className="text-sm text-slate-500 mb-4 dark:text-slate-400">
               {/* The text was removed as requested */}
             </p>
