@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
@@ -72,86 +71,9 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
   };
 
   const parsePDFFile = async (file: File) => {
-    const API_KEY = "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";
-    
-    try {
-      // First, convert the PDF to a base64 string
-      const base64String = await fileToBase64(file);
-      
-      // Send to OpenAI API
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-4o",
-          messages: [
-            {
-              role: "system",
-              content: "You are an expert PDF text extractor. Extract all readable text content from the provided PDF, maintaining the original structure as much as possible. Focus on extracting the content accurately."
-            },
-            {
-              role: "user", 
-              content: [
-                {
-                  type: "text",
-                  text: "Extract the text content from this PDF document, preserving the original structure and formatting as much as possible."
-                },
-                {
-                  type: "image_url",
-                  image_url: {
-                    url: base64String
-                  }
-                }
-              ]
-            }
-          ],
-          temperature: 0.1,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`OpenAI API request failed with status ${response.status}`);
-      }
-
-      const data = await response.json();
-      const extractedText = data.choices[0].message.content;
-      
-      setCvText(extractedText);
-      return extractedText;
-    } catch (error) {
-      console.error("Error extracting PDF with OpenAI:", error);
-      
-      // Fallback to original method if OpenAI extraction fails
-      toast({
-        title: "OpenAI Extraction Failed",
-        description: "Falling back to basic PDF extraction method.",
-        variant: "destructive",
-      });
-      
-      await fallbackParsePDF(file);
-    }
+    await fallbackParsePDF(file);
   };
 
-  // Helper function to convert file to base64
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          resolve(reader.result);
-        } else {
-          reject(new Error('Failed to convert file to base64'));
-        }
-      };
-      reader.onerror = error => reject(error);
-    });
-  };
-
-  // Fallback method if OpenAI extraction fails
   const fallbackParsePDF = async (file: File): Promise<void> => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
