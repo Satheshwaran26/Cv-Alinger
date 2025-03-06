@@ -1,6 +1,6 @@
-
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { improveCV } from "@/lib/openai";
 
 // Define RecommendationType interface that components are expecting
 export interface RecommendationType {
@@ -51,20 +51,20 @@ export const useCVGeneration = (
     setIsGeneratingCV(true);
     
     try {
-      // Extract recommendation titles for display
-      const recommendationTitles = selectedRecommendations.map(rec => rec.title);
-      
-      // Mock improved CV generation (replace with actual API call when available)
-      // This is temporary until the openai.ts functions are properly implemented
-      setTimeout(() => {
-        const improvedContent = `This is an improved version of your CV with the following recommendations applied:\n\n${selectedRecommendations.map(r => 
-          `- ${r.title}: ${r.description}`).join('\n\n')}\n\nOriginal CV content:\n${originalCVText}`;
-        
-        const newScore = Math.min(originalScore + 10, 95);
+      // Calculate score improvement based on selected recommendations
+      const result = await improveCV({
+        originalCV: originalCVText,
+        recommendations: selectedRecommendations,
+        currentScore: originalScore
+      });
+
+      if (result.success && result.improved_cv) {
+        // Extract recommendation titles for display
+        const recommendationTitles = selectedRecommendations.map(rec => rec.title);
         
         setGeneratedCV({
-          content: improvedContent,
-          newScore: newScore,
+          content: result.improved_cv,
+          newScore: result.new_score || Math.min(originalScore + 10, 95), // Fallback calculation if no score returned
           appliedRecommendations: recommendationTitles
         });
         
@@ -72,9 +72,9 @@ export const useCVGeneration = (
           title: "CV Generated",
           description: "Your improved CV has been generated successfully!",
         });
-        
-        setIsGeneratingCV(false);
-      }, 2000);
+      } else {
+        throw new Error(result.error || "Failed to generate improved CV");
+      }
       
     } catch (error) {
       console.error("Error during CV generation:", error);
@@ -83,6 +83,7 @@ export const useCVGeneration = (
         description: "There was an error generating your CV. Please try again later.",
         variant: "destructive",
       });
+    } finally {
       setIsGeneratingCV(false);
     }
   };
