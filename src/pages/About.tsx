@@ -1,4 +1,3 @@
-
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +17,7 @@ const About = () => {
                 />
               </div>
               
-              {/* Collaboration section under profile image - changed LinkedIn text to Let's connect */}
+              {/* Collaboration section under profile image - changed LinkedIn text to Let's talk */}
               <div className="mt-6 p-5 bg-card rounded-xl shadow-md">
                 <h3 className="text-xl font-bold mb-4">Ready to Collaborate?</h3>
                 <p className="text-base mb-5">
@@ -32,7 +31,7 @@ const About = () => {
                     className="w-full"
                   >
                     <Button variant="outline" className="w-full justify-center">
-                      Let's connect
+                      Let's talk
                     </Button>
                   </a>
                 </div>
@@ -120,7 +119,7 @@ const About = () => {
                 <div className="flex flex-wrap gap-3">
                   <a href="https://www.linkedin.com/in/hanan-amos/" target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="flex items-center gap-2">
-                      <span>Let's connect</span>
+                      <span>Let's talk</span>
                     </Button>
                   </a>
                 </div>
