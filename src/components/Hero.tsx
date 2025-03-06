@@ -39,7 +39,7 @@ export const Hero = () => {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>
       </div>
       
-      <div className="container mx-auto text-center px-4 relative z-10">
+      <div className="container max-w-screen-2xl mx-auto text-center px-4 md:px-8 relative z-10">
         {/* Updated text from "Predicted Performance" to "AI that knows you best" */}
         <div className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full mb-6 shadow-md hero-animate mx-auto">
           <Rocket className="text-blue-600 h-4 w-4" />
@@ -50,9 +50,9 @@ export const Hero = () => {
         {/* Main headline - Updated to "AI-Powered Resume: Get Hired Faster" */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-blue-50 w-[80%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
+            <div className="bg-blue-50 w-[90%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
           </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-5xl text-slate-900 leading-tight relative z-10 dark:text-white">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-6xl text-slate-900 leading-tight relative z-10 dark:text-white">
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900">AI-Powered Resume:</span>
             <br />
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900">Get Hired Faster</span>
@@ -60,7 +60,7 @@ export const Hero = () => {
         </div>
         
         {/* Subheadline */}
-        <p className="text-lg md:text-xl text-slate-600 mb-10 mx-auto max-w-3xl leading-relaxed dark:text-slate-300">
+        <p className="text-lg md:text-xl text-slate-600 mb-10 mx-auto max-w-4xl leading-relaxed dark:text-slate-300">
           Resume AI supercharges your job search with performance predictions and results-driven analysis,
           optimizing your resume for business goals, target audiences, and job requirements.
         </p>
@@ -89,7 +89,7 @@ export const Hero = () => {
         </div>
         
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto hero-animate-delayed">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto hero-animate-delayed">
           {stats.map((stat, index) => (
             <AnimatedStat 
               key={index} 
