@@ -46,7 +46,7 @@ export const Hero = () => {
           <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
         </div>
         
-        {/* Main headline - Updated to "AI-Powered Resume: Get Hired Faster" */}
+        {/* Main headline - Updated to "AI-Powered Resume: Unlock Your Dream Job Faster" */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="bg-blue-50 w-[90%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
@@ -54,14 +54,13 @@ export const Hero = () => {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-6xl text-slate-900 leading-tight relative z-10 dark:text-white">
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900">AI-Powered Resume:</span>
             <br />
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900">Get Hired Faster</span>
+            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900">Unlock Your Dream Job Faster</span>
           </h1>
         </div>
         
-        {/* Subheadline */}
+        {/* Subheadline - Updated with the new h2 text */}
         <p className="text-lg md:text-xl text-slate-600 mb-10 mx-auto max-w-4xl leading-relaxed dark:text-slate-300">
-          Resume AI supercharges your job search with performance predictions and results-driven analysis,
-          optimizing your resume for business goals, target audiences, and job requirements.
+          Supercharge your job search with Resume AI, leveraging performance predictions and data-driven insights to tailor your resume perfectly for business objectives, target audiences, and specific job requirements.
         </p>
         
         {/* Category badges - Updated for mobile view with single words */}
