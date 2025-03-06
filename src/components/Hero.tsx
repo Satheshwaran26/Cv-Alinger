@@ -64,16 +64,19 @@ export const Hero = () => {
           optimizing your resume for business goals, target audiences, and job requirements.
         </p>
         
-        {/* Category badges - Updated texts to requested phrases */}
+        {/* Category badges - Updated for mobile view with single words */}
         <div className="flex flex-wrap gap-3 justify-center mb-16">
           <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400">
-            Boost Your Interview Chances
+            <span className="md:hidden">Boost</span>
+            <span className="hidden md:inline">Boost Your Interview Chances</span>
           </span>
           <span className="bg-green-100 text-green-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-green-900/30 dark:text-green-400">
-            Optimize Your Resume with AI
+            <span className="md:hidden">Optimize</span>
+            <span className="hidden md:inline">Optimize Your Resume with AI</span>
           </span>
           <span className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400">
-            Get Instant, Data-Driven Feedback
+            <span className="md:hidden">Offer</span>
+            <span className="hidden md:inline">Get Instant, Data-Driven Feedback</span>
           </span>
         </div>
         
