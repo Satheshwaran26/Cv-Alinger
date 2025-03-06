@@ -62,17 +62,6 @@ export const CTASection = () => {
               className="mx-auto"
             ></iframe>
           </div>
-          
-          <a 
-            href="#hero" 
-            className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          >
-            Get Started Now
-          </a>
         </div>
       </div>
     </section>
