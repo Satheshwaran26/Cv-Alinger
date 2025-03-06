@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
@@ -16,7 +15,6 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
   const [fileName, setFileName] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Update parent component whenever text changes
   useEffect(() => {
     if (cvText.trim()) {
       onUploadSuccess(cvText);
@@ -26,7 +24,6 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCvText(e.target.value);
     
-    // Show toast only on first input
     if (!cvText.trim() && e.target.value.trim()) {
       toast({
         title: "CV Content Updated",
@@ -43,7 +40,6 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
     setFileName(file.name);
 
     try {
-      // Process different file types
       if (file.type === "application/pdf") {
         await parsePDFFile(file);
       } else if (file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || 
@@ -66,7 +62,6 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
         description: error instanceof Error ? error.message : "Failed to process file. Please try again.",
         variant: "destructive",
       });
-      // Clear the file input
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -76,25 +71,18 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
   };
 
   const parsePDFFile = async (file: File) => {
-    // For this demo, we'll simulate PDF parsing
-    // In a production environment, you would use a proper PDF parsing library
-    // or a server-side API endpoint
-    
-    // Simulate loading time
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Read file as text for demo purposes
     const reader = new FileReader();
     return new Promise<void>((resolve, reject) => {
       reader.onload = (e) => {
         try {
-          // For demo, we'll extract a sample from the first part of the file
-          // In production, you'd use a proper PDF parsing library
           const text = `Extracted content from PDF: ${file.name}\n\n` +
                       `This is a simulated extraction as browser-based PDF parsing has limitations.\n\n` + 
                       `For a production environment, consider:\n` +
                       `1. Using a server-side API for PDF parsing\n` +
-                      `2. Integrating with a PDF parsing service\n\n` +
+                      `2. Integrating with a PDF parsing service\n` +
+                      `3. Using specialized PDF extraction libraries\n\n` +
                       `Please manually paste your CV content below for this demo.`;
           
           setCvText(text);
@@ -109,7 +97,6 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
   };
 
   const parseDocFile = async (file: File) => {
-    // Simulate DOCX parsing
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     const text = `Extracted content from DOCX: ${file.name}\n\n` +
@@ -146,7 +133,6 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
 
   return (
     <div className="flex flex-col space-y-4 h-full">
-      {/* File Upload Section */}
       <div className="flex flex-col gap-4 mb-2">
         <div className="flex items-center gap-2">
           <FileUp className="h-5 w-5 text-orange-500" />
@@ -199,7 +185,6 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
         </div>
       </div>
 
-      {/* PDF Content Section - Takes remaining space */}
       <div className="flex-1 min-h-[250px]">
         <label className="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-300">
           Resume Content
