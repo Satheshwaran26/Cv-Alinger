@@ -1,3 +1,4 @@
+
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,6 +7,13 @@ import { Calendar } from 'lucide-react';
 
 const BlogIndex = () => {
   const posts = [
+    {
+      id: 23,
+      title: 'KSAO Framework: The Foundation of Strategic HR Management',
+      date: 'May 15, 2024',
+      excerpt: 'Discover how the KSAO framework systematically aligns workforce capabilities with job requirements, enhancing recruitment, employee development, and organizational agility.',
+      slug: 'ksao-hr-framework'
+    },
     {
       id: 22,
       title: 'Generative AI: Revolutionizing Industries and Reshaping the Future',

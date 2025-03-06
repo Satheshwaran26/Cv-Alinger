@@ -9,27 +9,27 @@ export const Blog: FC = () => {
   const recentPosts = [
     {
       id: 1,
+      title: 'KSAO Framework: The Foundation of Strategic HR Management',
+      date: 'May 15, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Discover how the KSAO framework systematically aligns workforce capabilities with job requirements, enhancing recruitment, employee development, and organizational agility.',
+      slug: 'ksao-hr-framework'
+    },
+    {
+      id: 2,
+      title: 'Generative AI: Revolutionizing Industries and Reshaping the Future',
+      date: 'April 30, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Explore how generative AI is transforming industries through AI-powered content creation, business automation, and innovative applications across sectors.',
+      slug: 'generative-ai-revolution'
+    },
+    {
+      id: 3,
       title: 'AI Revolution in Job Hunting: A Personalized Approach',
       date: 'August 15, 2023',
       author: 'Hanan Amos',
       excerpt: 'AI has fundamentally transformed the way we approach job searching. Traditional methods are now giving way to highly personalized, targeted, and efficient AI-driven strategies.',
       slug: 'ai-revolution-job-hunting'
-    },
-    {
-      id: 2,
-      title: 'Mastering ATS-Friendly Resumes: Standing Out in the Digital Pile',
-      date: 'September 2, 2023',
-      author: 'Hanan Amos',
-      excerpt: 'With over 90% of large companies using Applicant Tracking Systems, your resume needs to be optimized for these digital gatekeepers. Learn the key strategies to ensure your resume gets past the algorithms.',
-      slug: 'ats-friendly-resumes'
-    },
-    {
-      id: 3,
-      title: 'The Art of Virtual Interviewing: Techniques for Remote Success',
-      date: 'September 18, 2023',
-      author: 'Hanan Amos',
-      excerpt: 'Virtual interviews are here to stay. Discover essential techniques to make a powerful impression through your screen, from optimizing your environment to mastering digital communication cues.',
-      slug: 'virtual-interviewing-techniques'
     }
   ];
 
