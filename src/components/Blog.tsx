@@ -6,13 +6,29 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const Blog: FC = () => {
-  const firstPost = {
-    id: 1,
-    title: 'AI Revolution in Job Hunting: A Personalized Approach',
-    date: 'August 15, 2023',
-    excerpt: 'AI has fundamentally transformed the way we approach job searching. Traditional methods are now giving way to highly personalized, targeted, and efficient AI-driven strategies.',
-    slug: 'ai-revolution-job-hunting'
-  };
+  const recentPosts = [
+    {
+      id: 1,
+      title: 'AI Revolution in Job Hunting: A Personalized Approach',
+      date: 'August 15, 2023',
+      excerpt: 'AI has fundamentally transformed the way we approach job searching. Traditional methods are now giving way to highly personalized, targeted, and efficient AI-driven strategies.',
+      slug: 'ai-revolution-job-hunting'
+    },
+    {
+      id: 2,
+      title: 'Mastering ATS-Friendly Resumes: Standing Out in the Digital Pile',
+      date: 'September 2, 2023',
+      excerpt: 'With over 90% of large companies using Applicant Tracking Systems, your resume needs to be optimized for these digital gatekeepers. Learn the key strategies to ensure your resume gets past the algorithms.',
+      slug: 'ats-friendly-resumes'
+    },
+    {
+      id: 3,
+      title: 'The Art of Virtual Interviewing: Techniques for Remote Success',
+      date: 'September 18, 2023',
+      excerpt: 'Virtual interviews are here to stay. Discover essential techniques to make a powerful impression through your screen, from optimizing your environment to mastering digital communication cues.',
+      slug: 'virtual-interviewing-techniques'
+    }
+  ];
 
   return (
     <section id="blog" className="py-24 relative overflow-hidden bg-white dark:bg-gray-950">
@@ -30,26 +46,28 @@ export const Blog: FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-8 max-w-4xl mx-auto">
-          <Card className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
-                <Calendar className="h-4 w-4" />
-                <span>{firstPost.date}</span>
-              </div>
-              <CardTitle className="text-2xl font-bold text-slate-900 dark:text-white">
-                {firstPost.title}
-              </CardTitle>
-              <CardDescription className="text-slate-600 dark:text-slate-400">
-                {firstPost.excerpt}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link to={`/blog/${firstPost.slug}`}>
-                <Button variant="outline" className="w-full">Read More</Button>
-              </Link>
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {recentPosts.map(post => (
+            <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
+                  <Calendar className="h-4 w-4" />
+                  <span>{post.date}</span>
+                </div>
+                <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
+                  {post.title}
+                </CardTitle>
+                <CardDescription className="text-slate-600 dark:text-slate-400 line-clamp-3">
+                  {post.excerpt}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to={`/blog/${post.slug}`}>
+                  <Button variant="outline" className="w-full">Read More</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
         </div>
         
         <div className="flex justify-center mt-12">
