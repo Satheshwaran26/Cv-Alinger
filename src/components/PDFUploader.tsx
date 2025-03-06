@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { FileUp, FileText, File, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { processFile } from "@/utils/fileProcessing";
 
 interface PDFUploaderProps {
   onUploadSuccess: (text: string) => void;
@@ -41,16 +42,8 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
     setFileName(file.name);
 
     try {
-      if (file.type === "application/pdf") {
-        await parsePDFFile(file);
-      } else if (file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || 
-                file.type === "application/msword") {
-        await parseDocFile(file);
-      } else if (file.type === "text/plain") {
-        await parseTextFile(file);
-      } else {
-        throw new Error("Unsupported file type. Please upload a PDF, DOCX, or TXT file.");
-      }
+      const extractedText = await processFile(file);
+      setCvText(extractedText);
 
       toast({
         title: "File Uploaded Successfully",
@@ -69,67 +62,6 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
     } finally {
       setIsUploading(false);
     }
-  };
-
-  const parsePDFFile = async (file: File) => {
-    await parsePDFWithSimpleMethod(file);
-  };
-
-  const parsePDFWithSimpleMethod = async (file: File): Promise<void> => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const reader = new FileReader();
-    return new Promise<void>((resolve, reject) => {
-      reader.onload = (e) => {
-        try {
-          const text = `Extracted content from PDF: ${file.name}\n\n` +
-                      `This is a simulated extraction as browser-based PDF parsing has limitations.\n\n` + 
-                      `For a production environment, consider:\n` +
-                      `1. Using a server-side API for PDF parsing\n` +
-                      `2. Integrating with a PDF parsing service\n` +
-                      `3. Using specialized PDF extraction libraries\n\n` +
-                      `Please manually paste your CV content below for this demo.`;
-          
-          setCvText(text);
-          resolve();
-        } catch (error) {
-          reject(error);
-        }
-      };
-      reader.onerror = () => reject(new Error("Failed to read file"));
-      reader.readAsText(file);
-    });
-  };
-
-  const parseDocFile = async (file: File) => {
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    const text = `Extracted content from DOCX: ${file.name}\n\n` +
-                `This is a simulated extraction as browser-based DOCX parsing requires additional libraries.\n\n` +
-                `For a production environment, consider:\n` +
-                `1. Using a server-side API for DOCX parsing\n` +
-                `2. Integrating with a document parsing service\n\n` +
-                `Please manually paste your CV content below for this demo.`;
-    
-    setCvText(text);
-  };
-
-  const parseTextFile = async (file: File) => {
-    const reader = new FileReader();
-    
-    return new Promise<void>((resolve, reject) => {
-      reader.onload = (e) => {
-        try {
-          const text = e.target?.result as string;
-          setCvText(text);
-          resolve();
-        } catch (error) {
-          reject(error);
-        }
-      };
-      reader.onerror = () => reject(new Error("Failed to read file"));
-      reader.readAsText(file);
-    });
   };
 
   const triggerFileInput = () => {
