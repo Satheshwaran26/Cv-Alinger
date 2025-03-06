@@ -47,7 +47,7 @@ export const CTASection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="bg-white rounded-2xl p-12 md:p-16 max-w-5xl mx-auto text-center shadow-lg border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">
-            Ready to Land Your Dream Job?
+            We'd Be Happy to Hear From You
           </h2>
           
           {/* Tally.so embed form */}
@@ -63,9 +63,8 @@ export const CTASection = () => {
             ></iframe>
           </div>
           
-          <p className="text-slate-600 max-w-2xl mx-auto mb-8 dark:text-slate-400">
-            Optimize your CV with our AI-powered platform and increase your chances of getting interviews.
-            Join thousands of successful job seekers who have enhanced their careers with our tools.
+          <p className="text-slate-600 max-w-2xl mx-auto mb-8 dark:text-white">
+            How did you find us?
           </p>
           <a 
             href="#hero" 
