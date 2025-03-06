@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -99,8 +98,9 @@ const BlogPost = () => {
         <p class="mb-4">Virtual interviews are here to stay, and mastering this format can give you a significant competitive advantage. By preparing thoroughly, creating an optimal environment, and adapting your communication style to the digital medium, you can create a powerful, professional presence that resonates with interviewers—even through a screen.</p>
       `
     },
-    // For the remaining posts, we'll create placeholder content that directs users to the first three posts
     'default-content': {
+      title: 'Article Coming Soon',
+      date: 'Forthcoming',
       content: `
         <p class="mb-4">Thank you for your interest in this article. We're currently expanding our content library.</p>
         
