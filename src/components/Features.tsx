@@ -1,6 +1,9 @@
 
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { setupIntersectionObserver } from "@/lib/animations";
+import { Button } from "@/components/ui/button";
+import { BookOpenText } from "lucide-react";
 
 const features = [
   {
@@ -12,6 +15,7 @@ const features = [
     title: "AI-Powered Matching",
     description:
       "Our system evaluates how well your resume aligns with a specific job description, providing a precise compatibility score.",
+    link: null,
   },
   {
     icon: (
@@ -22,6 +26,7 @@ const features = [
     title: "KSAOs-Based Analysis",
     description:
       "Assessment of Knowledge, Skills, Abilities, and Other Characteristics to ensure a comprehensive evaluation of your resume.",
+    link: "/blog/ksao-hr-framework",
   },
   {
     icon: (
@@ -32,6 +37,7 @@ const features = [
     title: "Actionable Insights",
     description:
       "Receive detailed feedback on gaps and strengths, with specific recommendations to enhance your resume and improve your chances.",
+    link: null,
   },
   {
     icon: (
@@ -42,6 +48,7 @@ const features = [
     title: "Real-Time Optimization",
     description:
       "Get instant suggestions on wording, missing skills, and formatting improvements for better alignment with job requirements.",
+    link: null,
   },
 ];
 
@@ -84,6 +91,17 @@ export const Features = () => {
               </div>
               <h3 className="text-xl font-medium mb-2">{feature.title}</h3>
               <p className="text-muted-foreground">{feature.description}</p>
+              
+              {feature.link && (
+                <div className="mt-4">
+                  <Link to={feature.link}>
+                    <Button variant="outline" size="sm" className="flex items-center gap-2">
+                      <BookOpenText className="h-4 w-4" />
+                      <span>Learn More</span>
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
           ))}
         </div>
