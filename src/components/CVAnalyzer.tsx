@@ -32,6 +32,15 @@ export const CVAnalyzer = () => {
     analysisData?.keywordsMissing || []
   );
   
+  // Track if we should automatically view the CV in browser mode
+  const [shouldAutoView, setShouldAutoView] = useState(false);
+  
+  // Handle CV generation with auto-view option
+  const handleGenerateCV = async () => {
+    setShouldAutoView(true);
+    await generateImprovedCV();
+  };
+  
   return (
     <section id="tool" className="py-12 md:py-24 relative overflow-hidden bg-slate-50 dark:bg-slate-950">
       <div className="absolute inset-0 overflow-hidden">
@@ -59,6 +68,7 @@ export const CVAnalyzer = () => {
               jobDescription={jobDescription}
               onBack={handleBackToAnalysis}
               addedKeywords={generatedCV.addedKeywords}
+              initialViewInBrowser={shouldAutoView}
             />
           </div>
         ) : (
@@ -69,7 +79,7 @@ export const CVAnalyzer = () => {
             isGeneratingCV={isGeneratingCV}
             onRecommendationSelect={handleRecommendationSelect}
             onKeywordSelect={handleKeywordSelect}
-            onGenerateCV={generateImprovedCV}
+            onGenerateCV={handleGenerateCV}
             onResetAnalysis={resetAnalysis}
           />
         )}
