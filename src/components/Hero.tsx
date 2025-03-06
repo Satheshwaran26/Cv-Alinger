@@ -60,7 +60,7 @@ export const Hero = () => {
         
         {/* Subheadline - Updated with the new h2 text */}
         <p className="text-lg md:text-xl text-slate-600 mb-10 mx-auto max-w-4xl leading-relaxed dark:text-slate-300">
-          Supercharge your job search with Resume AI, leveraging performance predictions and data-driven insights to tailor your resume perfectly for business objectives, target audiences, and specific job requirements.
+          Revolutionize your job search with Resume AI - the cutting-edge tool that transforms your application from ordinary to extraordinary. Our advanced AI technology doesn't just create resumes; it crafts your ticket to career success.
         </p>
         
         {/* Category badges - Updated for mobile view with single words */}
