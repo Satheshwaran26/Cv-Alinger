@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
@@ -151,6 +150,14 @@ export const GeneratedCV = ({
   return (
     <div className="animate-scale-in">
       <Card className="overflow-hidden p-6 md:p-8">
+        <div className="mb-8 rounded-lg overflow-hidden shadow-xl">
+          <img 
+            src="/lovable-uploads/f1e201ea-cc59-4317-81e9-da4f83a81eb7.png" 
+            alt="CV Improvement Showcase" 
+            className="w-full h-auto object-cover"
+          />
+        </div>
+        
         <div className="flex flex-col items-center mb-6 md:mb-8">
           <h3 className="text-xl md:text-2xl font-semibold mb-2">Your Enhanced CV</h3>
           <p className="text-muted-foreground text-center max-w-2xl">
