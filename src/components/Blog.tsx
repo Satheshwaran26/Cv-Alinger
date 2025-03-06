@@ -33,6 +33,11 @@ export const Blog: FC = () => {
     }
   ];
 
+  const handleViewAllClick = () => {
+    // Scroll to top when user navigates to the blog page
+    window.scrollTo(0, 0);
+  };
+
   return (
     <section id="blog" className="py-16 relative overflow-hidden bg-white dark:bg-gray-950">
       {/* Background light elements */}
@@ -77,7 +82,7 @@ export const Blog: FC = () => {
         </div>
         
         <div className="flex justify-center mt-12">
-          <Link to="/blog">
+          <Link to="/blog" onClick={handleViewAllClick}>
             <Button variant="outline" className="flex items-center gap-2">
               <BookOpenText className="h-4 w-4" />
               <span>View All Articles</span>

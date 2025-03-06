@@ -1,4 +1,5 @@
 
+import { useEffect } from 'react';
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,6 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from 'lucide-react';
 
 const BlogIndex = () => {
+  // Scroll to top when the component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const posts = [
     {
       id: 23,
