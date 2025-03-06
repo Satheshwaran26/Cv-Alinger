@@ -77,6 +77,9 @@ export const Header = () => {
           <Link to="/blog">
             <Button variant="ghost">Blog</Button>
           </Link>
+          <Link to="/about">
+            <Button variant="ghost">About</Button>
+          </Link>
           <div className="ml-2">
             <ThemeToggle />
           </div>
@@ -103,6 +106,9 @@ export const Header = () => {
               </Link>
               <Link to="/blog" onClick={toggleMobileMenu}>
                 <Button variant="ghost" className="w-full justify-start">Blog</Button>
+              </Link>
+              <Link to="/about" onClick={toggleMobileMenu}>
+                <Button variant="ghost" className="w-full justify-start">About</Button>
               </Link>
             </div>
           </div>
