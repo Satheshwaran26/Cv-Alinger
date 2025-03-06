@@ -15,7 +15,7 @@ const features = [
     title: "AI-Powered Matching",
     description:
       "Our system evaluates how well your resume aligns with a specific job description, providing a precise compatibility score.",
-    link: null,
+    link: "/blog/ksao-hr-framework",
   },
   {
     icon: (
