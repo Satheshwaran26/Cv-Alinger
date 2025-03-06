@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -52,6 +53,9 @@ export const Header = () => {
           <Link to="/how-it-works">
             <Button variant="ghost">How It Works</Button>
           </Link>
+          <Link to="/blog">
+            <Button variant="ghost">Blog</Button>
+          </Link>
           <div className="ml-2">
             <ThemeToggle />
           </div>
@@ -75,6 +79,9 @@ export const Header = () => {
               </Link>
               <Link to="/how-it-works" onClick={toggleMobileMenu}>
                 <Button variant="ghost" className="w-full justify-start">How It Works</Button>
+              </Link>
+              <Link to="/blog" onClick={toggleMobileMenu}>
+                <Button variant="ghost" className="w-full justify-start">Blog</Button>
               </Link>
             </div>
           </div>

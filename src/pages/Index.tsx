@@ -4,6 +4,7 @@ import { Layout } from "@/components/Layout";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
 import { CVAnalyzer } from "@/components/CVAnalyzer";
+import { Blog } from "@/components/Blog";
 import { CTASection } from "@/components/CTASection";
 
 const Index = () => {
@@ -23,6 +24,7 @@ const Index = () => {
         <Hero />
         <Features />
         <CVAnalyzer />
+        <Blog />
         <CTASection />
       </div>
     </Layout>
