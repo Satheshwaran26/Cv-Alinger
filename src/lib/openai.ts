@@ -183,13 +183,21 @@ interface ImproveOptions {
   originalCV: string;
   recommendations: any[];
   currentScore: number;
+  missingKeywords?: string[];
 }
 
 export async function improveCV({
   originalCV,
   recommendations,
-  currentScore
-}: ImproveOptions): Promise<{ success: boolean; improved_cv?: string; new_score?: number; error?: string }> {
+  currentScore,
+  missingKeywords = []
+}: ImproveOptions): Promise<{ 
+  success: boolean; 
+  improved_cv?: string; 
+  new_score?: number; 
+  added_keywords?: string[];
+  error?: string 
+}> {
   try {
     // System prompt to improve the CV based on recommendations
     const systemPrompt = `
@@ -200,11 +208,13 @@ export async function improveCV({
       1. The original CV text
       2. A list of recommendations to apply
       3. The current match score (0-100)
+      4. A list of keywords that are missing from the CV but should be added
       
       Your response must be a JSON object with:
       {
         "improved_cv": "The complete improved CV with all changes integrated seamlessly",
-        "new_score": number (A realistic improved score that's measurably higher than the current score)
+        "new_score": number (A realistic improved score that's measurably higher than the current score),
+        "added_keywords": [list of keywords you successfully added from the missing keywords list]
       }
       
       IMPORTANT GUIDELINES:
@@ -216,6 +226,7 @@ export async function improveCV({
       - You SHOULD add quantifiable metrics to existing achievements when relevant
       - You SHOULD adjust keyword usage to better match job requirements
       - You SHOULD implement the specific recommendations provided
+      - You MUST naturally incorporate the missing keywords into relevant sections
       - The new score should be between 5-15 points higher than the current score, reflecting realistic improvement
       - Do not make the new score more than 90, as that would be unrealistic
       - Return only the JSON response with no additional text or formatting
@@ -225,6 +236,11 @@ export async function improveCV({
     const recommendationsText = recommendations.map(rec => 
       `- ${rec.title}: ${rec.description}${rec.suggestedChange ? `\n  Suggested change: ${rec.suggestedChange}` : ''}`
     ).join('\n');
+
+    // Format missing keywords
+    const missingKeywordsText = missingKeywords.length > 0 
+      ? `\n\nMissing Keywords to Add:\n${missingKeywords.join(', ')}`
+      : '';
 
     // Making the request to OpenAI API
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -242,7 +258,7 @@ export async function improveCV({
           },
           {
             role: "user",
-            content: `Original CV:\n${originalCV}\n\nRecommendations to apply:\n${recommendationsText}\n\nCurrent Score: ${currentScore}`,
+            content: `Original CV:\n${originalCV}\n\nRecommendations to apply:\n${recommendationsText}${missingKeywordsText}\n\nCurrent Score: ${currentScore}`,
           },
         ],
         temperature: 0.5,
@@ -318,8 +334,27 @@ export async function improveCV({
               }
             }
           }
+
+          // Add missing keywords
+          let addedKeywords: string[] = [];
+          if (missingKeywords.length > 0) {
+            const skillsSection = findRelevantSection(improvedCV, "skills", "skills");
+            
+            if (skillsSection) {
+              // Add keywords to skills section
+              const keywordsToAdd = missingKeywords.join(', ');
+              const updatedSkillsSection = `${skillsSection}\n\nAdditional Skills: ${keywordsToAdd}`;
+              improvedCV = improvedCV.replace(skillsSection, updatedSkillsSection);
+              addedKeywords = [...missingKeywords];
+            } else {
+              // Add a new skills section with the keywords
+              improvedCV += `\n\nAdditional Skills: ${missingKeywords.join(', ')}`;
+              addedKeywords = [...missingKeywords];
+            }
+          }
           
           parsedResponse.improved_cv = improvedCV;
+          parsedResponse.added_keywords = addedKeywords;
         }
       }
       
@@ -328,7 +363,8 @@ export async function improveCV({
       return {
         success: true,
         improved_cv: parsedResponse.improved_cv,
-        new_score: parsedResponse.new_score
+        new_score: parsedResponse.new_score,
+        added_keywords: parsedResponse.added_keywords || missingKeywords
       };
     } catch (error) {
       console.error("Failed to parse OpenAI response as JSON:", error);

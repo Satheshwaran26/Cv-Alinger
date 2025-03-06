@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { improveCV } from "@/lib/openai";
@@ -16,11 +17,13 @@ export interface GeneratedCVType {
   content: string;
   newScore: number;
   appliedRecommendations: string[];
+  addedKeywords?: string[];
 }
 
 export const useCVGeneration = (
   originalCVText: string,
-  originalScore: number
+  originalScore: number,
+  missingKeywords: string[] = []
 ) => {
   const { toast } = useToast();
   const [isGeneratingCV, setIsGeneratingCV] = useState(false);
@@ -55,7 +58,8 @@ export const useCVGeneration = (
       const result = await improveCV({
         originalCV: originalCVText,
         recommendations: selectedRecommendations,
-        currentScore: originalScore
+        currentScore: originalScore,
+        missingKeywords: missingKeywords
       });
 
       if (result.success && result.improved_cv) {
@@ -65,7 +69,8 @@ export const useCVGeneration = (
         setGeneratedCV({
           content: result.improved_cv,
           newScore: result.new_score || Math.min(originalScore + 10, 95), // Fallback calculation if no score returned
-          appliedRecommendations: recommendationTitles
+          appliedRecommendations: recommendationTitles,
+          addedKeywords: result.added_keywords || missingKeywords
         });
         
         toast({
@@ -99,6 +104,7 @@ export const useCVGeneration = (
     handleRecommendationSelect,
     generateImprovedCV,
     handleBackToAnalysis,
-    jobDescription
+    jobDescription,
+    setJobDescription
   };
 };

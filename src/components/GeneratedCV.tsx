@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
@@ -16,6 +17,7 @@ interface GeneratedCVProps {
   cvContent: string;
   jobDescription?: string;
   onBack: () => void;
+  addedKeywords?: string[];
 }
 
 export const GeneratedCV = ({
@@ -24,7 +26,8 @@ export const GeneratedCV = ({
   appliedRecommendations,
   cvContent,
   jobDescription = "",
-  onBack
+  onBack,
+  addedKeywords = []
 }: GeneratedCVProps) => {
   const { toast } = useToast();
   const cvTemplateRef = useRef<HTMLDivElement>(null);
@@ -190,6 +193,22 @@ export const GeneratedCV = ({
             ))}
           </ul>
         </div>
+        
+        {addedKeywords && addedKeywords.length > 0 && (
+          <div className="mb-6 md:mb-8">
+            <h4 className="text-lg font-medium mb-3 md:mb-4">Added Keywords</h4>
+            <div className="flex flex-wrap gap-2">
+              {addedKeywords.map((keyword, index) => (
+                <span 
+                  key={index} 
+                  className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 px-2 py-1 rounded-full text-sm font-medium"
+                >
+                  {keyword}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
         
         <div className="border rounded-lg p-3 md:p-4 bg-muted/20 mb-6 md:mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-2">
