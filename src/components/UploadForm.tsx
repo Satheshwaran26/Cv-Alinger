@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { PDFUploader } from "./PDFUploader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FileUp, Edit } from "lucide-react";
 
 interface UploadFormProps {
   onSubmit: (cvText: string, jobDescription: string) => void;
@@ -43,8 +44,14 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
             
             <Tabs defaultValue="manual" className="w-full flex-1 flex flex-col">
               <TabsList className="grid w-full grid-cols-2 mb-4">
-                <TabsTrigger value="manual">Manual Input</TabsTrigger>
-                <TabsTrigger value="pdf">PDF Upload</TabsTrigger>
+                <TabsTrigger value="manual" className="flex items-center gap-2">
+                  <Edit className="h-4 w-4" />
+                  Manual Input
+                </TabsTrigger>
+                <TabsTrigger value="upload" className="flex items-center gap-2">
+                  <FileUp className="h-4 w-4" />
+                  File Upload
+                </TabsTrigger>
               </TabsList>
               
               <div className="flex-1 flex flex-col min-h-[350px]">
@@ -57,7 +64,7 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
                   />
                 </TabsContent>
                 
-                <TabsContent value="pdf" className="flex-1 h-full m-0">
+                <TabsContent value="upload" className="flex-1 h-full m-0">
                   <PDFUploader onUploadSuccess={handleCVTextSubmit} />
                 </TabsContent>
               </div>
