@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
@@ -71,10 +72,10 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
   };
 
   const parsePDFFile = async (file: File) => {
-    await fallbackParsePDF(file);
+    await parsePDFWithSimpleMethod(file);
   };
 
-  const fallbackParsePDF = async (file: File): Promise<void> => {
+  const parsePDFWithSimpleMethod = async (file: File): Promise<void> => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     const reader = new FileReader();
