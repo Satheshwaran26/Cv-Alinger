@@ -18,8 +18,10 @@ export const CVAnalyzer = () => {
   const {
     isGeneratingCV,
     selectedRecommendations,
+    selectedKeywords,
     generatedCV,
     handleRecommendationSelect,
+    handleKeywordSelect,
     generateImprovedCV,
     handleBackToAnalysis,
     jobDescription,
@@ -63,8 +65,10 @@ export const CVAnalyzer = () => {
           <AnalysisResults
             analysisData={analysisData}
             selectedRecommendations={selectedRecommendations}
+            selectedKeywords={selectedKeywords}
             isGeneratingCV={isGeneratingCV}
             onRecommendationSelect={handleRecommendationSelect}
+            onKeywordSelect={handleKeywordSelect}
             onGenerateCV={generateImprovedCV}
             onResetAnalysis={resetAnalysis}
           />

@@ -29,6 +29,7 @@ export const useCVGeneration = (
   const [isGeneratingCV, setIsGeneratingCV] = useState(false);
   const [generatedCV, setGeneratedCV] = useState<GeneratedCVType | null>(null);
   const [selectedRecommendations, setSelectedRecommendations] = useState<RecommendationType[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [jobDescription, setJobDescription] = useState<string>("");
 
   const handleRecommendationSelect = (recommendation: RecommendationType, isSelected: boolean) => {
@@ -41,11 +42,21 @@ export const useCVGeneration = (
     }
   };
 
+  const handleKeywordSelect = (keyword: string, isSelected: boolean) => {
+    if (isSelected) {
+      setSelectedKeywords([...selectedKeywords, keyword]);
+    } else {
+      setSelectedKeywords(
+        selectedKeywords.filter((k) => k !== keyword)
+      );
+    }
+  };
+
   const generateImprovedCV = async () => {
-    if (selectedRecommendations.length === 0) {
+    if (selectedRecommendations.length === 0 && selectedKeywords.length === 0) {
       toast({
-        title: "No recommendations selected",
-        description: "Please select at least one recommendation to apply to your CV.",
+        title: "No improvements selected",
+        description: "Please select at least one recommendation or keyword to apply to your CV.",
         variant: "destructive",
       });
       return;
@@ -59,7 +70,7 @@ export const useCVGeneration = (
         originalCV: originalCVText,
         recommendations: selectedRecommendations,
         currentScore: originalScore,
-        missingKeywords: missingKeywords
+        missingKeywords: selectedKeywords
       });
 
       if (result.success && result.improved_cv) {
@@ -70,7 +81,7 @@ export const useCVGeneration = (
           content: result.improved_cv,
           newScore: result.new_score || Math.min(originalScore + 10, 95), // Fallback calculation if no score returned
           appliedRecommendations: recommendationTitles,
-          addedKeywords: result.added_keywords || missingKeywords
+          addedKeywords: result.added_keywords || selectedKeywords
         });
         
         toast({
@@ -100,8 +111,10 @@ export const useCVGeneration = (
   return {
     isGeneratingCV,
     selectedRecommendations,
+    selectedKeywords,
     generatedCV,
     handleRecommendationSelect,
+    handleKeywordSelect,
     generateImprovedCV,
     handleBackToAnalysis,
     jobDescription,

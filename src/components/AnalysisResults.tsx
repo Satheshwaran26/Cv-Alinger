@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { MatchScore } from "./MatchScore";
 import { KSAOsAnalysis } from "./KSAOsAnalysis";
 import { RecommendationsList } from "./RecommendationsList";
+import { KeywordSelector } from "./KeywordSelector";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText } from "lucide-react";
@@ -11,8 +12,10 @@ import { RecommendationType } from "@/hooks/useCVGeneration";
 interface AnalysisResultsProps {
   analysisData: any;
   selectedRecommendations: RecommendationType[];
+  selectedKeywords: string[];
   isGeneratingCV: boolean;
   onRecommendationSelect: (recommendation: RecommendationType, isSelected: boolean) => void;
+  onKeywordSelect: (keyword: string, isSelected: boolean) => void;
   onGenerateCV: () => void;
   onResetAnalysis: () => void;
 }
@@ -20,8 +23,10 @@ interface AnalysisResultsProps {
 export const AnalysisResults = ({
   analysisData,
   selectedRecommendations,
+  selectedKeywords,
   isGeneratingCV,
   onRecommendationSelect,
+  onKeywordSelect,
   onGenerateCV,
   onResetAnalysis
 }: AnalysisResultsProps) => {
@@ -47,8 +52,8 @@ export const AnalysisResults = ({
           <KSAOsAnalysis data={analysisData.ksaoData} />
         </div>
         
-        <div>
-          <Card className="overflow-hidden h-full">
+        <div className="space-y-6">
+          <Card className="overflow-hidden">
             <div className="p-6">
               <h3 className="text-xl font-medium mb-6">Keywords Analysis</h3>
               
@@ -89,6 +94,12 @@ export const AnalysisResults = ({
               </Tabs>
             </div>
           </Card>
+          
+          <KeywordSelector 
+            keywords={analysisData.keywordsMissing}
+            selectedKeywords={selectedKeywords}
+            onSelect={onKeywordSelect}
+          />
         </div>
       </div>
       
@@ -98,7 +109,7 @@ export const AnalysisResults = ({
           <div className="mt-2 md:mt-0">
             <Button 
               onClick={onGenerateCV}
-              disabled={selectedRecommendations.length === 0 || isGeneratingCV}
+              disabled={(selectedRecommendations.length === 0 && selectedKeywords.length === 0) || isGeneratingCV}
               className="gap-2"
             >
               {isGeneratingCV ? (
@@ -115,9 +126,9 @@ export const AnalysisResults = ({
                   Generate Improved CV
                 </>
               )}
-              {selectedRecommendations.length > 0 && !isGeneratingCV && (
+              {(selectedRecommendations.length > 0 || selectedKeywords.length > 0) && !isGeneratingCV && (
                 <span className="ml-1 bg-primary-foreground text-primary rounded-full w-6 h-6 flex items-center justify-center text-xs">
-                  {selectedRecommendations.length}
+                  {selectedRecommendations.length + selectedKeywords.length}
                 </span>
               )}
             </Button>
