@@ -1,6 +1,6 @@
 
 import { Layout } from "@/components/Layout";
-import { Mail, Linkedin, Twitter } from "lucide-react";
+import { Mail, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const About = () => {
@@ -99,18 +99,18 @@ const About = () => {
                   If you want to consult with me, please reach out.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <Button variant="default" className="flex items-center gap-2">
-                    <Mail className="h-4 w-4" />
-                    <span>Contact Me</span>
-                  </Button>
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <Linkedin className="h-4 w-4" />
-                    <span>LinkedIn</span>
-                  </Button>
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <Twitter className="h-4 w-4" />
-                    <span>Twitter</span>
-                  </Button>
+                  <a href="mailto:hanan.amos@gmail.com">
+                    <Button variant="default" className="flex items-center gap-2">
+                      <Mail className="h-4 w-4" />
+                      <span>Contact Me</span>
+                    </Button>
+                  </a>
+                  <a href="https://www.linkedin.com/in/hanan-amos/" target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="flex items-center gap-2">
+                      <Linkedin className="h-4 w-4" />
+                      <span>LinkedIn</span>
+                    </Button>
+                  </a>
                 </div>
               </div>
             </div>
