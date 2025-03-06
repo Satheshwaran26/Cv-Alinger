@@ -38,7 +38,7 @@ export const Header = () => {
       )}
     >
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <Link to="/" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
           <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
             <span className="relative z-10 text-primary font-semibold">RA</span>
