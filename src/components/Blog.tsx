@@ -1,7 +1,7 @@
 
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpenText, Calendar } from 'lucide-react';
+import { BookOpenText, Calendar, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -11,6 +11,7 @@ export const Blog: FC = () => {
       id: 1,
       title: 'AI Revolution in Job Hunting: A Personalized Approach',
       date: 'August 15, 2023',
+      author: 'Hanan Amos',
       excerpt: 'AI has fundamentally transformed the way we approach job searching. Traditional methods are now giving way to highly personalized, targeted, and efficient AI-driven strategies.',
       slug: 'ai-revolution-job-hunting'
     },
@@ -18,6 +19,7 @@ export const Blog: FC = () => {
       id: 2,
       title: 'Mastering ATS-Friendly Resumes: Standing Out in the Digital Pile',
       date: 'September 2, 2023',
+      author: 'Hanan Amos',
       excerpt: 'With over 90% of large companies using Applicant Tracking Systems, your resume needs to be optimized for these digital gatekeepers. Learn the key strategies to ensure your resume gets past the algorithms.',
       slug: 'ats-friendly-resumes'
     },
@@ -25,6 +27,7 @@ export const Blog: FC = () => {
       id: 3,
       title: 'The Art of Virtual Interviewing: Techniques for Remote Success',
       date: 'September 18, 2023',
+      author: 'Hanan Amos',
       excerpt: 'Virtual interviews are here to stay. Discover essential techniques to make a powerful impression through your screen, from optimizing your environment to mastering digital communication cues.',
       slug: 'virtual-interviewing-techniques'
     }
@@ -53,6 +56,9 @@ export const Blog: FC = () => {
                 <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
                   <Calendar className="h-4 w-4" />
                   <span>{post.date}</span>
+                  <span className="mx-1">•</span>
+                  <User className="h-4 w-4" />
+                  <span>{post.author}</span>
                 </div>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
                   {post.title}
