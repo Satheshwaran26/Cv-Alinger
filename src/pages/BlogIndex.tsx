@@ -153,6 +153,139 @@ const BlogIndex = () => {
       date: 'July 19, 2024',
       excerpt: 'Setting up effective job alerts can ensure you never miss relevant opportunities. Learn how to craft precise search parameters and manage alerts across platforms for maximum efficiency.',
       slug: 'optimizing-job-alerts'
+    },
+    {
+      id: 22,
+      title: 'Effective Job Application Tracking: Staying Organized in Your Search',
+      date: 'August 5, 2024',
+      excerpt: 'Managing multiple applications can quickly become overwhelming. Discover systems and tools to track your applications, follow-ups, and interview stages for a more effective job search.',
+      slug: 'job-application-tracking'
+    },
+    {
+      id: 23,
+      title: 'Keyword Optimization: Making Your Resume ATS-Compliant',
+      date: 'August 22, 2024',
+      excerpt: 'Learn the science of strategic keyword placement in your resume to ensure maximum visibility in ATS systems without sacrificing readability for human reviewers.',
+      slug: 'resume-keyword-optimization'
+    },
+    {
+      id: 24,
+      title: 'Upskilling Strategies: Closing Skill Gaps for Your Target Role',
+      date: 'September 8, 2024',
+      excerpt: 'Identify the most valuable skills for your desired position and develop a targeted learning plan to acquire them efficiently through online courses, projects, and other resources.',
+      slug: 'upskilling-strategies'
+    },
+    {
+      id: 25,
+      title: 'Portfolio Development for Non-Creative Professionals',
+      date: 'September 25, 2024',
+      excerpt: 'Portfolios aren't just for designers. Learn how professionals in any field can showcase their work, projects, and achievements in compelling digital portfolios that complement traditional resumes.',
+      slug: 'professional-portfolio-development'
+    },
+    {
+      id: 26,
+      title: 'Interview Question Preparation: Anticipating and Structuring Responses',
+      date: 'October 12, 2024',
+      excerpt: 'Master the art of interview preparation by learning to anticipate questions and develop structured, compelling responses that highlight your qualifications and experience.',
+      slug: 'interview-question-preparation'
+    },
+    {
+      id: 27,
+      title: 'Social Media Presence: Professional Optimization Beyond LinkedIn',
+      date: 'October 29, 2024',
+      excerpt: 'While LinkedIn is essential, other social platforms may also influence hiring decisions. Learn strategies for maintaining a professional presence across multiple platforms without sacrificing authenticity.',
+      slug: 'professional-social-media'
+    },
+    {
+      id: 28,
+      title: 'Reference Management: Building and Maintaining Your Professional Advocates',
+      date: 'November 15, 2024',
+      excerpt: 'References can make or break your candidacy. Discover how to select, prepare, and maintain relationships with professional references who can effectively advocate for your skills and character.',
+      slug: 'reference-management'
+    },
+    {
+      id: 29,
+      title: 'Navigating Multiple Offers: Decision Frameworks for Career Advancement',
+      date: 'December 2, 2024',
+      excerpt: 'Multiple job offers present both opportunity and challenge. Learn systematic approaches to evaluating competing offers beyond salary, considering culture, growth potential, and work-life balance.',
+      slug: 'evaluating-multiple-offers'
+    },
+    {
+      id: 30,
+      title: 'AI Resume Review: Using Technology to Perfect Your Application',
+      date: 'December 19, 2024',
+      excerpt: 'Explore how AI tools can provide objective feedback on your resume, helping you identify weak points, optimize formatting, and create a more compelling presentation of your qualifications.',
+      slug: 'ai-resume-review'
+    },
+    {
+      id: 31,
+      title: 'Recruiter Relationships: Building Connections That Last Beyond Your Search',
+      date: 'January 5, 2025',
+      excerpt: 'Recruiters can be valuable career allies. Learn strategies for developing authentic, mutually beneficial relationships with recruiters that extend beyond your current job search.',
+      slug: 'recruiter-relationships'
+    },
+    {
+      id: 32,
+      title: 'Executive Job Search: Strategies for Senior-Level Positions',
+      date: 'January 22, 2025',
+      excerpt: 'Senior roles require specialized search strategies. Discover approaches tailored to executive positions, including leveraging board networks, executive search firms, and demonstrating strategic leadership.',
+      slug: 'executive-job-search'
+    },
+    {
+      id: 33,
+      title: 'Overcoming Rejection: Turning Job Search Setbacks into Growth Opportunities',
+      date: 'February 8, 2025',
+      excerpt: 'Rejection is inevitable in most job searches. Learn practical techniques for processing disappointment, gathering constructive feedback, and using setbacks to strengthen future applications.',
+      slug: 'overcoming-job-rejection'
+    },
+    {
+      id: 34,
+      title: 'Age-Proofing Your Job Search: Strategies for Experienced Professionals',
+      date: 'February 25, 2025',
+      excerpt: 'Experienced professionals face unique challenges in the job market. Discover approaches to highlighting the value of your experience while addressing potential age bias in your application materials.',
+      slug: 'experienced-professional-job-search'
+    },
+    {
+      id: 35,
+      title: 'Pre-Interview Company Research: Beyond the Basics',
+      date: 'March 14, 2025',
+      excerpt: 'Thorough company research sets exceptional candidates apart. Learn advanced research techniques to understand company culture, challenges, and opportunities before walking into the interview.',
+      slug: 'advanced-company-research'
+    },
+    {
+      id: 36,
+      title: 'Body Language in Virtual Interviews: Nonverbal Communication Through a Screen',
+      date: 'March 31, 2025',
+      excerpt: 'Virtual interviews require adaptation of traditional body language techniques. Master the nuances of effective nonverbal communication in video interviews to build rapport and project confidence.',
+      slug: 'virtual-interview-body-language'
+    },
+    {
+      id: 37,
+      title: 'Freelance to Full-Time: Transitioning Between Work Models',
+      date: 'April 17, 2025',
+      excerpt: 'Moving between freelance and traditional employment presents unique challenges. Learn how to position your independent work experience effectively when seeking full-time roles.',
+      slug: 'freelance-to-fulltime'
+    },
+    {
+      id: 38,
+      title: 'Job Search Automation: Tools to Streamline Your Process',
+      date: 'May 4, 2025',
+      excerpt: 'Automation can significantly increase your job search efficiency. Discover tools and techniques to automate application tracking, follow-ups, and other repetitive aspects of your search.',
+      slug: 'job-search-automation'
+    },
+    {
+      id: 39,
+      title: 'Informational Interviews: Leveraging Conversations for Opportunity',
+      date: 'May 21, 2025',
+      excerpt: 'Informational interviews can open unexpected doors. Master the art of requesting, conducting, and following up on these valuable conversations to expand your network and uncover hidden opportunities.',
+      slug: 'informational-interviewing'
+    },
+    {
+      id: 40,
+      title: 'AI Job Market Analysis: Understanding Industry Trends and Opportunities',
+      date: 'June 7, 2025',
+      excerpt: 'AI tools can provide valuable insights into job market trends. Learn to leverage data analysis to identify growing fields, in-demand skills, and emerging opportunities in your industry.',
+      slug: 'ai-job-market-analysis'
     }
   ];
 
