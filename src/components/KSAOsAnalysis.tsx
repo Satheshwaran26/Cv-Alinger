@@ -67,11 +67,11 @@ export const KSAOsAnalysis = ({ data }: KSAOsAnalysisProps) => {
               <div className="relative pt-1">
                 <div className="flex items-center justify-between">
                   <div className="text-xs text-muted-foreground">Required Level</div>
-                  <div className="text-xs font-medium">{item.jobReqScore}%</div>
+                  <div className="text-xs font-medium">100%</div>
                 </div>
                 <div className="h-2 w-full relative rounded bg-gray-200 dark:bg-gray-700 mt-1">
                   <div className="absolute top-0 bottom-0 left-0 h-full border-r-2 border-primary" 
-                       style={{ left: `${item.jobReqScore}%` }}>
+                       style={{ left: "100%" }}>
                   </div>
                 </div>
               </div>
