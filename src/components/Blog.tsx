@@ -51,7 +51,7 @@ export const Blog: FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {recentPosts.map(post => (
-            <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
               <CardHeader className="pb-4">
                 <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
                   <Calendar className="h-4 w-4" />
@@ -67,7 +67,7 @@ export const Blog: FC = () => {
                   {post.excerpt}
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="mt-auto">
                 <Link to={`/blog/${post.slug}`}>
                   <Button variant="outline" className="w-full">Read More</Button>
                 </Link>

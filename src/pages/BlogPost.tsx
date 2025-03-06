@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar } from 'lucide-react';
+import { ArrowLeft, Calendar, User } from 'lucide-react';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -11,6 +11,7 @@ const BlogPost = () => {
     'ai-revolution-job-hunting': {
       title: 'AI Revolution in Job Hunting: A Personalized Approach',
       date: 'August 15, 2023',
+      author: 'Hanan Amos',
       content: `
         <p class="mb-4">AI has fundamentally transformed the way we approach job searching. Traditional methods, involving hours spent browsing through job listings and manually tailoring applications, are now giving way to highly personalized, targeted, and efficient AI-driven strategies. Here's how AI is revolutionizing the job hunt and adding significant value through personalization:</p>
 
@@ -41,6 +42,7 @@ const BlogPost = () => {
     'ats-friendly-resumes': {
       title: 'Mastering ATS-Friendly Resumes: Standing Out in the Digital Pile',
       date: 'September 2, 2023',
+      author: 'Hanan Amos',
       content: `
         <p class="mb-4">In today's digital job market, your resume often meets an algorithm before it ever reaches human eyes. With over 90% of large companies using Applicant Tracking Systems (ATS) to screen candidates, understanding how to create an ATS-friendly resume is no longer optional—it's essential.</p>
 
@@ -71,6 +73,7 @@ const BlogPost = () => {
     'virtual-interviewing-techniques': {
       title: 'The Art of Virtual Interviewing: Techniques for Remote Success',
       date: 'September 18, 2023',
+      author: 'Hanan Amos',
       content: `
         <p class="mb-4">Virtual interviews have become a permanent fixture in the hiring landscape. Whether conducted via Zoom, Microsoft Teams, Google Meet, or other platforms, these remote interactions present unique challenges and opportunities. Mastering the art of virtual interviewing requires a combination of technical preparation, environmental awareness, and adapted communication skills.</p>
 
@@ -101,6 +104,7 @@ const BlogPost = () => {
     'generative-ai-revolution': {
       title: 'Generative AI: Revolutionizing Industries and Reshaping the Future',
       date: 'April 30, 2024',
+      author: 'Hanan Amos',
       content: `
         <p class="mb-4">Generative AI has emerged as a transformative force, revolutionizing industries and reshaping the way we work, create, and interact. This comprehensive guide explores the various facets of generative AI, from its fundamental concepts to its wide-ranging applications across different sectors.</p>
 
@@ -133,6 +137,7 @@ const BlogPost = () => {
     'default-content': {
       title: 'Article Coming Soon',
       date: 'Forthcoming',
+      author: 'Hanan Amos',
       content: `
         <p class="mb-4">Thank you for your interest in this article. We're currently expanding our content library.</p>
         
@@ -156,7 +161,8 @@ const BlogPost = () => {
     ? posts[slug as keyof typeof posts] 
     : { 
         title: 'Article Coming Soon', 
-        date: 'Forthcoming', 
+        date: 'Forthcoming',
+        author: 'Hanan Amos',
         content: posts['default-content'].content 
       };
   
@@ -177,6 +183,9 @@ const BlogPost = () => {
             <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-4">
               <Calendar className="h-4 w-4" />
               <span>{post.date}</span>
+              <span className="mx-1">•</span>
+              <User className="h-4 w-4" />
+              <span>{post.author}</span>
             </div>
             
             <h1 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">{post.title}</h1>
