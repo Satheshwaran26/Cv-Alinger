@@ -30,7 +30,7 @@ const About = () => {
                     rel="noopener noreferrer"
                     className="w-full"
                   >
-                    <Button variant="outline" className="w-full justify-center">
+                    <Button variant="default" className="w-full justify-center">
                       Let's talk
                     </Button>
                   </a>
@@ -118,7 +118,7 @@ const About = () => {
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <a href="https://www.linkedin.com/in/hanan-amos/" target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" className="flex items-center gap-2">
+                    <Button variant="default" className="flex items-center gap-2">
                       <span>Let's talk</span>
                     </Button>
                   </a>
