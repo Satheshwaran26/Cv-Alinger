@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -28,6 +27,19 @@ export const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
   
+  const scrollToHero = (e: React.MouseEvent) => {
+    if (location.pathname !== '/') {
+      // If not on home page, don't prevent default to allow navigation to home
+      return;
+    }
+    
+    e.preventDefault();
+    const heroElement = document.getElementById('hero');
+    if (heroElement) {
+      heroElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  
   return (
     <header
       className={cn(
@@ -38,7 +50,11 @@ export const Header = () => {
       )}
     >
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+        <Link 
+          to="/" 
+          className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+          onClick={scrollToHero}
+        >
           <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
             <span className="relative z-10 text-primary font-semibold">RA</span>
