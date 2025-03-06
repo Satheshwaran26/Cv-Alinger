@@ -1,5 +1,41 @@
 
+import { useEffect } from "react";
+
 export const CTASection = () => {
+  // Effect to initialize the Tally embed
+  useEffect(() => {
+    // Function to load Tally embeds
+    const loadTallyEmbeds = () => {
+      if (typeof (window as any).Tally !== "undefined") {
+        (window as any).Tally.loadEmbeds();
+      } else {
+        document.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((iframe: HTMLIFrameElement) => {
+          iframe.src = iframe.dataset.tallySrc || "";
+        });
+      }
+    };
+
+    // Check if Tally script is already loaded
+    if (typeof (window as any).Tally !== "undefined") {
+      loadTallyEmbeds();
+    } else {
+      // Check if script is already being loaded
+      const tallyScript = "https://tally.so/widgets/embed.js";
+      if (!document.querySelector(`script[src="${tallyScript}"]`)) {
+        const script = document.createElement("script");
+        script.src = tallyScript;
+        script.onload = loadTallyEmbeds;
+        script.onerror = loadTallyEmbeds;
+        document.body.appendChild(script);
+      }
+    }
+
+    // Cleanup function
+    return () => {
+      // No cleanup needed for this case
+    };
+  }, []);
+
   return (
     <section className="py-24 relative overflow-hidden bg-white dark:bg-gray-950">
       {/* Background light elements */}
@@ -13,6 +49,20 @@ export const CTASection = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">
             Ready to Land Your Dream Job?
           </h2>
+          
+          {/* Tally.so embed form */}
+          <div className="mb-8">
+            <iframe 
+              data-tally-src="https://tally.so/embed/mVDPBN?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
+              loading="lazy" 
+              width="100%" 
+              height="237" 
+              frameBorder="0" 
+              title="Contact form"
+              className="mx-auto"
+            ></iframe>
+          </div>
+          
           <p className="text-slate-600 max-w-2xl mx-auto mb-8 dark:text-slate-400">
             Optimize your CV with our AI-powered platform and increase your chances of getting interviews.
             Join thousands of successful job seekers who have enhanced their careers with our tools.
