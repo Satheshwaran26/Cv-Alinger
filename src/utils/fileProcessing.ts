@@ -4,36 +4,6 @@
  */
 
 /**
- * Process PDF file and extract text content
- * @param file The PDF file to process
- * @returns Promise resolving to the extracted text
- */
-export const parsePDFFile = async (file: File): Promise<string> => {
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  const reader = new FileReader();
-  return new Promise<string>((resolve, reject) => {
-    reader.onload = (e) => {
-      try {
-        const text = `Extracted content from PDF: ${file.name}\n\n` +
-                    `This is a simulated extraction as browser-based PDF parsing has limitations.\n\n` + 
-                    `For a production environment, consider:\n` +
-                    `1. Using a server-side API for PDF parsing\n` +
-                    `2. Integrating with a PDF parsing service\n` +
-                    `3. Using specialized PDF extraction libraries\n\n` +
-                    `Please manually paste your CV content below for this demo.`;
-        
-        resolve(text);
-      } catch (error) {
-        reject(error);
-      }
-    };
-    reader.onerror = () => reject(new Error("Failed to read file"));
-    reader.readAsText(file);
-  });
-};
-
-/**
  * Process DOCX/DOC file and extract text content
  * @param file The DOCX/DOC file to process
  * @returns Promise resolving to the extracted text
@@ -80,9 +50,7 @@ export const parseTextFile = async (file: File): Promise<string> => {
  * @returns Promise resolving to the extracted text
  */
 export const processFile = async (file: File): Promise<string> => {
-  if (file.type === "application/pdf") {
-    return parsePDFFile(file);
-  } else if (
+  if (
     file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || 
     file.type === "application/msword"
   ) {
@@ -90,6 +58,6 @@ export const processFile = async (file: File): Promise<string> => {
   } else if (file.type === "text/plain") {
     return parseTextFile(file);
   } else {
-    throw new Error("Unsupported file type. Please upload a PDF, DOCX, or TXT file.");
+    throw new Error("Unsupported file type. Please upload a DOCX or TXT file.");
   }
 };

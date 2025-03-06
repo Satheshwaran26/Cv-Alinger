@@ -81,7 +81,7 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
             type="file"
             ref={fileInputRef}
             className="hidden"
-            accept=".pdf,.docx,.doc,.txt"
+            accept=".docx,.doc,.txt"
             onChange={handleFileChange}
           />
           
@@ -96,7 +96,7 @@ export const PDFUploader = ({ onUploadSuccess }: PDFUploaderProps) => {
             )}
             
             <p className="text-sm text-slate-500 text-center dark:text-slate-400">
-              Supported formats: PDF, DOCX, TXT
+              Supported formats: DOCX, TXT
             </p>
           </div>
           
