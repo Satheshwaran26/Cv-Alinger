@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket } from "lucide-react";
@@ -39,10 +38,10 @@ export const Hero = () => {
       </div>
       
       <div className="container max-w-screen-2xl mx-auto text-center px-4 md:px-8 relative z-10">
-        {/* Updated text from "Predicted Performance" to "AI that knows you best" */}
+        {/* Updated text from "AI that knows you best" to "AI-Powered Career Boost" */}
         <div className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full mb-6 shadow-md hero-animate mx-auto">
           <Rocket className="text-blue-600 h-4 w-4" />
-          <span className="text-sm font-medium text-slate-800">AI that knows you best</span>
+          <span className="text-sm font-medium text-slate-800">AI-Powered Career Boost</span>
           <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
         </div>
         
