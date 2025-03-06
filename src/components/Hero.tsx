@@ -29,7 +29,7 @@ export const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="relative w-full min-h-screen pt-12 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
+      className="relative w-full min-h-screen pt-20 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
       ref={containerRef}
     >
       {/* Background light elements */}
@@ -39,14 +39,14 @@ export const Hero = () => {
       </div>
       
       <div className="container max-w-screen-2xl mx-auto text-center px-4 md:px-8 relative z-10">
-        {/* Updated text from "AI that knows you best" to "AI-Powered Career Boost" */}
+        {/* AI-Powered Career Boost badge with 97 score */}
         <div className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full mb-6 shadow-md hero-animate mx-auto">
           <Rocket className="text-blue-600 h-4 w-4" />
           <span className="text-sm font-medium text-slate-800">AI-Powered Career Boost</span>
           <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
         </div>
         
-        {/* Main headline - Updated to "AI-Powered Resume: Unlock Your Dream Job Faster" */}
+        {/* Main headline */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="bg-blue-50 w-[90%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>

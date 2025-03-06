@@ -13,10 +13,20 @@ export const CTASection = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">
             Ready to Land Your Dream Job?
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400">
+          <p className="text-slate-600 max-w-2xl mx-auto mb-8 dark:text-slate-400">
             Optimize your CV with our AI-powered platform and increase your chances of getting interviews.
             Join thousands of successful job seekers who have enhanced their careers with our tools.
           </p>
+          <a 
+            href="#hero" 
+            className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            Get Started Now
+          </a>
         </div>
       </div>
     </section>

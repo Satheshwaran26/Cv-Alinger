@@ -8,6 +8,7 @@ body {
   min-height: 100vh;
   background-color: white;
   color: #0f172a;
+  scroll-behavior: smooth;
 }
 
 /* Dark mode colors */

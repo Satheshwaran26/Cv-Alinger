@@ -8,13 +8,18 @@ import { Blog } from "@/components/Blog";
 import { CTASection } from "@/components/CTASection";
 
 const Index = () => {
-  // Scroll to element if URL has hash
+  // Ensure the page starts at the top when loaded
   useEffect(() => {
+    window.scrollTo(0, 0);
+    
+    // Scroll to element if URL has hash after ensuring page is at top
     if (window.location.hash) {
-      const element = document.querySelector(window.location.hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+      setTimeout(() => {
+        const element = document.querySelector(window.location.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
     }
   }, []);
 

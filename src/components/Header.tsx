@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -36,7 +37,11 @@ export const Header = () => {
     e.preventDefault();
     const heroElement = document.getElementById('hero');
     if (heroElement) {
-      heroElement.scrollIntoView({ behavior: 'smooth' });
+      // Scroll to hero with offset to account for the fixed header
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     }
   };
   
