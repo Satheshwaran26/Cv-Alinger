@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Check, Plus } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface KeywordSelectorProps {
   keywords: string[];
@@ -17,14 +18,21 @@ export const KeywordSelector = ({
   selectedKeywords,
   onSelect
 }: KeywordSelectorProps) => {
-  if (keywords.length === 0) {
-    return null;
-  }
-
+  // Track if card has been selected
+  const [isCardSelected, setIsCardSelected] = useState(false);
+  
   // Check if all keywords are selected
   const allSelected = keywords.every(keyword => selectedKeywords.includes(keyword));
+  
+  // Set card selected state based on if all keywords are selected
+  useEffect(() => {
+    setIsCardSelected(allSelected);
+  }, [allSelected]);
 
   const handleSelectAll = () => {
+    // Set card as selected
+    setIsCardSelected(true);
+    
     // Add all keywords that aren't already selected
     keywords.forEach((keyword) => {
       if (!selectedKeywords.includes(keyword)) {
@@ -33,8 +41,12 @@ export const KeywordSelector = ({
     });
   };
 
+  if (keywords.length === 0) {
+    return null;
+  }
+
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
+    <Card className={`overflow-hidden transition-all duration-300 hover:shadow-md ${isCardSelected ? 'ring-2 ring-primary' : ''}`}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <CardTitle className="text-lg font-medium">Add Missing Keywords</CardTitle>
