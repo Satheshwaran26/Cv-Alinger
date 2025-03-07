@@ -122,7 +122,7 @@ export const Footer = () => {
         
         <div className="mt-12 pt-8 border-t border-muted/30 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm text-muted-foreground">
-            © 2023 Resume AI. All rights reserved.
+            © 2025 Resume AI. All rights reserved.
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 text-sm">
             <div className="text-primary font-medium">
