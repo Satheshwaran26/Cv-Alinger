@@ -133,8 +133,9 @@ const About = () => {
         </div>
       </div>
 
-      {/* CSS for LinkedIn button */}
-      <style jsx>{`
+      {/* CSS for LinkedIn button - fixed type error by removing jsx attribute */}
+      <style>
+        {`
         .libutton {
           display: flex;
           flex-direction: column;
@@ -150,7 +151,8 @@ const About = () => {
           background-color: #0A66C2;
           font-family: "SF Pro Text", Helvetica, sans-serif;
         }
-      `}</style>
+        `}
+      </style>
     </Layout>
   );
 };
