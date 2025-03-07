@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
@@ -260,7 +261,7 @@ export const GeneratedCV = ({
           <Button 
             onClick={toggleInterviewPrep} 
             variant="outline"
-            className="w-full md:w-auto"
+            className="w-full md:w-auto bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-200"
           >
             {showInterviewPrep ? "Hide Interview Questions" : "Prepare for Interview"}
           </Button>

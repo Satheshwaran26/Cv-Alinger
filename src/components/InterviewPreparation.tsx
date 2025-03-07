@@ -2,8 +2,9 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MessageSquare, ThumbsUp, ThumbsDown, Copy } from "lucide-react";
+import { MessageSquare, ThumbsUp, ThumbsDown, Copy, Sparkles, GraduationCap, Briefcase, Brain } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { InterviewTips } from "./InterviewTips";
 
 interface InterviewPreparationProps {
   cvContent: string;
@@ -21,6 +22,7 @@ export const InterviewPreparation = ({ cvContent, jobDescription }: InterviewPre
   const { toast } = useToast();
   const [questions, setQuestions] = useState<InterviewQuestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showTips, setShowTips] = useState(false);
   
   // This is a mock function that would be replaced with actual AI logic
   const generateInterviewQuestions = async () => {
@@ -112,82 +114,114 @@ export const InterviewPreparation = ({ cvContent, jobDescription }: InterviewPre
   };
   
   return (
-    <Card className="p-6 animate-fade-in">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <MessageSquare className="mr-2 h-5 w-5 text-blue-500" />
-          <h3 className="text-lg font-semibold">Interview Preparation</h3>
+    <div className="space-y-6 animate-fade-in">
+      <Card className="p-6 border-2 border-indigo-100 dark:border-indigo-900 bg-gradient-to-br from-white to-indigo-50 dark:from-slate-900 dark:to-indigo-950 shadow-md">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <div className="bg-indigo-100 dark:bg-indigo-900 p-2 rounded-full">
+              <Sparkles className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-300">Interview Preparation</h3>
+          </div>
+          <div className="flex gap-2">
+            <Button 
+              onClick={() => setShowTips(!showTips)} 
+              variant="outline"
+              className="border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900"
+            >
+              <GraduationCap className="mr-2 h-4 w-4" />
+              {showTips ? "Hide Tips" : "Show Tips"}
+            </Button>
+            <Button 
+              onClick={generateInterviewQuestions} 
+              disabled={isLoading}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white"
+            >
+              <Brain className="mr-2 h-4 w-4" />
+              {isLoading ? "Generating..." : "Generate Questions"}
+            </Button>
+          </div>
         </div>
-        <Button 
-          onClick={generateInterviewQuestions} 
-          disabled={isLoading}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
-        >
-          {isLoading ? "Generating..." : "Generate Questions"}
-        </Button>
-      </div>
-      
-      {questions.length === 0 && !isLoading && (
-        <div className="text-center py-8 text-muted-foreground">
-          <p>Click "Generate Questions" to prepare for your interview with AI-suggested questions based on your CV and the job description.</p>
-        </div>
-      )}
-      
-      {isLoading && (
-        <div className="flex justify-center py-8">
-          <div className="animate-pulse flex space-x-4">
-            <div className="flex-1 space-y-4 py-1">
-              <div className="h-4 bg-muted rounded w-3/4"></div>
-              <div className="space-y-2">
-                <div className="h-4 bg-muted rounded"></div>
-                <div className="h-4 bg-muted rounded w-5/6"></div>
+        
+        {showTips && (
+          <div className="mb-6 animate-scale-in">
+            <InterviewTips />
+          </div>
+        )}
+        
+        {questions.length === 0 && !isLoading && !showTips && (
+          <div className="text-center py-12 px-4">
+            <div className="mb-4 mx-auto w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center">
+              <Briefcase className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+            </div>
+            <h4 className="text-xl font-medium mb-2 text-indigo-700 dark:text-indigo-300">Prepare for Your Interview</h4>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              Get AI-generated questions based on your CV and the job description to help you prepare for your upcoming interview.
+            </p>
+          </div>
+        )}
+        
+        {isLoading && (
+          <div className="flex justify-center py-8">
+            <div className="animate-pulse flex space-x-4">
+              <div className="flex-1 space-y-4 py-1">
+                <div className="h-4 bg-indigo-200 dark:bg-indigo-800 rounded w-3/4"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-indigo-200 dark:bg-indigo-800 rounded"></div>
+                  <div className="h-4 bg-indigo-200 dark:bg-indigo-800 rounded w-5/6"></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      
-      {questions.length > 0 && (
-        <div className="space-y-4">
-          {questions.map((question) => (
-            <div key={question.id} className="border rounded-lg p-4 bg-card">
-              <div className="flex justify-between items-start mb-2">
-                <span className={`text-xs px-2 py-1 rounded-full ${getDifficultyColor(question.difficulty)}`}>
-                  {question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}
-                </span>
-                <div className="flex items-center space-x-1">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => sendFeedback(question.id, true)}
-                    className="h-8 w-8 p-0"
-                  >
-                    <ThumbsUp className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => sendFeedback(question.id, false)}
-                    className="h-8 w-8 p-0"
-                  >
-                    <ThumbsDown className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => copyToClipboard(question.question)}
-                    className="h-8 w-8 p-0"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
+        )}
+        
+        {questions.length > 0 && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-4">
+              {questions.map((question) => (
+                <div 
+                  key={question.id} 
+                  className="border rounded-lg p-4 transition-all duration-200 hover:shadow-md bg-white dark:bg-slate-800 hover:translate-y-[-2px]"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <span className={`text-xs px-2 py-1 rounded-full ${getDifficultyColor(question.difficulty)}`}>
+                      {question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}
+                    </span>
+                    <div className="flex items-center space-x-1">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => sendFeedback(question.id, true)}
+                        className="h-8 w-8 p-0 text-green-500 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20"
+                      >
+                        <ThumbsUp className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => sendFeedback(question.id, false)}
+                        className="h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                      >
+                        <ThumbsDown className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => copyToClipboard(question.question)}
+                        className="h-8 w-8 p-0 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="text-foreground font-medium mb-2">{question.question}</p>
+                  <p className="text-sm text-muted-foreground italic">{question.context}</p>
                 </div>
-              </div>
-              <p className="text-foreground font-medium mb-2">{question.question}</p>
-              <p className="text-sm text-muted-foreground">{question.context}</p>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
-    </Card>
+          </div>
+        )}
+      </Card>
+    </div>
   );
 };
