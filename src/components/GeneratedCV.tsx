@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
@@ -240,7 +239,7 @@ export const GeneratedCV = ({
         <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-6 md:mb-8">
           We've applied your selected recommendations to create an improved version of your CV.
         </p>
-          
+        
         <div className="mt-2 mb-8 flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-center w-full">
           <div className="text-center">
             <div className="text-sm text-muted-foreground mb-2">Original Score</div>
