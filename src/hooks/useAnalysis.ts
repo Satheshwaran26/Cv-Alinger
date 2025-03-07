@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 // Mock data for fallback when API fails
 const mockAnalysisData = {
-  overallScore: 62, // Lowered default score to be more realistic
+  overallScore: 62, // This is the correct score to use
   ksaoData: {
     knowledge: [
       { name: "Marketing Strategy", score: 65, jobReqScore: 90, gap: 25, recommendation: "Include more specific examples of implementing marketing strategies" },

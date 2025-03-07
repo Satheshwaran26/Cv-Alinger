@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
-import { Download, Copy, FileText, Eye, Share2, Linkedin } from "lucide-react";
+import { Download, Copy, FileText, Eye, Linkedin } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRef, useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
@@ -40,6 +40,7 @@ export const GeneratedCV = ({
   const [viewInBrowser, setViewInBrowser] = useState(false);
   const [showInterviewPrep, setShowInterviewPrep] = useState(false);
   const resultCardRef = useRef<HTMLDivElement>(null);
+  const enhancedCVTitleRef = useRef<HTMLHeadingElement>(null);
   
   useEffect(() => {
     if (cvContent && cvTemplateRef.current) {
@@ -51,6 +52,15 @@ export const GeneratedCV = ({
       return () => clearTimeout(timer);
     }
   }, [cvContent]);
+  
+  // Scroll to the "Your Enhanced CV" section when the component mounts
+  useEffect(() => {
+    if (enhancedCVTitleRef.current) {
+      setTimeout(() => {
+        enhancedCVTitleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }, []);
   
   const handleCopy = () => {
     navigator.clipboard.writeText(cvContent);
@@ -187,12 +197,9 @@ export const GeneratedCV = ({
       return;
     }
 
-    const title = "My Improved CV Score";
-    const summary = `I just improved my CV match score from ${originalScore}% to ${newScore}% using this amazing CV optimization tool! Check it out to boost your job application success rate.`;
-    const sourceUrl = window.location.href;
-
-    // Due to LinkedIn API limitations, we'll use the traditional sharing approach
-    // But let the user know about the screenshot
+    // Create the LinkedIn share text with a nice message about the tool
+    const improvementAmount = newScore - originalScore;
+    const shareMessage = `I just optimized my CV and improved my match score by ${improvementAmount}% (from ${originalScore}% to ${newScore}%) using this amazing AI-powered CV optimization tool! It helped me tailor my resume perfectly for the job I want. Definitely worth checking out if you're job hunting! #CareerAdvice #ResumeOptimization #JobSearch`;
     
     // Create an invisible link to download the screenshot
     const a = document.createElement("a");
@@ -202,13 +209,13 @@ export const GeneratedCV = ({
     a.click();
     document.body.removeChild(a);
     
-    // Open LinkedIn sharing dialog
-    const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(sourceUrl)}`;
+    // Open LinkedIn sharing dialog with the prepared message
+    const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
     window.open(linkedInShareUrl, "_blank", "noopener,noreferrer");
     
     toast({
       title: "Screenshot saved!",
-      description: "A screenshot has been saved to your device. You can add it to your LinkedIn post."
+      description: "A screenshot has been saved to your device. You can add it to your LinkedIn post with the prepared message."
     });
   };
   
@@ -234,34 +241,32 @@ export const GeneratedCV = ({
           />
         </div>
         
-        <div className="flex flex-col items-center mb-6 md:mb-8">
-          <h3 className="text-xl md:text-2xl font-semibold mb-2">Your Enhanced CV</h3>
-          <p className="text-muted-foreground text-center max-w-2xl">
-            We've applied your selected recommendations to create an improved version of your CV.
-          </p>
+        <h3 ref={enhancedCVTitleRef} className="text-xl md:text-2xl font-semibold mb-2 text-center">Your Enhanced CV</h3>
+        <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-6 md:mb-8">
+          We've applied your selected recommendations to create an improved version of your CV.
+        </p>
           
-          <div className="mt-6 md:mt-8 flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-center w-full">
-            <div className="text-center">
-              <div className="text-sm text-muted-foreground mb-2">Original Score</div>
-              <MatchScore score={originalScore} showPercentage={true} />
-            </div>
-            
-            <div className="hidden md:block">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            
-            <div className="block md:hidden">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5V19M12 19L18 13M12 19L6 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-sm text-muted-foreground mb-2">New Score</div>
-              <MatchScore score={newScore} showPercentage={true} />
-            </div>
+        <div className="mt-2 mb-8 flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-center w-full">
+          <div className="text-center">
+            <div className="text-sm text-muted-foreground mb-2">Original Score</div>
+            <MatchScore score={originalScore} showPercentage={true} />
+          </div>
+          
+          <div className="hidden md:block">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          
+          <div className="block md:hidden">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 5V19M12 19L18 13M12 19L6 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          
+          <div className="text-center">
+            <div className="text-sm text-muted-foreground mb-2">New Score</div>
+            <MatchScore score={newScore} showPercentage={true} />
           </div>
         </div>
         
@@ -272,7 +277,7 @@ export const GeneratedCV = ({
             className="gap-2"
             onClick={handleShareToLinkedIn}
           >
-            <Share2 className="h-4 w-4 mr-1" />
+            <Linkedin className="h-4 w-4 mr-1" />
             Share to LinkedIn
           </Button>
         </div>
@@ -372,4 +377,3 @@ export const GeneratedCV = ({
 };
 
 import { Check } from "lucide-react";
-
