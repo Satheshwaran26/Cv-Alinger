@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 
 interface KeywordSelectorProps {
   keywords: string[];
@@ -20,6 +20,9 @@ export const KeywordSelector = ({
   if (keywords.length === 0) {
     return null;
   }
+
+  // Check if all keywords are selected
+  const allSelected = keywords.every(keyword => selectedKeywords.includes(keyword));
 
   const handleSelectAll = () => {
     // Add all keywords that aren't already selected
@@ -49,17 +52,6 @@ export const KeywordSelector = ({
       <CardContent className="pb-2 text-sm text-muted-foreground">
         <p>Adding these missing keywords to your CV can significantly improve your match score and visibility to ATS systems.</p>
         
-        <div className="mt-4 mb-3">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={handleSelectAll}
-            className="w-full flex justify-center items-center gap-1"
-          >
-            <Plus className="h-4 w-4" /> Select All Keywords
-          </Button>
-        </div>
-        
         <div className="mt-4 space-y-3">
           {keywords.map((keyword) => (
             <div key={keyword} className="flex items-center space-x-2">
@@ -78,6 +70,26 @@ export const KeywordSelector = ({
           ))}
         </div>
       </CardContent>
+      <CardFooter className="pt-3">
+        <Button 
+          variant={allSelected ? "default" : "secondary"} 
+          size="sm" 
+          className="w-full"
+          onClick={handleSelectAll}
+        >
+          {allSelected ? (
+            <>
+              <Check className="mr-2 h-4 w-4" />
+              All Keywords Selected
+            </>
+          ) : (
+            <>
+              <Plus className="mr-2 h-4 w-4" />
+              Select All Keywords
+            </>
+          )}
+        </Button>
+      </CardFooter>
     </Card>
   );
 };
