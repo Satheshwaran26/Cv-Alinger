@@ -3,6 +3,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 interface KeywordSelectorProps {
   keywords: string[];
@@ -18,6 +20,15 @@ export const KeywordSelector = ({
   if (keywords.length === 0) {
     return null;
   }
+
+  const handleSelectAll = () => {
+    // Add all keywords that aren't already selected
+    keywords.forEach((keyword) => {
+      if (!selectedKeywords.includes(keyword)) {
+        onSelect(keyword, true);
+      }
+    });
+  };
 
   return (
     <Card className="overflow-hidden transition-all duration-300 hover:shadow-md">
@@ -37,6 +48,17 @@ export const KeywordSelector = ({
       </CardHeader>
       <CardContent className="pb-2 text-sm text-muted-foreground">
         <p>Adding these missing keywords to your CV can significantly improve your match score and visibility to ATS systems.</p>
+        
+        <div className="mt-4 mb-3">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleSelectAll}
+            className="w-full flex justify-center items-center gap-1"
+          >
+            <Plus className="h-4 w-4" /> Select All Keywords
+          </Button>
+        </div>
         
         <div className="mt-4 space-y-3">
           {keywords.map((keyword) => (
