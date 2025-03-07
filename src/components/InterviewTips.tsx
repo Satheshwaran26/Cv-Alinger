@@ -2,7 +2,7 @@
 import { FC } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MicIcon, BookTextIcon, GraduationCapIcon, MessageSquareTextIcon, InfoIcon } from 'lucide-react';
+import { MicIcon, BookTextIcon, GraduationCapIcon, MessageSquareTextIcon, InfoIcon, ClockIcon } from 'lucide-react';
 
 interface TipType {
   id: number;
@@ -48,6 +48,13 @@ export const InterviewTips: FC = () => {
       content: "Send a personalized thank-you email within 24 hours, referencing specific conversation points from the interview.",
       category: "Post-Interview",
       icon: <InfoIcon className="h-5 w-5 text-blue-500" />
+    },
+    {
+      id: 6,
+      title: "Be Punctual and Prepared",
+      content: "Arrive 10-15 minutes early with extra copies of your resume, a notepad, and questions to show professionalism and reliability.",
+      category: "Preparation",
+      icon: <ClockIcon className="h-5 w-5 text-red-500" />
     }
   ];
 
