@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
-import { Download, Copy, FileText, Eye, Share2, Facebook, Twitter, Linkedin, Mail } from "lucide-react";
+import { Download, Copy, FileText, Eye, Share2, Linkedin } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRef, useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
@@ -39,6 +39,7 @@ export const GeneratedCV = ({
   const [pdfReady, setPdfReady] = useState(false);
   const [viewInBrowser, setViewInBrowser] = useState(false);
   const [showInterviewPrep, setShowInterviewPrep] = useState(false);
+  const resultCardRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     if (cvContent && cvTemplateRef.current) {
@@ -142,35 +143,73 @@ export const GeneratedCV = ({
     setShowInterviewPrep(!showInterviewPrep);
   };
 
-  const handleShare = (platform: string) => {
-    const title = "Check out my improved CV!";
-    const url = window.location.href;
-    
-    let shareUrl = "";
-    switch (platform) {
-      case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-        break;
-      case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
-        break;
-      case "linkedin":
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-        break;
-      case "email":
-        shareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`I thought you might find this interesting: ${url}`)}`;
-        break;
-      default:
-        break;
-    }
-    
-    if (shareUrl) {
-      window.open(shareUrl, "_blank", "noopener,noreferrer");
+  const captureScreenshot = async (): Promise<string> => {
+    if (!resultCardRef.current) {
       toast({
-        title: "Sharing",
-        description: `Sharing your CV on ${platform}`,
+        title: "Error capturing screenshot",
+        description: "Could not capture the result area",
+        variant: "destructive"
       });
+      return "";
     }
+
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const canvas = await html2canvas(resultCardRef.current, {
+        scale: 2,
+        logging: false,
+        useCORS: true,
+        allowTaint: true,
+      });
+      
+      return canvas.toDataURL('image/png');
+    } catch (error) {
+      console.error("Screenshot capture failed:", error);
+      return "";
+    }
+  };
+
+  const handleShareToLinkedIn = async () => {
+    toast({
+      title: "Preparing to share",
+      description: "Capturing your improved CV results..."
+    });
+
+    // Capture the screenshot
+    const screenshotUrl = await captureScreenshot();
+    
+    if (!screenshotUrl) {
+      toast({
+        title: "Sharing failed",
+        description: "Could not capture a screenshot of your results",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const title = "My Improved CV Score";
+    const summary = `I just improved my CV match score from ${originalScore}% to ${newScore}% using this amazing CV optimization tool! Check it out to boost your job application success rate.`;
+    const sourceUrl = window.location.href;
+
+    // Due to LinkedIn API limitations, we'll use the traditional sharing approach
+    // But let the user know about the screenshot
+    
+    // Create an invisible link to download the screenshot
+    const a = document.createElement("a");
+    a.href = screenshotUrl;
+    a.download = "improved_cv_results.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    // Open LinkedIn sharing dialog
+    const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(sourceUrl)}`;
+    window.open(linkedInShareUrl, "_blank", "noopener,noreferrer");
+    
+    toast({
+      title: "Screenshot saved!",
+      description: "A screenshot has been saved to your device. You can add it to your LinkedIn post."
+    });
   };
   
   if (viewInBrowser) {
@@ -186,7 +225,7 @@ export const GeneratedCV = ({
   
   return (
     <div className="animate-scale-in">
-      <Card className="overflow-hidden p-6 md:p-8">
+      <Card className="overflow-hidden p-6 md:p-8" ref={resultCardRef}>
         <div className="mb-8 rounded-lg overflow-hidden shadow-xl">
           <img 
             src="/lovable-uploads/f1e201ea-cc59-4317-81e9-da4f83a81eb7.png" 
@@ -227,30 +266,15 @@ export const GeneratedCV = ({
         </div>
         
         <div className="flex justify-end mb-4">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
-                <Share2 className="h-4 w-4" />
-                Share
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-2" align="end">
-              <div className="flex gap-2">
-                <Button variant="ghost" size="sm" onClick={() => handleShare("facebook")} className="p-2">
-                  <Facebook className="h-5 w-5 text-blue-600" />
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => handleShare("twitter")} className="p-2">
-                  <Twitter className="h-5 w-5 text-blue-400" />
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => handleShare("linkedin")} className="p-2">
-                  <Linkedin className="h-5 w-5 text-blue-700" />
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => handleShare("email")} className="p-2">
-                  <Mail className="h-5 w-5 text-gray-600" />
-                </Button>
-              </div>
-            </PopoverContent>
-          </Popover>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="gap-2"
+            onClick={handleShareToLinkedIn}
+          >
+            <Share2 className="h-4 w-4 mr-1" />
+            Share to LinkedIn
+          </Button>
         </div>
         
         <div className="mb-6 md:mb-8">
@@ -348,3 +372,4 @@ export const GeneratedCV = ({
 };
 
 import { Check } from "lucide-react";
+
