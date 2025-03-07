@@ -94,12 +94,6 @@ export const AnalysisResults = ({
               </Tabs>
             </div>
           </Card>
-          
-          <KeywordSelector 
-            keywords={analysisData.keywordsMissing}
-            selectedKeywords={selectedKeywords}
-            onSelect={onKeywordSelect}
-          />
         </div>
       </div>
       
@@ -135,11 +129,23 @@ export const AnalysisResults = ({
           </div>
         </div>
         
-        <RecommendationsList 
-          recommendations={analysisData.recommendations}
-          selectedRecommendations={selectedRecommendations}
-          onSelect={onRecommendationSelect}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Add the KeywordSelector as a card in the recommendations grid */}
+          {analysisData.keywordsMissing.length > 0 && (
+            <KeywordSelector 
+              keywords={analysisData.keywordsMissing}
+              selectedKeywords={selectedKeywords}
+              onSelect={onKeywordSelect}
+            />
+          )}
+          
+          {/* Display regular recommendations */}
+          <RecommendationsList 
+            recommendations={analysisData.recommendations}
+            selectedRecommendations={selectedRecommendations}
+            onSelect={onRecommendationSelect}
+          />
+        </div>
       </div>
     </div>
   );
