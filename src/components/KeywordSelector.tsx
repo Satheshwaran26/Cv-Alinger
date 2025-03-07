@@ -52,8 +52,8 @@ export const KeywordSelector = ({
       <CardContent className="pb-2 text-sm text-muted-foreground">
         <p>Adding these missing keywords to your CV can significantly improve your match score and visibility to ATS systems.</p>
         
-        <div className="mt-4 space-y-3">
-          {keywords.map((keyword) => (
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {keywords.slice(0, 4).map((keyword) => (
             <div key={keyword} className="flex items-center space-x-2">
               <Checkbox 
                 id={`keyword-${keyword}`} 
@@ -62,13 +62,21 @@ export const KeywordSelector = ({
               />
               <Label 
                 htmlFor={`keyword-${keyword}`}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer truncate"
               >
                 {keyword}
               </Label>
             </div>
           ))}
         </div>
+        
+        {keywords.length > 4 && (
+          <div className="mt-3">
+            <Badge variant="outline" className="text-xs">
+              +{keywords.length - 4} more keywords
+            </Badge>
+          </div>
+        )}
       </CardContent>
       <CardFooter className="pt-3">
         <Button 
