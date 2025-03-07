@@ -71,7 +71,7 @@ export const RecommendationCard = ({
           </div>
         )}
       </CardContent>
-      <CardFooter className="pt-3">
+      <CardFooter className="pt-3 flex justify-center">
         <Button 
           variant={selected ? "default" : "secondary"} 
           size="sm" 
