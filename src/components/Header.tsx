@@ -63,10 +63,11 @@ export const Header = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              <span className="font-bold text-xl md:text-2xl">
-                CV
-                <span className="text-primary">Boost</span>
-              </span>
+              <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
+                <span className="relative z-10 text-primary font-semibold">RA</span>
+              </div>
+              <span className="font-medium text-xl">Resume AI</span>
             </Link>
           </div>
 
