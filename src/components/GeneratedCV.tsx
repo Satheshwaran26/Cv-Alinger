@@ -9,11 +9,6 @@ import html2pdf from "html2pdf.js";
 import { CVTemplate } from "./CVTemplate";
 import { BrowserViewCV } from "./BrowserViewCV";
 import { InterviewPreparation } from "./InterviewPreparation";
-import { 
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 interface GeneratedCVProps {
   originalScore: number;

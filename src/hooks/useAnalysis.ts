@@ -82,11 +82,11 @@ export const useAnalysis = () => {
     try {
       const results = await analyzeCVWithOpenAI(cvText, jobDescription);
       
-      // Validate score to ensure it's not too high for initial analysis
-      // This helps ensure the scoring is realistic
+      // Ensure we have a consistent overall score
       if (results && typeof results.overallScore === 'number') {
-        // Ensure score is within reasonable range (not always high)
-        results.overallScore = Math.min(results.overallScore, 85); 
+        // Make sure the score is not artificially high and consistent
+        const normalizedScore = Math.min(results.overallScore, 85);
+        results.overallScore = normalizedScore;
       }
       
       setAnalysisData(results);
@@ -104,6 +104,7 @@ export const useAnalysis = () => {
         variant: "destructive",
       });
       
+      // Use mock data with consistent score values
       setAnalysisData(mockAnalysisData);
     } finally {
       setIsLoading(false);
