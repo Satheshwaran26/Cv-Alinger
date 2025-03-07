@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
@@ -47,7 +46,6 @@ export const GeneratedCV = ({
     }
   }, [cvContent]);
   
-  // Scroll to the "Your Enhanced CV" section when the component mounts
   useEffect(() => {
     if (enhancedCVTitleRef.current) {
       setTimeout(() => {
@@ -161,20 +159,11 @@ export const GeneratedCV = ({
   return (
     <div className="animate-scale-in">
       <Card className="overflow-hidden p-6 md:p-8">
-        <div className="mb-8 rounded-lg overflow-hidden shadow-xl">
-          <img 
-            src="/lovable-uploads/f1e201ea-cc59-4317-81e9-da4f83a81eb7.png" 
-            alt="CV Improvement Showcase" 
-            className="w-full h-auto object-cover"
-          />
-        </div>
-        
         <h3 ref={enhancedCVTitleRef} className="text-xl md:text-2xl font-semibold mb-2 text-center">Your Enhanced CV</h3>
         <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-6 md:mb-8">
           We've applied your selected recommendations to create an improved version of your CV.
         </p>
         
-        {/* Score comparison section - showing original and new scores */}
         <div className="mt-2 mb-8 flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-center w-full">
           <div className="text-center">
             <div className="text-sm text-muted-foreground mb-2">Original Score</div>
