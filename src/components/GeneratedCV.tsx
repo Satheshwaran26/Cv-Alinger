@@ -1,7 +1,8 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
-import { Download, Copy, FileText, Eye, Linkedin } from "lucide-react";
+import { Download, Copy, FileText, Eye } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRef, useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
@@ -33,7 +34,6 @@ export const GeneratedCV = ({
   const [pdfReady, setPdfReady] = useState(false);
   const [viewInBrowser, setViewInBrowser] = useState(false);
   const [showInterviewPrep, setShowInterviewPrep] = useState(false);
-  const resultCardRef = useRef<HTMLDivElement>(null);
   const enhancedCVTitleRef = useRef<HTMLHeadingElement>(null);
   
   useEffect(() => {
@@ -146,72 +146,6 @@ export const GeneratedCV = ({
   const toggleInterviewPrep = () => {
     setShowInterviewPrep(!showInterviewPrep);
   };
-
-  const captureScreenshot = async (): Promise<string> => {
-    if (!resultCardRef.current) {
-      toast({
-        title: "Error capturing screenshot",
-        description: "Could not capture the result area",
-        variant: "destructive"
-      });
-      return "";
-    }
-
-    try {
-      const html2canvas = (await import('html2canvas')).default;
-      const canvas = await html2canvas(resultCardRef.current, {
-        scale: 2,
-        logging: false,
-        useCORS: true,
-        allowTaint: true,
-      });
-      
-      return canvas.toDataURL('image/png');
-    } catch (error) {
-      console.error("Screenshot capture failed:", error);
-      return "";
-    }
-  };
-
-  const handleShareToLinkedIn = async () => {
-    toast({
-      title: "Preparing to share",
-      description: "Capturing your improved CV results..."
-    });
-
-    // Capture the screenshot
-    const screenshotUrl = await captureScreenshot();
-    
-    if (!screenshotUrl) {
-      toast({
-        title: "Sharing failed",
-        description: "Could not capture a screenshot of your results",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    // Create the LinkedIn share text with a nice message about the tool
-    const improvementAmount = newScore - originalScore;
-    const shareMessage = `I just optimized my CV and improved my match score by ${improvementAmount}% (from ${originalScore}% to ${newScore}%) using this amazing AI-powered CV optimization tool! It helped me tailor my resume perfectly for the job I want. Definitely worth checking out if you're job hunting! #CareerAdvice #ResumeOptimization #JobSearch`;
-    
-    // Create an invisible link to download the screenshot
-    const a = document.createElement("a");
-    a.href = screenshotUrl;
-    a.download = "improved_cv_results.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    
-    // Open LinkedIn sharing dialog with the prepared message
-    const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
-    window.open(linkedInShareUrl, "_blank", "noopener,noreferrer");
-    
-    toast({
-      title: "Screenshot saved!",
-      description: "A screenshot has been saved to your device. You can add it to your LinkedIn post with the prepared message."
-    });
-  };
   
   if (viewInBrowser) {
     return (
@@ -226,7 +160,7 @@ export const GeneratedCV = ({
   
   return (
     <div className="animate-scale-in">
-      <Card className="overflow-hidden p-6 md:p-8" ref={resultCardRef}>
+      <Card className="overflow-hidden p-6 md:p-8">
         <div className="mb-8 rounded-lg overflow-hidden shadow-xl">
           <img 
             src="/lovable-uploads/f1e201ea-cc59-4317-81e9-da4f83a81eb7.png" 
@@ -240,6 +174,7 @@ export const GeneratedCV = ({
           We've applied your selected recommendations to create an improved version of your CV.
         </p>
         
+        {/* Score comparison section - showing original and new scores */}
         <div className="mt-2 mb-8 flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-center w-full">
           <div className="text-center">
             <div className="text-sm text-muted-foreground mb-2">Original Score</div>
@@ -262,18 +197,6 @@ export const GeneratedCV = ({
             <div className="text-sm text-muted-foreground mb-2">New Score</div>
             <MatchScore score={newScore} showPercentage={true} />
           </div>
-        </div>
-        
-        <div className="flex justify-end mb-4">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="gap-2"
-            onClick={handleShareToLinkedIn}
-          >
-            <Linkedin className="h-4 w-4 mr-1" />
-            Share to LinkedIn
-          </Button>
         </div>
         
         <div className="mb-6 md:mb-8">
