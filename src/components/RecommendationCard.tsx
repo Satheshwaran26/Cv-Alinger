@@ -51,7 +51,7 @@ export const RecommendationCard = ({
         <div className="flex items-start justify-between">
           <CardTitle className="text-lg font-medium">{recommendation.title}</CardTitle>
           <Badge 
-            className={`font-normal capitalize ${getImpactColor(recommendation.impact)}`}
+            className={`font-normal capitalize max-w-[120px] text-center ${getImpactColor(recommendation.impact)}`}
             variant="outline"
           >
             {recommendation.impact} impact
@@ -80,12 +80,12 @@ export const RecommendationCard = ({
         >
           {selected ? (
             <>
-              <Check className="h-4 w-4" />
+              <Check className="h-4 w-4 mr-2" />
               Selected
             </>
           ) : (
             <>
-              <Plus className="h-4 w-4" />
+              <Plus className="h-4 w-4 mr-2" />
               Select
             </>
           )}

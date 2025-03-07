@@ -39,7 +39,7 @@ export const KeywordSelector = ({
         <div className="flex items-start justify-between">
           <CardTitle className="text-lg font-medium">Add Missing Keywords</CardTitle>
           <Badge 
-            className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800"
+            className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800 whitespace-nowrap"
             variant="outline"
           >
             high impact
@@ -72,7 +72,7 @@ export const KeywordSelector = ({
         
         {keywords.length > 4 && (
           <div className="mt-3">
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs whitespace-nowrap">
               +{keywords.length - 4} more keywords
             </Badge>
           </div>
@@ -87,12 +87,12 @@ export const KeywordSelector = ({
         >
           {allSelected ? (
             <>
-              <Check className="h-4 w-4" />
+              <Check className="h-4 w-4 mr-2" />
               All Keywords Selected
             </>
           ) : (
             <>
-              <Plus className="h-4 w-4" />
+              <Plus className="h-4 w-4 mr-2" />
               Select All Keywords
             </>
           )}
