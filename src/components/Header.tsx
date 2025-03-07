@@ -4,12 +4,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Menu, X, FileText, LightbulbIcon, BookOpenIcon, InfoIcon, HelpCircle, GraduationCap } from "lucide-react";
-import { useMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
 
