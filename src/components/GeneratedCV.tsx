@@ -1,13 +1,19 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MatchScore } from "./MatchScore";
-import { Download, Copy, FileText, Eye } from "lucide-react";
+import { Download, Copy, FileText, Eye, Share2, Facebook, Twitter, Linkedin, Mail } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRef, useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { CVTemplate } from "./CVTemplate";
 import { BrowserViewCV } from "./BrowserViewCV";
 import { InterviewPreparation } from "./InterviewPreparation";
+import { 
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface GeneratedCVProps {
   originalScore: number;
@@ -135,6 +141,37 @@ export const GeneratedCV = ({
   const toggleInterviewPrep = () => {
     setShowInterviewPrep(!showInterviewPrep);
   };
+
+  const handleShare = (platform: string) => {
+    const title = "Check out my improved CV!";
+    const url = window.location.href;
+    
+    let shareUrl = "";
+    switch (platform) {
+      case "facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        break;
+      case "twitter":
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+        break;
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        break;
+      case "email":
+        shareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`I thought you might find this interesting: ${url}`)}`;
+        break;
+      default:
+        break;
+    }
+    
+    if (shareUrl) {
+      window.open(shareUrl, "_blank", "noopener,noreferrer");
+      toast({
+        title: "Sharing",
+        description: `Sharing your CV on ${platform}`,
+      });
+    }
+  };
   
   if (viewInBrowser) {
     return (
@@ -187,6 +224,33 @@ export const GeneratedCV = ({
               <MatchScore score={newScore} showPercentage={true} />
             </div>
           </div>
+        </div>
+        
+        <div className="flex justify-end mb-4">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <Share2 className="h-4 w-4" />
+                Share
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-2" align="end">
+              <div className="flex gap-2">
+                <Button variant="ghost" size="sm" onClick={() => handleShare("facebook")} className="p-2">
+                  <Facebook className="h-5 w-5 text-blue-600" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => handleShare("twitter")} className="p-2">
+                  <Twitter className="h-5 w-5 text-blue-400" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => handleShare("linkedin")} className="p-2">
+                  <Linkedin className="h-5 w-5 text-blue-700" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => handleShare("email")} className="p-2">
+                  <Mail className="h-5 w-5 text-gray-600" />
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
         
         <div className="mb-6 md:mb-8">

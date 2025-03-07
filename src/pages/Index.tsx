@@ -6,6 +6,7 @@ import { Features } from "@/components/Features";
 import { CVAnalyzer } from "@/components/CVAnalyzer";
 import { Blog } from "@/components/Blog";
 import { CTASection } from "@/components/CTASection";
+import { InterviewTips } from "@/components/InterviewTips";
 
 const Index = () => {
   // Ensure the page starts at the top when loaded
@@ -29,6 +30,7 @@ const Index = () => {
         <Hero />
         <Features />
         <CVAnalyzer />
+        <InterviewTips />
         <Blog />
         <CTASection />
       </div>
