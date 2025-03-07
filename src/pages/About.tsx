@@ -1,3 +1,4 @@
+
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 
@@ -17,22 +18,21 @@ const About = () => {
                 />
               </div>
               
-              {/* Collaboration section under profile image - changed LinkedIn text to Let's talk */}
+              {/* Collaboration section under profile image - with LinkedIn button */}
               <div className="mt-6 p-5 bg-card rounded-xl shadow-md">
                 <h3 className="text-xl font-bold mb-4">Ready to Collaborate?</h3>
                 <p className="text-base mb-5">
                   If you want to consult with me, please reach out.
                 </p>
                 <div className="flex flex-col gap-3">
+                  {/* LinkedIn Button */}
                   <a 
-                    href="https://www.linkedin.com/in/hanan-amos/" 
+                    className="libutton mx-auto"
+                    href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=hanan-amos" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="w-full"
                   >
-                    <Button variant="default" className="w-full justify-center">
-                      Let's talk
-                    </Button>
+                    Follow on LinkedIn
                   </a>
                 </div>
               </div>
@@ -117,10 +117,14 @@ const About = () => {
                   If you want to consult with me, please reach out.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <a href="https://www.linkedin.com/in/hanan-amos/" target="_blank" rel="noopener noreferrer">
-                    <Button variant="default" className="flex items-center gap-2">
-                      <span>Let's talk</span>
-                    </Button>
+                  {/* LinkedIn Button */}
+                  <a 
+                    className="libutton"
+                    href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=hanan-amos" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Follow on LinkedIn
                   </a>
                 </div>
               </div>
@@ -128,6 +132,25 @@ const About = () => {
           </div>
         </div>
       </div>
+
+      {/* CSS for LinkedIn button */}
+      <style jsx>{`
+        .libutton {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 7px;
+          text-align: center;
+          outline: none;
+          text-decoration: none !important;
+          color: #ffffff !important;
+          width: 200px;
+          height: 32px;
+          border-radius: 16px;
+          background-color: #0A66C2;
+          font-family: "SF Pro Text", Helvetica, sans-serif;
+        }
+      `}</style>
     </Layout>
   );
 };
