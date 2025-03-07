@@ -8,7 +8,7 @@ import { useRef, useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { CVTemplate } from "./CVTemplate";
 import { BrowserViewCV } from "./BrowserViewCV";
-import { InterviewPreparation } from "./InterviewPreparation";
+import { useNavigate } from "react-router-dom";
 
 interface GeneratedCVProps {
   originalScore: number;
@@ -33,8 +33,8 @@ export const GeneratedCV = ({
   const cvTemplateRef = useRef<HTMLDivElement>(null);
   const [pdfReady, setPdfReady] = useState(false);
   const [viewInBrowser, setViewInBrowser] = useState(false);
-  const [showInterviewPrep, setShowInterviewPrep] = useState(false);
   const enhancedCVTitleRef = useRef<HTMLHeadingElement>(null);
+  const navigate = useNavigate();
   
   useEffect(() => {
     if (cvContent && cvTemplateRef.current) {
@@ -142,8 +142,8 @@ export const GeneratedCV = ({
     setViewInBrowser(!viewInBrowser);
   };
   
-  const toggleInterviewPrep = () => {
-    setShowInterviewPrep(!showInterviewPrep);
+  const navigateToInterviewPrep = () => {
+    navigate('/interview-prep', { state: { cvContent, jobDescription } });
   };
   
   if (viewInBrowser) {
@@ -259,19 +259,12 @@ export const GeneratedCV = ({
         
         <div className="mb-6 md:mb-8 flex justify-center">
           <Button 
-            onClick={toggleInterviewPrep} 
-            variant="outline"
+            onClick={navigateToInterviewPrep} 
             className="w-full md:w-auto bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-200"
           >
-            {showInterviewPrep ? "Hide Interview Questions" : "Prepare for Interview"}
+            Prepare for Interview
           </Button>
         </div>
-        
-        {showInterviewPrep && (
-          <div className="mb-6 md:mb-8">
-            <InterviewPreparation cvContent={cvContent} jobDescription={jobDescription} />
-          </div>
-        )}
         
         <div className="flex justify-center">
           <Button variant="outline" onClick={onBack} className="w-full md:w-auto">
