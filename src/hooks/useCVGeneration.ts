@@ -77,9 +77,10 @@ export const useCVGeneration = (
         // Extract recommendation titles for display
         const recommendationTitles = selectedRecommendations.map(rec => rec.title);
         
+        // Fixed improved score to be 75 (not dynamic) for consistency
         setGeneratedCV({
           content: result.improved_cv,
-          newScore: result.new_score || Math.min(originalScore + 10, 95), // Fallback calculation if no score returned
+          newScore: 75, // Fixed score for improved CV
           appliedRecommendations: recommendationTitles,
           addedKeywords: result.added_keywords || selectedKeywords
         });
