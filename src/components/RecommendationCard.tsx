@@ -80,12 +80,12 @@ export const RecommendationCard = ({
         >
           {selected ? (
             <>
-              <Check className="mr-2 h-4 w-4" />
+              <Check className="h-4 w-4" />
               Selected
             </>
           ) : (
             <>
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="h-4 w-4" />
               Select
             </>
           )}

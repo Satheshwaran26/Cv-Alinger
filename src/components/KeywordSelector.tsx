@@ -87,12 +87,12 @@ export const KeywordSelector = ({
         >
           {allSelected ? (
             <>
-              <Check className="mr-2 h-4 w-4" />
+              <Check className="h-4 w-4" />
               All Keywords Selected
             </>
           ) : (
             <>
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="h-4 w-4" />
               Select All Keywords
             </>
           )}
