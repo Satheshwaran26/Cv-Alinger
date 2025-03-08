@@ -24,10 +24,10 @@ const About = () => {
                 <p className="text-base mb-5">
                   If you want to consult with me, please reach out.
                 </p>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 items-start">
                   {/* LinkedIn Button */}
                   <a 
-                    className="libutton mx-auto"
+                    className="libutton"
                     href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=hanan-amos" 
                     target="_blank" 
                     rel="noopener noreferrer"
@@ -37,7 +37,7 @@ const About = () => {
                   
                   {/* Buy Me a Coffee Button */}
                   <a 
-                    className="bmcbutton mx-auto"
+                    className="bmcbutton"
                     href="https://buymeacoffee.com/hanana" 
                     target="_blank" 
                     rel="noopener noreferrer"
@@ -130,7 +130,7 @@ const About = () => {
                 <p className="text-lg mb-6">
                   If you want to consult with me, please reach out.
                 </p>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 items-start">
                   {/* LinkedIn Button */}
                   <a 
                     className="libutton"
