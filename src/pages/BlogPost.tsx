@@ -1,10 +1,49 @@
 import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, User } from 'lucide-react';
+import { ArrowLeft, Calendar, User, BookOpenText } from 'lucide-react';
+
+// Color palette for blog posts
+const colorPalette = {
+  'ai-revolution-job-hunting': {
+    bg: 'bg-green-100 dark:bg-green-900/30',
+    text: 'text-green-600 dark:text-green-400',
+    hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
+  },
+  'ats-friendly-resumes': {
+    bg: 'bg-blue-100 dark:bg-blue-900/30',
+    text: 'text-blue-600 dark:text-blue-400',
+    hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
+  },
+  'virtual-interviewing-techniques': {
+    bg: 'bg-purple-100 dark:bg-purple-900/30',
+    text: 'text-purple-600 dark:text-purple-400',
+    hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
+  },
+  'generative-ai-revolution': {
+    bg: 'bg-orange-100 dark:bg-orange-900/30',
+    text: 'text-orange-600 dark:text-orange-400',
+    hover: 'hover:bg-orange-200 dark:hover:bg-orange-800/40'
+  },
+  'ksao-hr-framework': {
+    bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+    text: 'text-indigo-600 dark:text-indigo-400',
+    hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
+  },
+  'default': {
+    bg: 'bg-slate-100 dark:bg-slate-800/30',
+    text: 'text-slate-600 dark:text-slate-400',
+    hover: 'hover:bg-slate-200 dark:hover:bg-slate-700/40'
+  }
+};
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
+  
+  // Get colors for the current post
+  const colors = slug && colorPalette[slug as keyof typeof colorPalette] 
+    ? colorPalette[slug as keyof typeof colorPalette]
+    : colorPalette['default'];
   
   // Blog posts database
   const posts = {
@@ -290,8 +329,10 @@ const BlogPost = () => {
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <Link to="/blog">
-              <Button variant="ghost" className="flex items-center gap-2 mb-6">
-                <ArrowLeft className="h-4 w-4" />
+              <Button variant="ghost" className={`flex items-center gap-2 mb-6 ${colors.hover}`}>
+                <div className={`flex items-center justify-center w-5 h-5 rounded-full ${colors.bg}`}>
+                  <ArrowLeft className={`h-3 w-3 ${colors.text}`} />
+                </div>
                 <span>Back to All Articles</span>
               </Button>
             </Link>
@@ -299,10 +340,14 @@ const BlogPost = () => {
           
           <article className="max-w-3xl mx-auto bg-white dark:bg-slate-900 p-8 rounded-xl shadow-md border border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-4">
-              <Calendar className="h-4 w-4" />
+              <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colors.bg}`}>
+                <Calendar className={`h-3 w-3 ${colors.text}`} />
+              </div>
               <span>{post.date}</span>
               <span className="mx-1">•</span>
-              <User className="h-4 w-4" />
+              <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colors.bg}`}>
+                <User className={`h-3 w-3 ${colors.text}`} />
+              </div>
               <span>{post.author}</span>
             </div>
             

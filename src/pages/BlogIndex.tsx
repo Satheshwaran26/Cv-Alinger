@@ -4,7 +4,41 @@ import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar } from 'lucide-react';
+import { Calendar, User, BookOpenText } from 'lucide-react';
+
+// Color palette for blog posts
+const colorPalettes = [
+  {
+    bg: 'bg-blue-100 dark:bg-blue-900/30',
+    text: 'text-blue-600 dark:text-blue-400',
+    hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
+  },
+  {
+    bg: 'bg-purple-100 dark:bg-purple-900/30',
+    text: 'text-purple-600 dark:text-purple-400',
+    hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
+  },
+  {
+    bg: 'bg-green-100 dark:bg-green-900/30',
+    text: 'text-green-600 dark:text-green-400',
+    hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
+  },
+  {
+    bg: 'bg-orange-100 dark:bg-orange-900/30',
+    text: 'text-orange-600 dark:text-orange-400',
+    hover: 'hover:bg-orange-200 dark:hover:bg-orange-800/40'
+  },
+  {
+    bg: 'bg-red-100 dark:bg-red-900/30',
+    text: 'text-red-600 dark:text-red-400',
+    hover: 'hover:bg-red-200 dark:hover:bg-red-800/40'
+  },
+  {
+    bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+    text: 'text-indigo-600 dark:text-indigo-400',
+    hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
+  }
+];
 
 const BlogIndex = () => {
   // Scroll to top when the component mounts
@@ -188,27 +222,49 @@ const BlogIndex = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {posts.map(post => (
-              <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    <Calendar className="h-4 w-4" />
-                    <span>{post.date}</span>
-                  </div>
-                  <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
-                    {post.title}
-                  </CardTitle>
-                  <CardDescription className="text-slate-600 dark:text-slate-400">
-                    {post.excerpt}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Link to={`/blog/${post.slug}`}>
-                    <Button variant="outline" className="w-full">Read More</Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
+            {posts.map((post, index) => {
+              // Cycle through the color palettes
+              const colorPalette = colorPalettes[index % colorPalettes.length];
+              
+              return (
+                <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
+                      <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colorPalette.bg}`}>
+                        <Calendar className={`h-3 w-3 ${colorPalette.text}`} />
+                      </div>
+                      <span>{post.date}</span>
+                      <span className="mx-1">•</span>
+                      <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colorPalette.bg}`}>
+                        <User className={`h-3 w-3 ${colorPalette.text}`} />
+                      </div>
+                      <span>Hanan Amos</span>
+                    </div>
+                    <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
+                      {post.title}
+                    </CardTitle>
+                    <CardDescription className="text-slate-600 dark:text-slate-400">
+                      {post.excerpt}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Link to={`/blog/${post.slug}`}>
+                      <Button 
+                        variant="outline" 
+                        className={`w-full transition-colors ${colorPalette.hover}`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className={`flex items-center justify-center w-5 h-5 rounded-full ${colorPalette.bg}`}>
+                            <BookOpenText className={`h-3 w-3 ${colorPalette.text}`} />
+                          </div>
+                          <span>Read More</span>
+                        </div>
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -13,7 +13,12 @@ export const Blog: FC = () => {
       date: 'May 15, 2024',
       author: 'Hanan Amos',
       excerpt: 'Discover how the KSAO framework systematically aligns workforce capabilities with job requirements, enhancing recruitment, employee development, and organizational agility.',
-      slug: 'ksao-hr-framework'
+      slug: 'ksao-hr-framework',
+      color: {
+        bg: 'bg-blue-100 dark:bg-blue-900/30',
+        text: 'text-blue-600 dark:text-blue-400',
+        hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
+      }
     },
     {
       id: 2,
@@ -21,7 +26,12 @@ export const Blog: FC = () => {
       date: 'April 30, 2024',
       author: 'Hanan Amos',
       excerpt: 'Explore how generative AI is transforming industries through AI-powered content creation, business automation, and innovative applications across sectors.',
-      slug: 'generative-ai-revolution'
+      slug: 'generative-ai-revolution',
+      color: {
+        bg: 'bg-purple-100 dark:bg-purple-900/30',
+        text: 'text-purple-600 dark:text-purple-400',
+        hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
+      }
     },
     {
       id: 3,
@@ -29,7 +39,12 @@ export const Blog: FC = () => {
       date: 'August 15, 2023',
       author: 'Hanan Amos',
       excerpt: 'AI has fundamentally transformed the way we approach job searching. Traditional methods are now giving way to highly personalized, targeted, and efficient AI-driven strategies.',
-      slug: 'ai-revolution-job-hunting'
+      slug: 'ai-revolution-job-hunting',
+      color: {
+        bg: 'bg-green-100 dark:bg-green-900/30',
+        text: 'text-green-600 dark:text-green-400',
+        hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
+      }
     }
   ];
 
@@ -59,10 +74,14 @@ export const Blog: FC = () => {
             <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
               <CardHeader className="pb-4">
                 <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
-                  <Calendar className="h-4 w-4" />
+                  <div className={`flex items-center justify-center w-6 h-6 rounded-full ${post.color.bg}`}>
+                    <Calendar className={`h-3 w-3 ${post.color.text}`} />
+                  </div>
                   <span>{post.date}</span>
                   <span className="mx-1">•</span>
-                  <User className="h-4 w-4" />
+                  <div className={`flex items-center justify-center w-6 h-6 rounded-full ${post.color.bg}`}>
+                    <User className={`h-3 w-3 ${post.color.text}`} />
+                  </div>
                   <span>{post.author}</span>
                 </div>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
@@ -74,7 +93,17 @@ export const Blog: FC = () => {
               </CardHeader>
               <CardContent className="mt-auto">
                 <Link to={`/blog/${post.slug}`}>
-                  <Button variant="outline" className="w-full">Read More</Button>
+                  <Button 
+                    variant="outline" 
+                    className={`w-full transition-colors ${post.color.hover}`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className={`flex items-center justify-center w-5 h-5 rounded-full ${post.color.bg}`}>
+                        <BookOpenText className={`h-3 w-3 ${post.color.text}`} />
+                      </div>
+                      <span>Read More</span>
+                    </div>
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
