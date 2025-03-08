@@ -7,32 +7,36 @@ import { BookOpenText, CheckSquare, BarChart3, Clock, LineChart } from "lucide-r
 
 const features = [
   {
-    icon: <CheckSquare className="w-6 h-6" />,
+    icon: <CheckSquare className="w-6 h-6 text-green-600 dark:text-green-400" />,
     title: "AI-Powered Matching",
     description:
       "Our system evaluates how well your resume aligns with a specific job description, providing a precise compatibility score.",
     link: "/blog/ksao-hr-framework",
+    bgColor: "bg-green-100 dark:bg-green-900/30"
   },
   {
-    icon: <BarChart3 className="w-6 h-6" />,
+    icon: <BarChart3 className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
     title: "KSAOs-Based Analysis",
     description:
       "Assessment of Knowledge, Skills, Abilities, and Other Characteristics to ensure a comprehensive evaluation of your resume.",
     link: "/blog/ksao-hr-framework",
+    bgColor: "bg-blue-100 dark:bg-blue-900/30"
   },
   {
-    icon: <LineChart className="w-6 h-6" />,
+    icon: <LineChart className="w-6 h-6 text-orange-600 dark:text-orange-400" />,
     title: "Actionable Insights",
     description:
       "Receive detailed feedback on gaps and strengths, with specific recommendations to enhance your resume and improve your chances.",
     link: null,
+    bgColor: "bg-orange-100 dark:bg-orange-900/30"
   },
   {
-    icon: <Clock className="w-6 h-6" />,
+    icon: <Clock className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
     title: "Real-Time Optimization",
     description:
       "Get instant suggestions on wording, missing skills, and formatting improvements for better alignment with job requirements.",
     link: null,
+    bgColor: "bg-purple-100 dark:bg-purple-900/30"
   },
 ];
 
@@ -70,7 +74,7 @@ export const Features = () => {
               className="glass rounded-xl p-6 transition-all hover:shadow-md feature-animate"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+              <div className={`w-12 h-12 rounded-full ${feature.bgColor} flex items-center justify-center mb-4`}>
                 {feature.icon}
               </div>
               <h3 className="text-xl font-medium mb-2">{feature.title}</h3>
