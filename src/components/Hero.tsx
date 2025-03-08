@@ -1,7 +1,8 @@
 
 import { useEffect, useRef } from "react";
 import { AnimatedStat } from "./AnimatedStat";
-import { Rocket } from "lucide-react";
+import { Rocket, Zap, Star, Trophy } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -80,7 +81,7 @@ export const Hero = () => {
         </div>
         
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto hero-animate-delayed">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto hero-animate-delayed mb-16">
           {stats.map((stat, index) => (
             <AnimatedStat 
               key={index} 
@@ -89,6 +90,45 @@ export const Hero = () => {
               delay={index * 200}
             />
           ))}
+        </div>
+
+        {/* Key Benefits Section - Moved from How It Works page */}
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-10">
+          <Card className="border-blue-100 bg-gradient-to-br from-white to-blue-50 dark:from-slate-900 dark:to-slate-800 shadow-md overflow-hidden">
+            <CardContent className="p-8">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-6 dark:bg-blue-900/30">
+                <Zap className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">Customize for Success</h3>
+              <p className="text-slate-600 dark:text-slate-400">
+                Use our AI-powered ATS tool to tailor your resume for each job. It matches keywords from the job description to boost your chances of landing an interview.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-green-100 bg-gradient-to-br from-white to-green-50 dark:from-slate-900 dark:to-slate-800 shadow-md overflow-hidden">
+            <CardContent className="p-8">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-6 dark:bg-green-900/30">
+                <Star className="w-6 h-6 text-green-600 dark:text-green-400" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">Show Off Your Strengths</h3>
+              <p className="text-slate-600 dark:text-slate-400">
+                Highlight what makes you unique. Our AI resume builder gives clear suggestions so you can stand out from the competition.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-orange-100 bg-gradient-to-br from-white to-orange-50 dark:from-slate-900 dark:to-slate-800 shadow-md overflow-hidden">
+            <CardContent className="p-8">
+              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mb-6 dark:bg-orange-900/30">
+                <Trophy className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">Make Your Experience Count</h3>
+              <p className="text-slate-600 dark:text-slate-400">
+                Beyond basic checks, our AI refines your resume to showcase impactful achievements and make every experience count.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
