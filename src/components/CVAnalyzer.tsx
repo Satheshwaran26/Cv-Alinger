@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UploadForm } from "./UploadForm";
 import { AnalysisResults } from "./AnalysisResults";
 import { GeneratedCV } from "./GeneratedCV";
@@ -36,10 +36,12 @@ export const CVAnalyzer = () => {
     analysisData?.keywordsMissing || []
   );
   
-  // Update job description in CV generation hook when it changes in analysis hook
-  if (jobDescription && setJobDescription) {
-    setJobDescription(jobDescription);
-  }
+  // Use useEffect to update job description in CV generation hook when it changes
+  useEffect(() => {
+    if (jobDescription && setJobDescription) {
+      setJobDescription(jobDescription);
+    }
+  }, [jobDescription, setJobDescription]);
   
   return (
     <section id="tool" className="py-12 md:py-24 relative overflow-hidden bg-slate-50 dark:bg-slate-950">
