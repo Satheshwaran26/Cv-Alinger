@@ -9,7 +9,7 @@ import { GraduationCap, Sparkles } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 const InterviewPrep = () => {
-  const [showTips, setShowTips] = useState(false);
+  const [showTips, setShowTips] = useState(true); // Changed initial state to true
   const location = useLocation();
   const { cvContent, jobDescription } = location.state || { cvContent: "", jobDescription: "" };
   
