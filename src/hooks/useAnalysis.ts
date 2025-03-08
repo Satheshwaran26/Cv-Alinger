@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 // Mock data for fallback when API fails
 const mockAnalysisData = {
-  overallScore: 72, // Updated from 62 to show variation
+  overallScore: 72,
   scoringDetails: {
     skillsAlignment: { score: 22, maxPossible: 30, details: "Strong match on technical skills but missing some desired skills" },
     experienceRelevance: { score: 25, maxPossible: 30, details: "Excellent industry experience with good role alignment" },
@@ -81,13 +81,21 @@ export const useAnalysis = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [analysisData, setAnalysisData] = useState<any>(null);
   const [originalCVText, setOriginalCVText] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
   
   const handleAnalyze = async (cvText: string, jobDescription: string) => {
     setIsLoading(true);
     setOriginalCVText(cvText);
+    setJobDescription(jobDescription);
     
     try {
       const results = await analyzeCVWithOpenAI(cvText, jobDescription);
+      
+      // Ensure we have the expected data structure with scoring details
+      if (!results.scoringDetails) {
+        throw new Error("Analysis results are missing scoring details");
+      }
+      
       setAnalysisData(results);
       
       toast({
@@ -112,12 +120,15 @@ export const useAnalysis = () => {
   
   const resetAnalysis = () => {
     setAnalysisData(null);
+    setOriginalCVText("");
+    setJobDescription("");
   };
   
   return {
     isLoading,
     analysisData,
     originalCVText,
+    jobDescription,
     handleAnalyze,
     resetAnalysis
   };

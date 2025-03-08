@@ -11,6 +11,7 @@ export const CVAnalyzer = () => {
     isLoading,
     analysisData,
     originalCVText,
+    jobDescription,
     handleAnalyze,
     resetAnalysis
   } = useAnalysis();
@@ -24,13 +25,17 @@ export const CVAnalyzer = () => {
     handleKeywordSelect,
     generateImprovedCV,
     handleBackToAnalysis,
-    jobDescription,
     setJobDescription
   } = useCVGeneration(
     originalCVText,
     analysisData?.overallScore || 0,
     analysisData?.keywordsMissing || []
   );
+  
+  // Update job description in CV generation hook when it changes in analysis hook
+  if (jobDescription && setJobDescription) {
+    setJobDescription(jobDescription);
+  }
   
   return (
     <section id="tool" className="py-12 md:py-24 relative overflow-hidden bg-slate-50 dark:bg-slate-950">
