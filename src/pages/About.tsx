@@ -34,6 +34,20 @@ const About = () => {
                   >
                     Follow on LinkedIn
                   </a>
+                  
+                  {/* Buy Me a Coffee Button */}
+                  <a 
+                    className="bmcbutton mx-auto"
+                    href="https://buymeacoffee.com/hanana" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <img 
+                      src="/lovable-uploads/e2677669-689e-4db1-915d-3ed8aee2f9e7.png" 
+                      alt="Buy Me A Coffee"
+                      className="w-full h-auto"
+                    />
+                  </a>
                 </div>
               </div>
             </div>
@@ -126,6 +140,20 @@ const About = () => {
                   >
                     Follow on LinkedIn
                   </a>
+                  
+                  {/* Buy Me a Coffee Button */}
+                  <a 
+                    className="bmcbutton"
+                    href="https://buymeacoffee.com/hanana" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <img 
+                      src="/lovable-uploads/e2677669-689e-4db1-915d-3ed8aee2f9e7.png" 
+                      alt="Buy Me A Coffee"
+                      className="w-[200px] h-auto"
+                    />
+                  </a>
                 </div>
               </div>
             </div>
@@ -133,7 +161,7 @@ const About = () => {
         </div>
       </div>
 
-      {/* CSS for LinkedIn button - fixed type error by removing jsx attribute */}
+      {/* CSS for LinkedIn button and Buy Me a Coffee button */}
       <style>
         {`
         .libutton {
@@ -150,6 +178,13 @@ const About = () => {
           border-radius: 16px;
           background-color: #0A66C2;
           font-family: "SF Pro Text", Helvetica, sans-serif;
+        }
+        
+        .bmcbutton {
+          display: flex;
+          width: 200px;
+          height: auto;
+          text-decoration: none !important;
         }
         `}
       </style>
