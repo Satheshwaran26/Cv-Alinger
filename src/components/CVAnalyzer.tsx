@@ -5,6 +5,9 @@ import { AnalysisResults } from "./AnalysisResults";
 import { GeneratedCV } from "./GeneratedCV";
 import { useAnalysis } from "@/hooks/useAnalysis";
 import { useCVGeneration } from "@/hooks/useCVGeneration";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { Button } from "./ui/button";
 
 export const CVAnalyzer = () => {
   const {
@@ -12,6 +15,7 @@ export const CVAnalyzer = () => {
     analysisData,
     originalCVText,
     jobDescription,
+    analysisError,
     handleAnalyze,
     resetAnalysis
   } = useAnalysis();
@@ -51,6 +55,21 @@ export const CVAnalyzer = () => {
             Paste your resume and a job description to get AI-powered personalized recommendations.
           </p>
         </div>
+        
+        {analysisError && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>An error occurred</AlertTitle>
+            <AlertDescription>
+              {analysisError}
+              <div className="mt-2">
+                <Button variant="outline" size="sm" onClick={resetAnalysis}>
+                  Try Again
+                </Button>
+              </div>
+            </AlertDescription>
+          </Alert>
+        )}
         
         {!analysisData ? (
           <UploadForm onSubmit={handleAnalyze} isLoading={isLoading} />

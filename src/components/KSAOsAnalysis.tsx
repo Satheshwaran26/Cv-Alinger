@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertTriangle } from "lucide-react";
 
 // Define types for the KSAO data
 interface KSAOItem {
@@ -20,11 +22,32 @@ interface KSAOData {
 }
 
 interface KSAOsAnalysisProps {
-  data: KSAOData;
+  data?: KSAOData;
 }
 
 export const KSAOsAnalysis = ({ data }: KSAOsAnalysisProps) => {
   const [activeTab, setActiveTab] = useState("knowledge");
+  
+  // Check if data is valid
+  if (!data || !data.knowledge || !data.skills || !data.abilities || !data.other) {
+    return (
+      <Card className="overflow-hidden">
+        <div className="p-6">
+          <Alert variant="warning" className="mb-4">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Analysis Data Missing</AlertTitle>
+            <AlertDescription>
+              KSAO framework analysis data is incomplete or missing. Please try analyzing your CV again.
+            </AlertDescription>
+          </Alert>
+          <h3 className="text-xl font-medium">KSAO Framework Analysis</h3>
+          <p className="mt-4 text-muted-foreground">
+            The KSAO (Knowledge, Skills, Abilities, Other) framework helps identify gaps between your CV and job requirements.
+          </p>
+        </div>
+      </Card>
+    );
+  }
   
   const getScoreColor = (score: number) => {
     if (score >= 80) return "bg-green-500";
@@ -39,6 +62,14 @@ export const KSAOsAnalysis = ({ data }: KSAOsAnalysisProps) => {
   };
   
   const renderItems = (items: KSAOItem[]) => {
+    if (!items || items.length === 0) {
+      return (
+        <div className="p-4 text-center text-muted-foreground">
+          No data available for this category.
+        </div>
+      );
+    }
+    
     return (
       <div className="space-y-4">
         {items.map((item, index) => (

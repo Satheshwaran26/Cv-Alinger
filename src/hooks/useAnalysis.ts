@@ -82,18 +82,35 @@ export const useAnalysis = () => {
   const [analysisData, setAnalysisData] = useState<any>(null);
   const [originalCVText, setOriginalCVText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
   
   const handleAnalyze = async (cvText: string, jobDescription: string) => {
     setIsLoading(true);
+    setAnalysisError(null);
     setOriginalCVText(cvText);
     setJobDescription(jobDescription);
     
+    console.log("Starting CV analysis with text length:", cvText.length);
+    console.log("Job description length:", jobDescription.length);
+    
     try {
+      console.log("Calling OpenAI API...");
       const results = await analyzeCVWithOpenAI(cvText, jobDescription);
+      console.log("API call completed, results:", results ? "received" : "null");
       
-      // Ensure we have the expected data structure with scoring details
+      // More detailed validation
+      if (!results) {
+        throw new Error("Analysis returned no results");
+      }
+      
       if (!results.scoringDetails) {
+        console.error("Missing scoring details in response:", results);
         throw new Error("Analysis results are missing scoring details");
+      }
+      
+      if (!results.ksaoData) {
+        console.error("Missing KSAO data in response:", results);
+        throw new Error("Analysis results are missing KSAO data");
       }
       
       setAnalysisData(results);
@@ -103,11 +120,13 @@ export const useAnalysis = () => {
         description: "Your CV has been analyzed successfully!",
       });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
       console.error("Error during analysis:", error);
+      setAnalysisError(errorMessage);
       
       toast({
         title: "Analysis Failed",
-        description: "There was an error analyzing your CV. Using mock data for demonstration.",
+        description: `Error: ${errorMessage}. Using mock data for demonstration.`,
         variant: "destructive",
       });
       
@@ -122,6 +141,7 @@ export const useAnalysis = () => {
     setAnalysisData(null);
     setOriginalCVText("");
     setJobDescription("");
+    setAnalysisError(null);
   };
   
   return {
@@ -129,7 +149,9 @@ export const useAnalysis = () => {
     analysisData,
     originalCVText,
     jobDescription,
+    analysisError,
     handleAnalyze,
     resetAnalysis
   };
 };
+
