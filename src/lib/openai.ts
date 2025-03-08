@@ -1,3 +1,4 @@
+
 interface OpenAIResponse {
   id: string;
   object: string;
@@ -38,17 +39,56 @@ export async function analyzeCVWithOpenAI(
       return analysisCache.get(cacheKey);
     }
     
-    // Updated system prompt with more guidance on scoring
+    // Updated system prompt with new scoring criteria
     const systemPrompt = `
       You are an expert CV/Resume analyzer assistant. You will analyze a CV text against a job description to provide:
-      1. An overall match score from 0-100 that MUST be fair and accurate
+      1. An overall match score from 0-100 based on specific criteria
       2. KSAO analysis (Knowledge, Skills, Abilities, Other) with scores and recommendations
       3. Specific recommendations for CV improvements
       4. Missing and present keywords
 
+      For each CV and Job Description pair, evaluate the match based on the following criteria:
+
+      1. Skills Alignment (0-30 points)
+         - Exact matches of required technical skills (15 points)
+         - Exact matches of desired skills (10 points)
+         - Related or transferable skills not explicitly mentioned (5 points)
+
+      2. Experience Relevance (0-30 points)
+         - Years of experience in the required field (10 points)
+         - Relevant industry experience (10 points)
+         - Similar role responsibilities (10 points)
+
+      3. Education Match (0-15 points)
+         - Exact degree/certification match (10 points)
+         - Related educational background (5 points)
+
+      4. Specific Requirements (0-15 points)
+         - Location/work arrangement compatibility (5 points)
+         - Language proficiency (5 points)
+         - Special certifications or clearances (5 points)
+
+      5. Career Progression (0-10 points)
+         - Evidence of growth in responsibilities (5 points)
+         - Stability and commitment in relevant roles (5 points)
+
+      For each criterion:
+      1. Extract all relevant requirements from the Job Description
+      2. Identify corresponding elements in the CV
+      3. Assign points based on the degree of match (none, partial, full)
+      4. Calculate a weighted sum of all criteria
+      5. Express the final score as a percentage of the total possible points
+
       Format your response as JSON with the following structure:
       {
         "overallScore": number,
+        "scoringDetails": {
+          "skillsAlignment": { "score": number, "maxPossible": 30, "details": string },
+          "experienceRelevance": { "score": number, "maxPossible": 30, "details": string },
+          "educationMatch": { "score": number, "maxPossible": 15, "details": string },
+          "specificRequirements": { "score": number, "maxPossible": 15, "details": string },
+          "careerProgression": { "score": number, "maxPossible": 10, "details": string }
+        },
         "ksaoData": {
           "knowledge": [{"name": string, "score": number, "jobReqScore": number, "gap": number, "recommendation": string}],
           "skills": [{"name": string, "score": number, "jobReqScore": number, "gap": number, "recommendation": string}],
@@ -61,15 +101,6 @@ export async function analyzeCVWithOpenAI(
         "keywordsMissing": string[],
         "keywordsPresent": string[]
       }
-
-      SCORING GUIDELINES:
-      - The overall score MUST reflect how well the CV matches the job description requirements and should NOT be inflated
-      - Most CVs should score between 40-75 for their initial submission, with exceptional matches scoring higher
-      - Be critical and realistic - a perfect match is extremely rare
-      - Consider both keyword matching AND substantive qualifications
-      - Higher scores should only be given when there is clear evidence the candidate meets all key requirements
-      - Lower scores should be given when major requirements are missing
-      - BE CONSISTENT in your scoring approach - if you analyze the same CV and job description multiple times, the score should be very similar
       
       Your analysis should be based solely on the CV and job description provided.
       Be factual, precise, and provide actionable recommendations based on modern CV best practices.
@@ -96,7 +127,6 @@ export async function analyzeCVWithOpenAI(
           },
         ],
         temperature: 0.3, // Lower temperature for more consistent results
-        seed: 12345, // Fixed seed for deterministic results
       }),
     });
 
@@ -122,12 +152,6 @@ export async function analyzeCVWithOpenAI(
     // Parse the JSON response
     try {
       const parsedResponse = JSON.parse(content);
-      
-      // Add validation to ensure scores are reasonable
-      if (parsedResponse.overallScore > 90) {
-        console.log("Adjusting an unusually high score to be more realistic");
-        parsedResponse.overallScore = Math.floor(parsedResponse.overallScore * 0.85);
-      }
       
       console.log("Parsed response with score:", parsedResponse.overallScore);
       

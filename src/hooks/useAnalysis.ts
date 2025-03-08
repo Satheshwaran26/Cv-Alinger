@@ -5,7 +5,14 @@ import { useToast } from "@/components/ui/use-toast";
 
 // Mock data for fallback when API fails
 const mockAnalysisData = {
-  overallScore: 62, // This is the correct score to use
+  overallScore: 72, // Updated from 62 to show variation
+  scoringDetails: {
+    skillsAlignment: { score: 22, maxPossible: 30, details: "Strong match on technical skills but missing some desired skills" },
+    experienceRelevance: { score: 25, maxPossible: 30, details: "Excellent industry experience with good role alignment" },
+    educationMatch: { score: 10, maxPossible: 15, details: "Exact degree match" },
+    specificRequirements: { score: 10, maxPossible: 15, details: "Location compatible, missing one certification" },
+    careerProgression: { score: 5, maxPossible: 10, details: "Good growth in responsibilities but some gaps" }
+  },
   ksaoData: {
     knowledge: [
       { name: "Marketing Strategy", score: 65, jobReqScore: 90, gap: 25, recommendation: "Include more specific examples of implementing marketing strategies" },
@@ -81,12 +88,6 @@ export const useAnalysis = () => {
     
     try {
       const results = await analyzeCVWithOpenAI(cvText, jobDescription);
-      
-      // Ensure consistency - always use the score value of 62
-      if (results) {
-        results.overallScore = 62;
-      }
-      
       setAnalysisData(results);
       
       toast({
@@ -102,7 +103,7 @@ export const useAnalysis = () => {
         variant: "destructive",
       });
       
-      // Use mock data with the fixed score value of 62
+      // Use mock data as fallback
       setAnalysisData(mockAnalysisData);
     } finally {
       setIsLoading(false);

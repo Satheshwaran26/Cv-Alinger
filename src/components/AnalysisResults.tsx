@@ -47,6 +47,35 @@ export const AnalysisResults = ({
         </div>
       </div>
       
+      {/* Add Scoring Breakdown */}
+      {analysisData.scoringDetails && (
+        <div className="mb-8">
+          <Card className="p-6">
+            <h3 className="text-xl font-medium mb-4">Scoring Breakdown</h3>
+            <div className="space-y-4">
+              {Object.entries(analysisData.scoringDetails).map(([key, detail]: [string, any]) => (
+                <div key={key} className="border-b pb-4 last:border-0 last:pb-0">
+                  <div className="flex justify-between items-center mb-2">
+                    <h4 className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</h4>
+                    <div className="flex items-center">
+                      <span className="font-bold mr-1">{detail.score}</span>
+                      <span className="text-muted-foreground text-sm">/ {detail.maxPossible}</span>
+                    </div>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mb-2">
+                    <div 
+                      className="bg-blue-600 h-2.5 rounded-full dark:bg-blue-500" 
+                      style={{ width: `${(detail.score / detail.maxPossible) * 100}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{detail.details}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+      )}
+      
       <div className="space-y-8">
         <div>
           <KSAOsAnalysis data={analysisData.ksaoData} />
