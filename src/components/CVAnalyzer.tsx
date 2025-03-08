@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { UploadForm } from "./UploadForm";
 import { AnalysisResults } from "./AnalysisResults";
 import { GeneratedCV } from "./GeneratedCV";
@@ -36,12 +36,28 @@ export const CVAnalyzer = () => {
     analysisData?.keywordsMissing || []
   );
   
+  // Reference to the analysis results section
+  const analysisResultsRef = useRef<HTMLDivElement>(null);
+  
   // Use useEffect to update job description in CV generation hook when it changes
   useEffect(() => {
     if (jobDescription && setJobDescription) {
       setJobDescription(jobDescription);
     }
   }, [jobDescription, setJobDescription]);
+  
+  // Scroll to analysis results when data is loaded
+  useEffect(() => {
+    if (analysisData && analysisResultsRef.current) {
+      // Add a small delay to ensure DOM is updated
+      setTimeout(() => {
+        analysisResultsRef.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }, 300);
+    }
+  }, [analysisData]);
   
   return (
     <section id="tool" className="py-12 md:py-24 relative overflow-hidden bg-slate-50 dark:bg-slate-950">
@@ -88,16 +104,18 @@ export const CVAnalyzer = () => {
             />
           </div>
         ) : (
-          <AnalysisResults
-            analysisData={analysisData}
-            selectedRecommendations={selectedRecommendations}
-            selectedKeywords={selectedKeywords}
-            isGeneratingCV={isGeneratingCV}
-            onRecommendationSelect={handleRecommendationSelect}
-            onKeywordSelect={handleKeywordSelect}
-            onGenerateCV={generateImprovedCV}
-            onResetAnalysis={resetAnalysis}
-          />
+          <div ref={analysisResultsRef}>
+            <AnalysisResults
+              analysisData={analysisData}
+              selectedRecommendations={selectedRecommendations}
+              selectedKeywords={selectedKeywords}
+              isGeneratingCV={isGeneratingCV}
+              onRecommendationSelect={handleRecommendationSelect}
+              onKeywordSelect={handleKeywordSelect}
+              onGenerateCV={generateImprovedCV}
+              onResetAnalysis={resetAnalysis}
+            />
+          </div>
         )}
       </div>
     </section>

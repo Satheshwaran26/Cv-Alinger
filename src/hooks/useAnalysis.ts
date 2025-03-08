@@ -1,137 +1,59 @@
 
 import { useState } from "react";
-import { analyzeCVWithOpenAI } from "@/lib/openai";
 import { useToast } from "@/components/ui/use-toast";
-
-// Mock data for fallback when API fails
-const mockAnalysisData = {
-  overallScore: 72,
-  scoringDetails: {
-    skillsAlignment: { score: 22, maxPossible: 30, details: "Strong match on technical skills but missing some desired skills" },
-    experienceRelevance: { score: 25, maxPossible: 30, details: "Excellent industry experience with good role alignment" },
-    educationMatch: { score: 10, maxPossible: 15, details: "Exact degree match" },
-    specificRequirements: { score: 10, maxPossible: 15, details: "Location compatible, missing one certification" },
-    careerProgression: { score: 5, maxPossible: 10, details: "Good growth in responsibilities but some gaps" }
-  },
-  ksaoData: {
-    knowledge: [
-      { name: "Marketing Strategy", score: 65, jobReqScore: 90, gap: 25, recommendation: "Include more specific examples of implementing marketing strategies" },
-      { name: "Social Media Platforms", score: 75, jobReqScore: 80, gap: 5, recommendation: "Add details about your experience with newer platforms like TikTok or LinkedIn content strategy" },
-      { name: "Content Management", score: 55, jobReqScore: 85, gap: 30, recommendation: "Highlight experience with modern CMS platforms like WordPress or Contentful" },
-    ],
-    skills: [
-      { name: "Data Analysis", score: 50, jobReqScore: 90, gap: 40, recommendation: "Mention specific data analysis tools you've used such as Google Analytics or Tableau" },
-      { name: "Copywriting", score: 70, jobReqScore: 75, gap: 5, recommendation: "Include examples of successful copy that drove conversions" },
-      { name: "Project Management", score: 60, jobReqScore: 80, gap: 20, recommendation: "Add measurable outcomes from projects you've managed" },
-    ],
-    abilities: [
-      { name: "Team Collaboration", score: 75, jobReqScore: 85, gap: 10, recommendation: "Highlight specific team achievements where your collaboration was key" },
-      { name: "Problem Solving", score: 65, jobReqScore: 90, gap: 25, recommendation: "Include specific examples of complex problems you've solved" },
-      { name: "Adaptability", score: 50, jobReqScore: 80, gap: 30, recommendation: "Demonstrate examples of adapting to changing priorities or situations" },
-    ],
-    other: [
-      { name: "Industry Certifications", score: 40, jobReqScore: 70, gap: 30, recommendation: "Consider obtaining relevant industry certifications" },
-      { name: "Leadership Experience", score: 55, jobReqScore: 75, gap: 20, recommendation: "Highlight leadership roles or initiatives you've led" },
-      { name: "Remote Work Experience", score: 80, jobReqScore: 80, gap: 0 },
-    ],
-  },
-  recommendations: [
-    {
-      title: "Add quantifiable achievements",
-      description: "Your CV would benefit from including more measurable results",
-      impact: "high",
-      category: "Content",
-      suggestedChange: "Change 'managed social media campaigns' to 'increased engagement by 45% through strategic social media campaigns'"
-    },
-    {
-      title: "Add missing technical skills",
-      description: "The job requires proficiency in data analysis tools that are not mentioned in your CV",
-      impact: "high",
-      category: "Skills Gap",
-      suggestedChange: "Add a 'Technical Skills' section highlighting experience with Google Analytics, Tableau, and Excel"
-    },
-    {
-      title: "Restructure experience section",
-      description: "Your most relevant experience should be emphasized more prominently",
-      impact: "medium",
-      category: "Structure",
-      suggestedChange: "Move your marketing coordinator role to the top of your experience section"
-    },
-    {
-      title: "Improve keywords matching",
-      description: "Several key terms from the job description are missing from your CV",
-      impact: "medium",
-      category: "Keywords",
-      suggestedChange: "Include terms like 'campaign optimization', 'conversion rate' and 'A/B testing'"
-    },
-    {
-      title: "Update skills formatting",
-      description: "Your skills section could be better organized for readability",
-      impact: "low",
-      category: "Formatting",
-      suggestedChange: "Group skills into categories like 'Technical', 'Creative' and 'Management'"
-    },
-  ],
-  keywordsMissing: ["data-driven marketing", "performance analytics", "conversion optimization", "A/B testing", "SEO fundamentals"],
-  keywordsPresent: ["social media management", "content creation", "brand awareness", "customer engagement", "marketing campaigns"]
-};
+import { analyzeCVWithOpenAI } from "@/lib/openai";
 
 export const useAnalysis = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [analysisData, setAnalysisData] = useState<any>(null);
+  const [analysisData, setAnalysisData] = useState(null);
   const [originalCVText, setOriginalCVText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
-  const [analysisError, setAnalysisError] = useState<string | null>(null);
-  
-  const handleAnalyze = async (cvText: string, jobDescription: string) => {
+  const [analysisError, setAnalysisError] = useState("");
+
+  const handleAnalyze = async (cvText: string, jobDescText: string) => {
+    if (cvText.trim() === "" || jobDescText.trim() === "") {
+      toast({
+        title: "Missing information",
+        description: "Please provide both your resume and the job description",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
-    setAnalysisError(null);
-    setOriginalCVText(cvText);
-    setJobDescription(jobDescription);
-    
-    console.log("Starting CV analysis with text length:", cvText.length);
-    console.log("Job description length:", jobDescription.length);
+    setAnalysisError("");
     
     try {
-      console.log("Calling OpenAI API...");
-      const results = await analyzeCVWithOpenAI(cvText, jobDescription);
-      console.log("API call completed, results:", results ? "received" : "null");
+      // Store the original CV text for later use
+      setOriginalCVText(cvText);
+      setJobDescription(jobDescText);
       
-      // More detailed validation
-      if (!results) {
-        throw new Error("Analysis returned no results");
-      }
+      // Call OpenAI API to analyze the CV
+      const result = await analyzeCVWithOpenAI(cvText, jobDescText);
       
-      if (!results.scoringDetails) {
-        console.error("Missing scoring details in response:", results);
-        throw new Error("Analysis results are missing scoring details");
-      }
-      
-      if (!results.ksaoData) {
-        console.error("Missing KSAO data in response:", results);
-        throw new Error("Analysis results are missing KSAO data");
-      }
-      
-      setAnalysisData(results);
+      // Update the analysis data
+      setAnalysisData(result);
       
       toast({
         title: "Analysis Complete",
-        description: "Your CV has been analyzed successfully!",
+        description: `Your resume scored ${result.overallScore}% match with the job description.`,
       });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      console.error("Error during analysis:", error);
-      setAnalysisError(errorMessage);
       
+      // The user will be automatically scrolled to the results due to the useEffect in CVAnalyzer
+      
+    } catch (error) {
+      console.error("CV analysis error:", error);
+      setAnalysisError(
+        error instanceof Error 
+          ? error.message 
+          : "An unexpected error occurred during analysis. Please try again."
+      );
       toast({
         title: "Analysis Failed",
-        description: `Error: ${errorMessage}. Using mock data for demonstration.`,
+        description: "There was an error analyzing your resume. Please try again.",
         variant: "destructive",
       });
-      
-      // Use mock data as fallback
-      setAnalysisData(mockAnalysisData);
     } finally {
       setIsLoading(false);
     }
@@ -141,9 +63,9 @@ export const useAnalysis = () => {
     setAnalysisData(null);
     setOriginalCVText("");
     setJobDescription("");
-    setAnalysisError(null);
+    setAnalysisError("");
   };
-  
+
   return {
     isLoading,
     analysisData,
@@ -151,7 +73,6 @@ export const useAnalysis = () => {
     jobDescription,
     analysisError,
     handleAnalyze,
-    resetAnalysis
+    resetAnalysis,
   };
 };
-
