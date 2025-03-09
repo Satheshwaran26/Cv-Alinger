@@ -29,8 +29,8 @@ const Index = () => {
       <div className="min-h-screen bg-white dark:bg-gray-950">
         <Hero />
         <Features />
-        <CVAnalyzer />
         <InterviewTips />
+        <CVAnalyzer />
         <Blog />
         <CTASection />
       </div>
