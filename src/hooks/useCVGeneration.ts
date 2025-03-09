@@ -77,10 +77,14 @@ export const useCVGeneration = (
         // Extract recommendation titles for display
         const recommendationTitles = selectedRecommendations.map(rec => rec.title);
         
-        // Fixed improved score to be 75 (not dynamic) for consistency
+        // Calculate the new score based on recommendations and keywords
+        // This ensures the score is always higher than the original
+        const scoreImprovement = calculateScoreImprovement(selectedRecommendations, selectedKeywords);
+        const newScore = Math.min(originalScore + scoreImprovement, 95); // Cap at 95% to be realistic
+        
         setGeneratedCV({
           content: result.improved_cv,
-          newScore: 75, // Fixed score for improved CV
+          newScore: newScore,
           appliedRecommendations: recommendationTitles,
           addedKeywords: result.added_keywords || selectedKeywords
         });
@@ -103,6 +107,39 @@ export const useCVGeneration = (
     } finally {
       setIsGeneratingCV(false);
     }
+  };
+  
+  // Helper function to calculate score improvement based on recommendations and keywords
+  const calculateScoreImprovement = (
+    recommendations: RecommendationType[], 
+    keywords: string[]
+  ): number => {
+    let improvement = 0;
+    
+    // Calculate improvement from recommendations
+    recommendations.forEach(rec => {
+      switch (rec.impact) {
+        case "high":
+          improvement += 3;
+          break;
+        case "medium":
+          improvement += 2;
+          break;
+        case "low":
+          improvement += 1;
+          break;
+      }
+    });
+    
+    // Calculate improvement from keywords
+    improvement += keywords.length * 1.5;
+    
+    // Ensure a minimum improvement if any changes are made
+    if (recommendations.length > 0 || keywords.length > 0) {
+      improvement = Math.max(improvement, 5);
+    }
+    
+    return improvement;
   };
   
   const handleBackToAnalysis = () => {
