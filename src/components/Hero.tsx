@@ -4,6 +4,7 @@ import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,13 +42,6 @@ export const Hero = () => {
       </div>
       
       <div className="container max-w-screen-2xl mx-auto text-center px-4 md:px-8 relative z-10">
-        {/* AI-Powered Career Boost badge with 97 score */}
-        <div className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full mb-6 shadow-md hero-animate mx-auto">
-          <Rocket className="text-blue-600 h-4 w-4" />
-          <span className="text-sm font-medium text-slate-800">AI-Powered Career Boost</span>
-          <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
-        </div>
-        
         {/* Main headline */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center">
@@ -65,20 +59,21 @@ export const Hero = () => {
           Revolutionize your job search with Resume AI - the cutting-edge tool that transforms your application from ordinary to extraordinary. Our advanced AI technology doesn't just create resumes; it crafts your ticket to career success.
         </p>
         
-        {/* CTA Button */}
+        {/* CTA Button - Replaced with modified badge */}
         <div className="mb-10">
-          <Button 
+          <button 
             onClick={() => {
               const toolSection = document.getElementById('tool');
               if (toolSection) {
                 toolSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full shadow-md transition-all px-8 py-6"
+            className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-md hero-animate mx-auto hover:bg-gray-50 transition-all"
           >
-            Analyze Now <ArrowRight className="ml-1" />
-          </Button>
+            <Rocket className="text-blue-600 h-4 w-4" />
+            <span className="text-sm font-medium text-slate-800">Analyze Now</span>
+            <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
+          </button>
         </div>
         
         {/* Category badges - Updated for mobile view with single words */}
