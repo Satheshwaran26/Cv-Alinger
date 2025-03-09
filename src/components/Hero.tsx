@@ -72,12 +72,6 @@ export const Hero = () => {
               const toolSection = document.getElementById('tool');
               if (toolSection) {
                 toolSection.scrollIntoView({ behavior: 'smooth' });
-                const formSection = toolSection.querySelector('form');
-                if (formSection) {
-                  setTimeout(() => {
-                    formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }, 300);
-                }
               }
             }}
             size="lg"
