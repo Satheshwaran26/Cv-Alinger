@@ -94,9 +94,6 @@ export const UploadForm = ({ onSubmit, isLoading }: UploadFormProps) => {
               <FileText className="h-5 w-5 text-blue-500" />
               <div className="text-lg font-medium text-slate-900 dark:text-white">Job Description</div>
             </div>
-            <p className="text-sm text-slate-500 mb-4 dark:text-slate-400">
-              Please include key responsibilities, requirements, and qualifications.
-            </p>
             
             <div className="relative flex-1 min-h-[350px]">
               <Textarea
