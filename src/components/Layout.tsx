@@ -26,14 +26,14 @@ export const Layout = ({ children }: LayoutProps) => {
     // Ensure Open Graph image is set correctly
     let ogImage = document.querySelector('meta[property="og:image"]');
     if (ogImage) {
-      const imageUrl = '/lovable-uploads/d22204d5-1a3e-407b-a58d-a8e541c58198.png';
+      const imageUrl = '/lovable-uploads/e223354e-c8c9-4373-94da-c1a5659e6e34.png';
       ogImage.setAttribute('content', window.location.origin + imageUrl);
     }
     
     // Also update Twitter image if present
     let twitterImage = document.querySelector('meta[name="twitter:image"]');
     if (twitterImage) {
-      const imageUrl = '/lovable-uploads/d22204d5-1a3e-407b-a58d-a8e541c58198.png';
+      const imageUrl = '/lovable-uploads/e223354e-c8c9-4373-94da-c1a5659e6e34.png';
       twitterImage.setAttribute('content', window.location.origin + imageUrl);
     }
   }, []);
