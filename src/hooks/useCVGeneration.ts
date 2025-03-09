@@ -78,9 +78,24 @@ export const useCVGeneration = (
         const recommendationTitles = selectedRecommendations.map(rec => rec.title);
         
         // Calculate the new score based on recommendations and keywords
-        // This ensures the score is always higher than the original
         const scoreImprovement = calculateScoreImprovement(selectedRecommendations, selectedKeywords);
-        const newScore = Math.min(originalScore + scoreImprovement, 95); // Cap at 95% to be realistic
+        
+        // CRITICAL FIX: Ensure the new score is ALWAYS higher than the original score
+        // Use either the API's returned score or our calculated improvement, whichever is better
+        let newScore = originalScore + scoreImprovement;
+        
+        // If the API returned a score, compare it with our calculated score and use the higher one
+        if (result.new_score) {
+          // Make sure even the API score is at least equal to original score + minimum improvement
+          const minImprovement = Math.max(scoreImprovement, 2); // Ensure at least 2% improvement
+          const apiScore = Math.max(result.new_score, originalScore + minImprovement);
+          
+          // Use the higher of our calculated score or the API's adjusted score
+          newScore = Math.max(newScore, apiScore);
+        }
+        
+        // Cap at 95% to be realistic
+        newScore = Math.min(newScore, 95);
         
         setGeneratedCV({
           content: result.improved_cv,
