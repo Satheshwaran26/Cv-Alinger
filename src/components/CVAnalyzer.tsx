@@ -6,7 +6,7 @@ import { GeneratedCV } from "./GeneratedCV";
 import { useAnalysis } from "@/hooks/useAnalysis";
 import { useCVGeneration } from "@/hooks/useCVGeneration";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, ArrowRight } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { Button } from "./ui/button";
 
 export const CVAnalyzer = () => {
@@ -69,28 +69,9 @@ export const CVAnalyzer = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Analyze Your Resume</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400 mb-6">
+          <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400">
             Paste your resume and a job description to get AI-powered personalized recommendations.
           </p>
-          
-          {/* New CTA Button */}
-          {!analysisData && (
-            <Button 
-              onClick={() => {
-                const toolSection = document.getElementById('tool');
-                if (toolSection) {
-                  const formSection = toolSection.querySelector('form');
-                  if (formSection) {
-                    formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }
-                }
-              }}
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full shadow-md transition-all px-8 py-6"
-            >
-              Analyze Now <ArrowRight className="ml-1" />
-            </Button>
-          )}
         </div>
         
         {analysisError && (

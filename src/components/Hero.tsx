@@ -1,8 +1,9 @@
 
 import { useEffect, useRef } from "react";
 import { AnimatedStat } from "./AnimatedStat";
-import { Rocket, Zap, Star, Trophy } from "lucide-react";
+import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -60,9 +61,31 @@ export const Hero = () => {
         </div>
         
         {/* Subheadline - Updated with the new h2 text */}
-        <p className="text-lg md:text-xl text-slate-600 mb-10 mx-auto max-w-4xl leading-relaxed dark:text-slate-300">
+        <p className="text-lg md:text-xl text-slate-600 mb-8 mx-auto max-w-4xl leading-relaxed dark:text-slate-300">
           Revolutionize your job search with Resume AI - the cutting-edge tool that transforms your application from ordinary to extraordinary. Our advanced AI technology doesn't just create resumes; it crafts your ticket to career success.
         </p>
+        
+        {/* CTA Button */}
+        <div className="mb-10">
+          <Button 
+            onClick={() => {
+              const toolSection = document.getElementById('tool');
+              if (toolSection) {
+                toolSection.scrollIntoView({ behavior: 'smooth' });
+                const formSection = toolSection.querySelector('form');
+                if (formSection) {
+                  setTimeout(() => {
+                    formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 300);
+                }
+              }
+            }}
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full shadow-md transition-all px-8 py-6"
+          >
+            Analyze Now <ArrowRight className="ml-1" />
+          </Button>
+        </div>
         
         {/* Category badges - Updated for mobile view with single words */}
         <div className="flex flex-wrap gap-3 justify-center mb-16">
