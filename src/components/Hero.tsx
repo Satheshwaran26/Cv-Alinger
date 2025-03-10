@@ -43,12 +43,7 @@ export const Hero = () => {
       
       <div className="container max-w-screen-2xl mx-auto text-center px-4 md:px-8 relative z-10">
         {/* Main headline */}
-        <div className="relative mb-6">
-          <img 
-            src="/lovable-uploads/2900ecfe-6c75-47aa-8f04-09646ee55985.png" 
-            alt="Resume AI" 
-            className="h-20 md:h-24 mx-auto mb-6"
-          />
+        <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="bg-blue-50 w-[90%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
           </div>
