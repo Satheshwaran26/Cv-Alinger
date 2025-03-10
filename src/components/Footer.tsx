@@ -37,12 +37,12 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-2">
-            <a href="/" className="flex items-center gap-2 mb-4">
-              <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
-                <span className="relative z-10 text-primary font-semibold">RA</span>
-              </div>
-              <span className="font-medium text-xl">Resume AI</span>
+            <a href="/" className="flex items-center mb-4">
+              <img 
+                src="/lovable-uploads/2900ecfe-6c75-47aa-8f04-09646ee55985.png" 
+                alt="Resume AI" 
+                className="h-10 w-auto"
+              />
             </a>
             <p className="text-muted-foreground max-w-sm mb-5">
               AI-powered resume optimization to align your resume with job descriptions using the KSAO framework.
