@@ -56,7 +56,7 @@ export const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="relative w-full min-h-screen pt-15 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
+      className="relative w-full min-h-screen pt-17 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
       ref={containerRef}
     >
       {/* Background light elements */}
