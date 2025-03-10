@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -56,7 +55,7 @@ export const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="relative w-full min-h-screen pt-25 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
+      className="relative w-full min-h-screen pt-16 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
       ref={containerRef}
     >
       {/* Background light elements */}
@@ -159,4 +158,3 @@ export const Hero = () => {
     </section>
   );
 };
-
