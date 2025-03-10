@@ -56,7 +56,7 @@ export const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="relative w-full min-h-screen pt-20 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
+      className="relative w-full min-h-screen pt-15 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
       ref={containerRef}
     >
       {/* Background light elements */}
@@ -104,11 +104,12 @@ export const Hero = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto hero-animate-delayed mb-16">
           {stats.map((stat, index) => (
             <div key={index} className="flex flex-col items-center">
-              <AnimatedStat 
-                value={stat.value} 
-                label={stat.label}
-                delay={index * 200}
-              />
+              <div className="glass rounded-xl p-6 transition-transform hover:translate-y-[-5px] h-24 flex flex-col justify-center items-center w-full">
+                <div className="font-semibold text-3xl mb-2 text-primary">
+                  {stat.value}
+                </div>
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
+              </div>
               <span className={`${stat.badge.bg} ${stat.badge.text} px-4 py-1 rounded-full text-sm font-medium mt-3`}>
                 {stat.badge.content}
               </span>
@@ -158,4 +159,3 @@ export const Hero = () => {
     </section>
   );
 };
-
