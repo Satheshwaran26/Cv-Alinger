@@ -24,9 +24,33 @@ export const Hero = () => {
   }, []);
 
   const stats = [
-    { value: "98%", label: "Accuracy in skill matching" },
-    { value: "75%", label: "Improvement in interview chances" },
-    { value: "250", label: "Successful job matches" }
+    { 
+      value: "98%", 
+      label: "Accuracy in skill matching",
+      badge: {
+        bg: "bg-orange-100 dark:bg-orange-900/30",
+        text: "text-orange-600 dark:text-orange-400",
+        content: "Boost Your Interview Chances" 
+      }
+    },
+    { 
+      value: "75%", 
+      label: "Improvement in interview chances",
+      badge: {
+        bg: "bg-green-100 dark:bg-green-900/30",
+        text: "text-green-600 dark:text-green-400",
+        content: "Optimize Your Resume with AI" 
+      }
+    },
+    { 
+      value: "250", 
+      label: "Successful job matches",
+      badge: {
+        bg: "bg-blue-100 dark:bg-blue-900/30",
+        text: "text-blue-600 dark:text-blue-400",
+        content: "Get Instant, Data-Driven Feedback" 
+      }
+    }
   ];
 
   return (
@@ -76,31 +100,19 @@ export const Hero = () => {
           </button>
         </div>
         
-        {/* Category badges - Updated for mobile view with single words */}
-        <div className="flex flex-wrap gap-3 justify-center mb-16">
-          <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400">
-            <span className="md:hidden">Boost</span>
-            <span className="hidden md:inline">Boost Your Interview Chances</span>
-          </span>
-          <span className="bg-green-100 text-green-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-green-900/30 dark:text-green-400">
-            <span className="md:hidden">Optimize</span>
-            <span className="hidden md:inline">Optimize Your Resume with AI</span>
-          </span>
-          <span className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400">
-            <span className="md:hidden">Offer</span>
-            <span className="hidden md:inline">Get Instant, Data-Driven Feedback</span>
-          </span>
-        </div>
-        
-        {/* Stats */}
+        {/* Stats integrated with badges */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto hero-animate-delayed mb-16">
           {stats.map((stat, index) => (
-            <AnimatedStat 
-              key={index} 
-              value={stat.value} 
-              label={stat.label}
-              delay={index * 200}
-            />
+            <div key={index} className="flex flex-col items-center">
+              <AnimatedStat 
+                value={stat.value} 
+                label={stat.label}
+                delay={index * 200}
+              />
+              <span className={`${stat.badge.bg} ${stat.badge.text} px-4 py-1 rounded-full text-sm font-medium mt-3`}>
+                {stat.badge.content}
+              </span>
+            </div>
           ))}
         </div>
 
@@ -146,3 +158,4 @@ export const Hero = () => {
     </section>
   );
 };
+
