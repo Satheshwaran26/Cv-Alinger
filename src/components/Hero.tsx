@@ -111,12 +111,12 @@ export const Hero = () => {
             <div className="bg-blue-50 w-[90%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-6xl text-slate-900 leading-tight relative z-10 dark:text-white">
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900 min-h-[64px]">
+            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900 min-h-[64px] min-w-[300px]">
               {displayedText1}<span className={displayedText1.length < fullText1.length ? "animate-pulse" : "hidden"}>|</span>
             </span>
             <br />
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 min-h-[64px]">
-              {displayedText2}
+            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 min-h-[64px] min-w-[400px]">
+              {displayedText2}<span className={displayedText2.length < fullText2.length ? "animate-pulse" : "hidden"}>|</span>
             </span>
           </h1>
         </div>
@@ -202,3 +202,5 @@ export const Hero = () => {
     </section>
   );
 };
+
+export default Hero;
