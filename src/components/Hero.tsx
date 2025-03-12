@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -116,7 +117,7 @@ export const Hero = () => {
             </span>
             <br />
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 min-h-[64px]">
-              {displayedText2}<span className={displayedText2.length < fullText2.length ? "animate-pulse" : ""}>|</span>
+              {displayedText2}
             </span>
           </h1>
         </div>
