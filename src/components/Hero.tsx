@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -125,10 +126,10 @@ export const Hero = () => {
                 behavior: 'smooth'
               });
             }
-          }} className="inline-flex items-center gap-3 bg-white py-3 rounded-full shadow-md hero-animate mx-auto hover:bg-gray-50 transition-all px-[23px]">
-            <Rocket className="text-blue-600 h-6 w-6 rounded-none" />
-            <span className="font-medium text-slate-800 text-3xl">Analyze Now</span>
-            <div className="w-10 h-10 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
+          }} className="inline-flex items-center gap-3 bg-white py-2.5 rounded-full shadow-md hero-animate mx-auto hover:bg-gray-50 transition-all px-[20px] scale-90">
+            <Rocket className="text-blue-600 h-5 w-5 rounded-none" />
+            <span className="font-medium text-slate-800 text-2xl">Analyze Now</span>
+            <div className="w-9 h-9 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
           </button>
         </div>
 
