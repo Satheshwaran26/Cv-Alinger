@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -9,6 +10,7 @@ export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [displayedText1, setDisplayedText1] = useState("");
   const [displayedText2, setDisplayedText2] = useState("");
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
   const fullText1 = "AI-Powered Resume:";
   const fullText2 = "Unlock Your Dream Job Faster";
 
@@ -50,6 +52,9 @@ export const Hero = () => {
         setDisplayedText2(prev => prev + fullText2.charAt(currentIndex2));
         currentIndex2++;
         timer2 = setTimeout(type2, 50); // Adjust speed here
+      } else {
+        // Mark typing as complete when both lines are done
+        setIsTypingComplete(true);
       }
     };
     
@@ -112,11 +117,11 @@ export const Hero = () => {
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-6xl text-slate-900 leading-tight relative z-10 dark:text-white">
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900 min-h-[64px] min-w-[300px]">
-              {displayedText1}<span className={displayedText1.length < fullText1.length ? "animate-pulse" : "hidden"}>|</span>
+              {displayedText1}
             </span>
             <br />
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 min-h-[64px] min-w-[400px]">
-              {displayedText2}<span className={displayedText2.length < fullText2.length ? "animate-pulse" : "hidden"}>|</span>
+              {displayedText2}
             </span>
           </h1>
         </div>
