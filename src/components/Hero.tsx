@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -28,41 +29,36 @@ export const Hero = () => {
   }, []);
 
   useEffect(() => {
-    let timer1: ReturnType<typeof setTimeout>;
-    let timer2: ReturnType<typeof setTimeout>;
+    let timeoutId: ReturnType<typeof setTimeout>;
     let currentIndex1 = 0;
-    let currentIndex2 = 0;
     
-    // First line typing animation
-    const type1 = () => {
-      if (currentIndex1 < fullText1.length) {
-        setDisplayedText1(prev => prev + fullText1.charAt(currentIndex1));
+    // Type the first text
+    const typeText1 = () => {
+      if (currentIndex1 <= fullText1.length) {
+        setDisplayedText1(fullText1.substring(0, currentIndex1));
         currentIndex1++;
-        timer1 = setTimeout(type1, 50); // Adjust speed here (lower = faster)
+        timeoutId = setTimeout(typeText1, 100); // Adjust speed as needed
       } else {
-        // Start second line after first line is complete
-        type2();
+        // Start typing the second text once the first is complete
+        let currentIndex2 = 0;
+        const typeText2 = () => {
+          if (currentIndex2 <= fullText2.length) {
+            setDisplayedText2(fullText2.substring(0, currentIndex2));
+            currentIndex2++;
+            timeoutId = setTimeout(typeText2, 100); // Adjust speed as needed
+          } else {
+            setIsTypingComplete(true);
+          }
+        };
+        typeText2();
       }
     };
     
-    // Second line typing animation
-    const type2 = () => {
-      if (currentIndex2 < fullText2.length) {
-        setDisplayedText2(prev => prev + fullText2.charAt(currentIndex2));
-        currentIndex2++;
-        timer2 = setTimeout(type2, 50); // Adjust speed here
-      } else {
-        // Mark typing as complete when both lines are done
-        setIsTypingComplete(true);
-      }
-    };
+    timeoutId = setTimeout(typeText1, 500); // Delay before starting animation
     
-    // Start the animation
-    timer1 = setTimeout(type1, 300); // Small delay before starting
-    
+    // Clean up timeouts when component unmounts
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
+      clearTimeout(timeoutId);
     };
   }, []);
 
@@ -117,12 +113,12 @@ export const Hero = () => {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-6xl text-slate-900 leading-tight relative z-10 dark:text-white">
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900 min-h-[64px] min-w-[300px]">
               {displayedText1}
-              {!isTypingComplete && <span className="animate-pulse text-orange-500 dark:text-orange-400">|</span>}
+              {!isTypingComplete && currentIndex1 <= fullText1.length && <span className="animate-pulse text-orange-500 dark:text-orange-400">|</span>}
             </span>
             <br />
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 min-h-[64px] min-w-[400px]">
               {displayedText2}
-              {!isTypingComplete && displayedText1.length === fullText1.length && <span className="animate-pulse text-orange-500 dark:text-orange-400">|</span>}
+              {!isTypingComplete && currentIndex1 > fullText1.length && <span className="animate-pulse text-orange-500 dark:text-orange-400">|</span>}
             </span>
           </h1>
         </div>
