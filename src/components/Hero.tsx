@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -27,7 +26,6 @@ export const Hero = () => {
     return () => {};
   }, []);
 
-  // Text animation effect
   useEffect(() => {
     let timer1: ReturnType<typeof setTimeout>;
     let timer2: ReturnType<typeof setTimeout>;
@@ -123,12 +121,12 @@ export const Hero = () => {
           </h1>
         </div>
         
-        {/* Subheadline - Updated with the new h2 text */}
+        {/* Subheadline */}
         <p className="text-lg md:text-xl text-slate-600 mb-8 mx-auto max-w-4xl leading-relaxed dark:text-slate-300">
           Revolutionize your job search with Resume AI - the cutting-edge tool that transforms your application from ordinary to extraordinary. Our advanced AI technology doesn't just create resumes; it crafts your ticket to career success.
         </p>
         
-        {/* CTA Button - Replaced with modified badge */}
+        {/* CTA Button */}
         <div className="mb-10">
           <button 
             onClick={() => {
@@ -149,7 +147,6 @@ export const Hero = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto hero-animate-delayed mb-16">
           {stats.map((stat, index) => (
             <div key={index} className="flex flex-col items-center">
-              {/* Use AnimatedStat component with staggered delay for each stat */}
               <AnimatedStat 
                 value={stat.value} 
                 label={stat.label} 
