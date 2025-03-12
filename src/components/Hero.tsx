@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -9,8 +10,8 @@ export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [displayedText1, setDisplayedText1] = useState("");
   const [displayedText2, setDisplayedText2] = useState("");
-  const fullText1 = "AI-Powered Resume:";
-  const fullText2 = "Unlock Your Dream Job Faster";
+  const fullText1 = "Resume Builder:";
+  const fullText2 = "Unlock Your Career Potential";
 
   useEffect(() => {
     // Don't use animation for hero section to prevent disappearing
