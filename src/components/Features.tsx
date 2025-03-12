@@ -74,8 +74,10 @@ export const Features = () => {
               className="glass rounded-xl p-6 transition-all hover:shadow-md feature-animate"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className={`w-12 h-12 rounded-full ${feature.bgColor} flex items-center justify-center mb-4`}>
-                {feature.icon}
+              <div className={`w-12 h-12 rounded-full ${feature.bgColor} flex items-center justify-center mb-4 animate-icon`}>
+                <div className="animate-pulse-slow hover:animate-spin transition-all duration-300">
+                  {feature.icon}
+                </div>
               </div>
               <h3 className="text-xl font-medium mb-2">{feature.title}</h3>
               <p className="text-muted-foreground">{feature.description}</p>
