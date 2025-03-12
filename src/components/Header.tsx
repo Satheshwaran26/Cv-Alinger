@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -13,10 +12,8 @@ export const Header = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
 
-  // Check if we're on the homepage
   const isHomepage = location.pathname === "/";
-  
-  // Handle scroll event to change header appearance
+
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 10;
@@ -32,7 +29,6 @@ export const Header = () => {
     };
   }, [scrolled]);
   
-  // Auto-close mobile menu when route changes
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
@@ -45,7 +41,6 @@ export const Header = () => {
     { path: "/about", label: "About", icon: <InfoIcon className="h-4 w-4" /> },
   ];
 
-  // Helper function to determine if a nav item is the current page
   const isCurrentPage = (path: string) => {
     return location.pathname === path;
   };
@@ -60,18 +55,16 @@ export const Header = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="relative w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-primary/20 transform rotate-45 translate-y-4" />
-                <span className="relative z-10 text-primary font-semibold">RA</span>
-              </div>
-              <span className="font-medium text-xl">Resume AI</span>
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/lovable-uploads/060519eb-651a-415a-8b36-2a5ab8ae893f.png" 
+                alt="Resume AI" 
+                className="h-8 md:h-10"
+              />
             </Link>
           </div>
 
-          {/* Desktop navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
               <Button
@@ -90,7 +83,6 @@ export const Header = () => {
             <ThemeToggle />
           </nav>
 
-          {/* Mobile navigation toggle */}
           <div className="md:hidden flex items-center gap-2">
             <ThemeToggle />
             <Button 
@@ -106,7 +98,6 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && isMobile && (
           <motion.div 
