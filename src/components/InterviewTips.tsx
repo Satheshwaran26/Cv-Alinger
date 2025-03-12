@@ -1,8 +1,8 @@
-
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MicIcon, BookTextIcon, GraduationCapIcon, MessageSquareTextIcon, InfoIcon, ClockIcon } from 'lucide-react';
+import { setupIntersectionObserver } from '@/lib/animations';
 
 interface TipType {
   id: number;
@@ -58,7 +58,6 @@ export const InterviewTips: FC = () => {
     }
   ];
 
-  // Function to get the badge color based on category
   const getCategoryColor = (category: string) => {
     switch(category) {
       case "Preparation": return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
@@ -69,9 +68,23 @@ export const InterviewTips: FC = () => {
     }
   };
 
+  useEffect(() => {
+    const observer = setupIntersectionObserver(
+      '.tip-card',
+      'animate-slide-up',
+      0.1,
+      '20px'
+    );
+    
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, []);
+
   return (
     <section id="interview-tips" className="py-16 relative overflow-hidden bg-white dark:bg-gray-950">
-      {/* Background light elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>
@@ -86,11 +99,15 @@ export const InterviewTips: FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {tips.map((tip) => (
-            <Card key={tip.id} className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-md hover:shadow-lg transition-shadow duration-300">
+          {tips.map((tip, index) => (
+            <Card 
+              key={tip.id} 
+              className="tip-card bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 opacity-0 transform translate-y-8"
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
               <CardHeader className="pb-2">
                 <div className="flex justify-between items-start mb-2">
-                  <div className="h-10 w-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center">
+                  <div className="h-10 w-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center animate-pulse-slow">
                     {tip.icon}
                   </div>
                   <Badge className={`${getCategoryColor(tip.category)}`}>
