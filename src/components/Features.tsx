@@ -42,13 +42,19 @@ const features = [
 
 export const Features = () => {
   useEffect(() => {
-    // Apply animation class immediately instead of waiting for intersection
-    document.querySelectorAll('.feature-animate').forEach(el => {
-      el.classList.add('animate-slide-up');
-      el.classList.remove('opacity-0');
-    });
+    // Setup intersection observer for feature cards animation
+    const observer = setupIntersectionObserver(
+      '.feature-card',
+      'animate-slide-up',
+      0.1,
+      '20px'
+    );
     
-    return () => {};
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
   }, []);
 
   return (
@@ -71,8 +77,8 @@ export const Features = () => {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="glass rounded-xl p-6 transition-all hover:shadow-md feature-animate"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="feature-card glass rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:scale-105 opacity-0 transform translate-y-8"
+              style={{ transitionDelay: `${index * 150}ms` }}
             >
               <div className={`w-12 h-12 rounded-full ${feature.bgColor} flex items-center justify-center mb-4 animate-icon`}>
                 <div className="animate-pulse-slow hover:animate-spin transition-all duration-300">
@@ -85,7 +91,7 @@ export const Features = () => {
               {feature.link && (
                 <div className="mt-4">
                   <Link to={feature.link}>
-                    <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" className="flex items-center gap-2 transition-all hover:translate-x-1">
                       <BookOpenText className="h-4 w-4" />
                       <span>Learn More</span>
                     </Button>
