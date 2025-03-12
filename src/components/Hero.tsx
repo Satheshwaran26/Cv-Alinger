@@ -4,7 +4,6 @@ import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [displayedText1, setDisplayedText1] = useState("");
@@ -12,7 +11,6 @@ export const Hero = () => {
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const fullText1 = "AI-Powered Resume:";
   const fullText2 = "Unlock Your Dream Job Now.";
-
   useEffect(() => {
     // Don't use animation for hero section to prevent disappearing
     document.querySelectorAll('.hero-animate').forEach(el => {
@@ -21,18 +19,17 @@ export const Hero = () => {
     document.querySelectorAll('.hero-animate-delayed').forEach(el => {
       el.classList.remove('opacity-0');
     });
-    
+
     // Disable the intersection observer for the hero section
     // as it's likely causing the disappearing issue
     return () => {};
   }, []);
-
   useEffect(() => {
     let timer1: ReturnType<typeof setTimeout>;
     let timer2: ReturnType<typeof setTimeout>;
     let currentIndex1 = 0;
     let currentIndex2 = 0;
-    
+
     // First line typing animation
     const type1 = () => {
       if (currentIndex1 < fullText1.length) {
@@ -44,7 +41,7 @@ export const Hero = () => {
         type2();
       }
     };
-    
+
     // Second line typing animation
     const type2 = () => {
       if (currentIndex2 < fullText2.length) {
@@ -56,52 +53,41 @@ export const Hero = () => {
         setIsTypingComplete(true);
       }
     };
-    
+
     // Start the animation
     timer1 = setTimeout(type1, 300); // Small delay before starting
-    
+
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
     };
   }, []);
-
-  const stats = [
-    { 
-      value: "98%", 
-      label: "Accuracy in skill matching",
-      badge: {
-        bg: "bg-orange-100 dark:bg-orange-900/30",
-        text: "text-orange-600 dark:text-orange-400",
-        content: "Boost Your Interview Chances" 
-      }
-    },
-    { 
-      value: "75%", 
-      label: "Improvement in interview chances",
-      badge: {
-        bg: "bg-green-100 dark:bg-green-900/30",
-        text: "text-green-600 dark:text-green-400",
-        content: "Optimize Your Resume with AI" 
-      }
-    },
-    { 
-      value: "250", 
-      label: "Successful job matches",
-      badge: {
-        bg: "bg-blue-100 dark:bg-blue-900/30",
-        text: "text-blue-600 dark:text-blue-400",
-        content: "Get Instant, Data-Driven Feedback" 
-      }
+  const stats = [{
+    value: "98%",
+    label: "Accuracy in skill matching",
+    badge: {
+      bg: "bg-orange-100 dark:bg-orange-900/30",
+      text: "text-orange-600 dark:text-orange-400",
+      content: "Boost Your Interview Chances"
     }
-  ];
-
-  return (
-    <section 
-      id="hero" 
-      className="relative w-full min-h-screen pt-16 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950"
-      ref={containerRef}
-    >
+  }, {
+    value: "75%",
+    label: "Improvement in interview chances",
+    badge: {
+      bg: "bg-green-100 dark:bg-green-900/30",
+      text: "text-green-600 dark:text-green-400",
+      content: "Optimize Your Resume with AI"
+    }
+  }, {
+    value: "250",
+    label: "Successful job matches",
+    badge: {
+      bg: "bg-blue-100 dark:bg-blue-900/30",
+      text: "text-blue-600 dark:text-blue-400",
+      content: "Get Instant, Data-Driven Feedback"
+    }
+  }];
+  return <section id="hero" className="relative w-full min-h-screen pt-16 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950" ref={containerRef}>
       {/* Background light elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>
@@ -134,36 +120,30 @@ export const Hero = () => {
         
         {/* CTA Button */}
         <div className="mb-10">
-          <button 
-            onClick={() => {
-              const toolSection = document.getElementById('tool');
-              if (toolSection) {
-                toolSection.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-            className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-md hero-animate mx-auto hover:bg-gray-50 transition-all"
-          >
-            <Rocket className="text-blue-600 h-4 w-4" />
-            <span className="text-sm font-medium text-slate-800">Analyze Now</span>
-            <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
+          <button onClick={() => {
+          const toolSection = document.getElementById('tool');
+          if (toolSection) {
+            toolSection.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }
+        }} className="inline-flex items-center gap-3 bg-white py-3 rounded-full shadow-md hero-animate mx-auto hover:bg-gray-50 transition-all px-[23px]">
+            <Rocket className="text-blue-600 h-6 w-6 rounded-none" />
+            <span className="font-medium text-slate-800 text-3xl">Analyze Now</span>
+            <div className="w-10 h-10 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
           </button>
         </div>
         
         {/* Stats integrated with badges - Now using AnimatedStat component */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto hero-animate-delayed mb-16">
-          {stats.map((stat, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <AnimatedStat 
-                value={stat.value} 
-                label={stat.label} 
-                delay={index * 300} // Stagger the animation by 300ms per stat
-                duration={2000} // 2 seconds animation duration
-              />
+          {stats.map((stat, index) => <div key={index} className="flex flex-col items-center">
+              <AnimatedStat value={stat.value} label={stat.label} delay={index * 300} // Stagger the animation by 300ms per stat
+          duration={2000} // 2 seconds animation duration
+          />
               <span className={`${stat.badge.bg} ${stat.badge.text} px-4 py-1 rounded-full text-sm font-medium mt-3`}>
                 {stat.badge.content}
               </span>
-            </div>
-          ))}
+            </div>)}
         </div>
 
         {/* Key Benefits Section - Moved from How It Works page */}
@@ -205,8 +185,6 @@ export const Hero = () => {
           </Card>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
