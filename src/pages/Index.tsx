@@ -24,11 +24,13 @@ const Index = () => {
       }, 100);
     }
 
-    // Setup animations for sections
+    // Setup animations for sections with a slightly larger root margin
+    // to trigger animations before elements fully enter viewport
     const observer = setupIntersectionObserver(
       '.animate-on-scroll',
       'animate-slide-up',
-      0.1
+      0.1,
+      '50px' // Added root margin to trigger animations earlier
     );
 
     return () => {

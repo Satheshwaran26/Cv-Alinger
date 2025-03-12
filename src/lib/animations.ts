@@ -12,9 +12,13 @@ export const setupIntersectionObserver = (
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        // Make element visible immediately to prevent disappearing
-        if (!entry.target.classList.contains(animationClass)) {
+        // When the element is visible in the viewport
+        if (entry.isIntersecting) {
+          // Add the animation class and make it visible
           entry.target.classList.add(animationClass);
+          entry.target.classList.remove('opacity-0');
+          // Once animated, no need to observe anymore
+          observer.unobserve(entry.target);
         }
       });
     },
