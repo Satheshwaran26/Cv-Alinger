@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -118,10 +117,12 @@ export const Hero = () => {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-6xl text-slate-900 leading-tight relative z-10 dark:text-white">
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900 min-h-[64px] min-w-[300px]">
               {displayedText1}
+              {!isTypingComplete && <span className="animate-pulse text-blue-500 dark:text-blue-400">|</span>}
             </span>
             <br />
             <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 min-h-[64px] min-w-[400px]">
               {displayedText2}
+              {!isTypingComplete && displayedText1.length === fullText1.length && <span className="animate-pulse text-blue-500 dark:text-blue-400">|</span>}
             </span>
           </h1>
         </div>
