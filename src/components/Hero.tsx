@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -8,10 +7,9 @@ import { Badge } from "@/components/ui/badge";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [displayedText1, setDisplayedText1] = useState("");
-  const [displayedText2, setDisplayedText2] = useState("");
-  const fullText1 = "AI-Powered Resume:";
-  const fullText2 = "Unlock Your Dream Job Faster";
+  const [isVisible, setIsVisible] = useState(false);
+  const titleText1 = "AI-Powered Resume:";
+  const titleText2 = "Unlock Your Dream Job Faster";
 
   useEffect(() => {
     // Don't use animation for hero section to prevent disappearing
@@ -22,45 +20,15 @@ export const Hero = () => {
       el.classList.remove('opacity-0');
     });
     
+    // Trigger the title animation after a short delay
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+    
     // Disable the intersection observer for the hero section
     // as it's likely causing the disappearing issue
-    return () => {};
-  }, []);
-
-  // Text animation effect
-  useEffect(() => {
-    let timer1: ReturnType<typeof setTimeout>;
-    let timer2: ReturnType<typeof setTimeout>;
-    let currentIndex1 = 0;
-    let currentIndex2 = 0;
-    
-    // First line typing animation
-    const type1 = () => {
-      if (currentIndex1 < fullText1.length) {
-        setDisplayedText1(prev => prev + fullText1.charAt(currentIndex1));
-        currentIndex1++;
-        timer1 = setTimeout(type1, 50); // Adjust speed here (lower = faster)
-      } else {
-        // Start second line after first line is complete
-        type2();
-      }
-    };
-    
-    // Second line typing animation
-    const type2 = () => {
-      if (currentIndex2 < fullText2.length) {
-        setDisplayedText2(prev => prev + fullText2.charAt(currentIndex2));
-        currentIndex2++;
-        timer2 = setTimeout(type2, 50); // Adjust speed here
-      }
-    };
-    
-    // Start the animation
-    timer1 = setTimeout(type1, 300); // Small delay before starting
-    
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -107,18 +75,30 @@ export const Hero = () => {
       </div>
       
       <div className="container max-w-screen-2xl mx-auto text-center px-4 md:px-8 relative z-10">
-        {/* Main headline - now with typing animation */}
+        {/* Main headline - now with fade-in & scale animation */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="bg-blue-50 w-[90%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-6xl text-slate-900 leading-tight relative z-10 dark:text-white">
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900 min-h-[64px]">
-              {displayedText1}<span className={displayedText1.length < fullText1.length ? "animate-pulse" : "hidden"}>|</span>
+            <span 
+              className={`bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900 transition-all duration-1000 transform ${
+                isVisible 
+                  ? "opacity-100 translate-y-0 scale-100" 
+                  : "opacity-0 -translate-y-8 scale-95"
+              }`}
+            >
+              {titleText1}
             </span>
             <br />
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 min-h-[64px]">
-              {displayedText2}<span className={displayedText2.length < fullText2.length ? "animate-pulse" : ""}>|</span>
+            <span 
+              className={`bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 transition-all duration-1000 delay-500 transform ${
+                isVisible 
+                  ? "opacity-100 translate-y-0 scale-100" 
+                  : "opacity-0 translate-y-8 scale-95"
+              }`}
+            >
+              {titleText2}
             </span>
           </h1>
         </div>
