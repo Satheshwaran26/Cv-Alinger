@@ -246,7 +246,7 @@ const BlogIndex = () => {
             </div>
             
             {/* Category Tabs */}
-            <Tabs defaultValue="All" className="w-full max-w-3xl mx-auto">
+            <Tabs defaultValue="All" className="w-full max-w-6xl mx-auto">
               <TabsList className="h-auto flex flex-wrap justify-center bg-transparent gap-2 mb-4">
                 {categories.map(category => <TabsTrigger key={category} value={category} onClick={() => setSelectedCategory(category)} className="px-4 py-2 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                     {category}
@@ -254,7 +254,7 @@ const BlogIndex = () => {
               </TabsList>
               
               {categories.map(category => <TabsContent key={category} value={category} className="mt-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
                     {filteredPosts.map((post, index) => {
                   // Cycle through the color palettes
                   const colorPalette = colorPalettes[index % colorPalettes.length];

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 export const Blog: FC = () => {
@@ -87,9 +87,9 @@ export const Blog: FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
           {recentPosts.map(post => (
-            <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
+            <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
               <CardHeader className="pb-4">
                 <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
                   <div className={`flex items-center justify-center w-6 h-6 rounded-full ${post.color.bg}`}>
@@ -119,7 +119,7 @@ export const Blog: FC = () => {
                   ))}
                 </div>
               </CardHeader>
-              <CardContent className="mt-auto">
+              <CardContent className="pt-2 mt-auto">
                 <Link to={`/blog/${post.slug}`}>
                   <Button 
                     variant="outline" 
