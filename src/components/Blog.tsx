@@ -1,5 +1,5 @@
 
-import { FC } from 'react';
+import { FC, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ export const Blog: FC = () => {
     slug,
     id: index, // Generate an id based on index
     excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...', // Generate excerpt from content
-    categories: [] // Default empty categories array if not present
+    categories: post.categories || [] // Default empty categories array if not present
   }));
 
   // Sort by date (newest first) and limit to 4 posts

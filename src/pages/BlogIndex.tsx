@@ -1,11 +1,18 @@
+
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, User, Tag, BookOpenText } from 'lucide-react';
+import { Calendar, User, Tag, BookOpenText, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { posts } from '@/utils/blogPosts';
+import { useState, useMemo } from 'react';
+import { Input } from '@/components/ui/input';
+
 const BlogIndex = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
   // Get all available blog posts that have content
   const allPosts = Object.entries(posts).map(([slug, post], index) => ({
     ...post,
@@ -14,20 +21,121 @@ const BlogIndex = () => {
     // Generate an id based on index
     excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
     // Generate excerpt from content
-    categories: [] // Default empty categories array if not present
+    categories: post.categories || [] // Default empty categories array if not present
   }));
+
+  // Extract all unique categories
+  const allCategories = useMemo(() => {
+    const categoriesSet = new Set<string>();
+    
+    allPosts.forEach(post => {
+      if (post.categories && post.categories.length > 0) {
+        post.categories.forEach(category => categoriesSet.add(category));
+      }
+    });
+    
+    return Array.from(categoriesSet).sort();
+  }, [allPosts]);
+
+  // Create two balanced columns for categories
+  const categoryColumns = useMemo(() => {
+    const midpoint = Math.ceil(allCategories.length / 2);
+    return [
+      allCategories.slice(0, midpoint),
+      allCategories.slice(midpoint)
+    ];
+  }, [allCategories]);
+
+  // Filter posts based on search query and selected category
+  const filteredPosts = useMemo(() => {
+    return allPosts.filter(post => {
+      const matchesSearch = 
+        searchQuery === '' || 
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.author.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesCategory = 
+        !selectedCategory || 
+        (post.categories && post.categories.includes(selectedCategory));
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [allPosts, searchQuery, selectedCategory]);
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(prevCategory => 
+      prevCategory === category ? null : category
+    );
+  };
+
   return <Layout>
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white">Knowledge Base</h1>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
               Industry insights and expert advice on AI-powered job searching, resume optimization, and career advancement.
             </p>
+            
+            {/* Search Bar */}
+            <div className="relative max-w-md mx-auto mb-8">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-slate-400" />
+              </div>
+              <Input
+                type="text"
+                placeholder="Search articles..."
+                className="pl-10 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            {/* Categories Section */}
+            {allCategories.length > 0 && (
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
+                  <Tag className="inline mr-2 h-5 w-5" />
+                  Categories
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-2xl mx-auto">
+                  {categoryColumns.map((column, colIndex) => (
+                    <div key={colIndex} className="flex flex-col gap-2">
+                      {column.map(category => (
+                        <Badge 
+                          key={category}
+                          className={`cursor-pointer text-sm py-1.5 px-3 ${
+                            selectedCategory === category 
+                              ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
+                              : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
+                          }`}
+                          onClick={() => handleCategoryClick(category)}
+                        >
+                          {category} {selectedCategory === category && '✓'}
+                        </Badge>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+                
+                {selectedCategory && (
+                  <div className="mt-4">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setSelectedCategory(null)}
+                    >
+                      Clear Filter
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          {allPosts.length > 0 ? <div className="grid grid-cols-1 gap-8">
-              {allPosts.map(post => {
+          {filteredPosts.length > 0 ? <div className="grid grid-cols-1 gap-8">
+              {filteredPosts.map(post => {
             const colorClasses = {
               blue: {
                 bg: 'bg-blue-100 dark:bg-blue-900/30',
@@ -99,8 +207,24 @@ const BlogIndex = () => {
                 No articles found
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
-                Check back soon for new content.
+                {selectedCategory ? 
+                  `No articles found in the "${selectedCategory}" category.` : 
+                  searchQuery ? 
+                    `No articles found matching "${searchQuery}".` : 
+                    'Check back soon for new content.'}
               </p>
+              {(selectedCategory || searchQuery) && (
+                <Button 
+                  variant="outline" 
+                  className="mt-4"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedCategory(null);
+                  }}
+                >
+                  Reset Filters
+                </Button>
+              )}
             </div>}
         </div>
       </div>
