@@ -154,3 +154,4 @@ export const Blog: FC = () => {
     </section>
   );
 };
+
