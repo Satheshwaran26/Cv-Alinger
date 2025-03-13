@@ -52,13 +52,16 @@ const categoryMap = {
   "Career Growth": [6, 11, 19, 20, 23],
   "Networking": [4, 7, 8, 11]
 };
+
 const BlogIndex = () => {
   // Scroll to top when the component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+
   const posts = [{
     id: 5,
     title: 'How AI Resume Builders Are Revolutionizing the Job Application Process',
@@ -222,9 +225,11 @@ const BlogIndex = () => {
     const matchesCategory = selectedCategory === 'All' || post.categories.includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+
   return <Layout>
       <div className="bg-white dark:bg-gray-950 py-12 md:py-20">
         <div className="container mx-auto px-4">
@@ -253,7 +258,7 @@ const BlogIndex = () => {
                     {filteredPosts.map((post, index) => {
                   // Cycle through the color palettes
                   const colorPalette = colorPalettes[index % colorPalettes.length];
-                  return <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  return <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
                           <CardHeader className="pb-4">
                             <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
                               <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colorPalette.bg}`}>
@@ -269,7 +274,7 @@ const BlogIndex = () => {
                             <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
                               {post.title}
                             </CardTitle>
-                            <CardDescription className="text-slate-600 dark:text-slate-400">
+                            <CardDescription className="text-slate-600 dark:text-slate-400 line-clamp-3">
                               {post.excerpt}
                             </CardDescription>
                             
@@ -281,7 +286,7 @@ const BlogIndex = () => {
                                 </Badge>)}
                             </div>
                           </CardHeader>
-                          <CardContent>
+                          <CardContent className="pt-2 mt-auto">
                             <Link to={`/blog/${post.slug}`}>
                               <Button variant="outline" className={`w-full transition-colors ${colorPalette.hover}`}>
                                 <div className="flex items-center gap-2">
@@ -311,4 +316,5 @@ const BlogIndex = () => {
       </div>
     </Layout>;
 };
+
 export default BlogIndex;
