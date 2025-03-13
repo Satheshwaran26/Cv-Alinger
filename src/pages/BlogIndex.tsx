@@ -52,16 +52,13 @@ const categoryMap = {
   "Career Growth": [6, 11, 19, 20, 23],
   "Networking": [4, 7, 8, 11]
 };
-
 const BlogIndex = () => {
   // Scroll to top when the component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-
   const posts = [{
     id: 5,
     title: 'How AI Resume Builders Are Revolutionizing the Job Application Process',
@@ -225,11 +222,9 @@ const BlogIndex = () => {
     const matchesCategory = selectedCategory === 'All' || post.categories.includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
-
   return <Layout>
       <div className="bg-white dark:bg-gray-950 py-12 md:py-20">
         <div className="container mx-auto px-4">
@@ -271,10 +266,10 @@ const BlogIndex = () => {
                               </div>
                               <span>{post.author || 'Hanan Amos'}</span>
                             </div>
-                            <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
+                            <CardTitle className="text-xl font-bold text-slate-900 dark:text-white text-left">
                               {post.title}
                             </CardTitle>
-                            <CardDescription className="text-slate-600 dark:text-slate-400 line-clamp-3">
+                            <CardDescription className="text-slate-600 dark:text-slate-400 line-clamp-3 text-left">
                               {post.excerpt}
                             </CardDescription>
                             
@@ -316,5 +311,4 @@ const BlogIndex = () => {
       </div>
     </Layout>;
 };
-
 export default BlogIndex;
