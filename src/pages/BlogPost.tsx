@@ -1,11 +1,10 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, User, BookOpenText } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { generateOpenAIContent } from '@/utils/openai';
 
-// Color palette for blog posts
 const colorPalette = {
   '10-ways-resume-ai-interview-chances': {
     bg: 'bg-purple-100 dark:bg-purple-900/30',
@@ -74,12 +73,10 @@ const BlogPost = () => {
   const [generatingPost, setGeneratingPost] = useState(false);
   const [generatedPost, setGeneratedPost] = useState<{title: string; content: string; date: string; author: string} | null>(null);
   
-  // Get colors for the current post
   const colors = slug && colorPalette[slug as keyof typeof colorPalette] 
     ? colorPalette[slug as keyof typeof colorPalette]
     : colorPalette['default'];
   
-  // Blog posts database
   const posts = {
     '10-ways-resume-ai-interview-chances': {
       title: '10 Ways Resume AI Tools Can Boost Your Interview Chances',
@@ -492,7 +489,6 @@ const BlogPost = () => {
     }
   };
 
-  // Check if the current post exists and generate content if it doesn't
   useEffect(() => {
     const currentPost = slug && posts[slug as keyof typeof posts] || null;
     
@@ -501,47 +497,19 @@ const BlogPost = () => {
     }
   }, [slug, generatedPost, generatingPost]);
 
-  // Function to generate a blog post using OpenAI API
   const generateBlogPost = async (title: string) => {
     try {
       setGeneratingPost(true);
       
-      // Format the title for better readability
       const formattedTitle = title.split('-').map(word => 
         word.charAt(0).toUpperCase() + word.slice(1)
       ).join(' ');
       
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: "gpt-4o",
-          messages: [
-            {
-              role: "system",
-              content: "You are a professional blog writer specializing in career development, resume building, and job search strategies."
-            },
-            {
-              role: "user",
-              content: `Write a detailed blog post titled "${formattedTitle}". The post should be about 1000 words and formatted with HTML. Include h3 tags for sections, p tags with class="mb-4" for paragraphs, and proper formatting. Focus on providing valuable insights and actionable advice related to careers, resumes, or job searching.`
-            }
-          ],
-          temperature: 0.7,
-          max_tokens: 2500
-        })
-      });
+      const content = await generateOpenAIContent(
+        `Write a detailed blog post titled "${formattedTitle}". The post should be about 1000 words and formatted with HTML. Include h3 tags for sections, p tags with class="mb-4" for paragraphs, and proper formatting. Focus on providing valuable insights and actionable advice related to careers, resumes, or job searching.`,
+        "You are a professional blog writer specializing in career development, resume building, and job search strategies."
+      );
       
-      if (!response.ok) {
-        throw new Error('Failed to generate blog post');
-      }
-      
-      const data = await response.json();
-      const content = data.choices[0].message.content;
-      
-      // Create a new post object with the generated content
       setGeneratedPost({
         title: formattedTitle,
         content,
@@ -559,7 +527,6 @@ const BlogPost = () => {
     }
   };
 
-  // Get the current blog post content
   const currentPost = slug && posts[slug as keyof typeof posts] || generatedPost;
 
   return (
@@ -567,13 +534,11 @@ const BlogPost = () => {
       <div className="container mx-auto px-4 py-12">
         {currentPost ? (
           <div>
-            {/* Back button */}
             <Link to="/blog" className="inline-flex items-center mb-6 text-sm font-medium transition-colors hover:text-blue-600">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to all articles
             </Link>
             
-            {/* Article Header */}
             <div className={`rounded-lg p-6 mb-8 ${colors.bg}`}>
               <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">{currentPost.title}</h1>
               
@@ -594,7 +559,6 @@ const BlogPost = () => {
               </div>
             </div>
             
-            {/* Article Content */}
             <div className="prose prose-blue max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-700 dark:prose-p:text-slate-300">
               <div dangerouslySetInnerHTML={{ __html: currentPost.content }} />
             </div>

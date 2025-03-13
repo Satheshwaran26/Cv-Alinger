@@ -8,7 +8,7 @@ export const generateOpenAIContent = async (prompt: string, systemPrompt: string
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+        'Authorization': `Bearer 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`
       },
       body: JSON.stringify({
         model: "gpt-4o",
