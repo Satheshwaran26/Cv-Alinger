@@ -1,3 +1,4 @@
+
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
@@ -86,7 +87,7 @@ export const Blog: FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {recentPosts.map(post => (
             <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
               <CardHeader className="pb-4">

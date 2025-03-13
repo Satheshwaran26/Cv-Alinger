@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
@@ -39,6 +40,11 @@ const colorPalettes = [
     bg: 'bg-indigo-100 dark:bg-indigo-900/30',
     text: 'text-indigo-600 dark:text-indigo-400',
     hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
+  },
+  {
+    bg: 'bg-teal-100 dark:bg-teal-900/30',
+    text: 'text-teal-600 dark:text-teal-400',
+    hover: 'hover:bg-teal-200 dark:hover:bg-teal-800/40'
   }
 ];
 
@@ -47,6 +53,7 @@ const categories = [
   "All",
   "AI Tools",
   "Resume Tips",
+  "Resume Optimization",
   "Job Search",
   "Interviews",
   "Career Growth",
@@ -55,11 +62,12 @@ const categories = [
 
 // Map posts to categories
 const categoryMap = {
-  "AI Tools": [1, 2, 13, 20, 22, 23],
+  "AI Tools": [1, 2, 5, 13, 20, 22, 23],
   "Resume Tips": [2, 8, 12, 15, 18],
-  "Job Search": [1, 7, 8, 10, 13, 16, 17, 21],
+  "Resume Optimization": [5, 12, 18],
+  "Job Search": [1, 5, 7, 8, 10, 13, 16, 17, 21],
   "Interviews": [3, 5, 9, 14],
-  "Career Growth": [6, 11, 19, 20],
+  "Career Growth": [6, 11, 19, 20, 23],
   "Networking": [4, 7, 8, 11]
 };
 
@@ -73,6 +81,15 @@ const BlogIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const posts = [
+    {
+      id: 5,
+      title: 'How AI Resume Builders Are Revolutionizing the Job Application Process',
+      date: 'May 28, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Discover how AI resume builders are transforming the job application process with ATS optimization, data-driven content recommendations, personalized job matching, and professional design optimization.',
+      slug: 'ai-resume-builders-revolution',
+      categories: ['AI Tools', 'Resume Optimization', 'Job Search']
+    },
     {
       id: 23,
       title: 'KSAO Framework: The Foundation of Strategic HR Management',
@@ -305,7 +322,7 @@ const BlogIndex = () => {
               
               {categories.map((category) => (
                 <TabsContent key={category} value={category} className="mt-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
                     {filteredPosts.map((post, index) => {
                       // Cycle through the color palettes
                       const colorPalette = colorPalettes[index % colorPalettes.length];
@@ -322,7 +339,7 @@ const BlogIndex = () => {
                               <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colorPalette.bg}`}>
                                 <User className={`h-3 w-3 ${colorPalette.text}`} />
                               </div>
-                              <span>Hanan Amos</span>
+                              <span>{post.author || 'Hanan Amos'}</span>
                             </div>
                             <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
                               {post.title}
