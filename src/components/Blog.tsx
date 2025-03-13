@@ -11,9 +11,12 @@ import { posts } from '@/utils/blogPosts';
 
 export const Blog: FC = () => {
   // Create an array of post data from the posts object
-  const allPostsData = Object.entries(posts).map(([slug, post]) => ({
+  const allPostsData = Object.entries(posts).map(([slug, post], index) => ({
     ...post,
-    slug
+    slug,
+    id: index, // Generate an id based on index
+    excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...', // Generate excerpt from content
+    categories: [] // Default empty categories array if not present
   }));
 
   // Sort by date (newest first) and limit to 4 posts
@@ -93,7 +96,7 @@ export const Blog: FC = () => {
                       {post.excerpt}
                     </CardDescription>
                     
-                    {post.categories && (
+                    {post.categories && post.categories.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-3">
                         {post.categories.map((category) => (
                           <Badge key={category} className={`${color.bg} ${color.text}`}>

@@ -9,9 +9,12 @@ import { posts } from '@/utils/blogPosts';
 
 const BlogIndex = () => {
   // Get all available blog posts that have content
-  const allPosts = Object.entries(posts).map(([slug, post]) => ({
+  const allPosts = Object.entries(posts).map(([slug, post], index) => ({
     ...post,
     slug,
+    id: index, // Generate an id based on index
+    excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...', // Generate excerpt from content
+    categories: [] // Default empty categories array if not present
   }));
 
   return (
@@ -76,7 +79,7 @@ const BlogIndex = () => {
                         {post.excerpt}
                       </CardDescription>
 
-                      {post.categories && (
+                      {post.categories && post.categories.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-4">
                           {post.categories.map((category) => (
                             <Badge key={category} className={`${color.bg} ${color.text}`}>
