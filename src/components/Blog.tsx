@@ -6,7 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
+// Import the posts data to check which posts have content
+import { posts } from '@/utils/blogPosts';
+
 export const Blog: FC = () => {
+  // Filter the recent posts to only include those with content in the posts object
   const recentPosts = [
     {
       id: 28,
@@ -64,7 +68,7 @@ export const Blog: FC = () => {
         hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
       }
     }
-  ];
+  ].filter(post => post.slug in posts);
 
   const handleViewAllClick = () => {
     // Scroll to top when user navigates to the blog page
@@ -150,4 +154,3 @@ export const Blog: FC = () => {
     </section>
   );
 };
-
