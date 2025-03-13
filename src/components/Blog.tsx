@@ -1,4 +1,3 @@
-
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
@@ -8,6 +7,20 @@ import { Badge } from '@/components/ui/badge';
 
 export const Blog: FC = () => {
   const recentPosts = [
+    {
+      id: 27,
+      title: 'The Future of Resume Writing: AI Tools vs. Professional Resume Writers',
+      date: 'July 5, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Compare the strengths and limitations of AI resume tools versus professional resume writers, and discover how hybrid approaches combining both may offer the optimal solution for modern job seekers.',
+      slug: 'resume-writing-ai-vs-professionals',
+      categories: ['AI Tools', 'Resume Optimization', 'Career Development'],
+      color: {
+        bg: 'bg-amber-100 dark:bg-amber-900/30',
+        text: 'text-amber-600 dark:text-amber-400',
+        hover: 'hover:bg-amber-200 dark:hover:bg-amber-800/40'
+      }
+    },
     {
       id: 26,
       title: '10 Ways Resume AI Tools Can Boost Your Interview Chances',
@@ -48,20 +61,6 @@ export const Blog: FC = () => {
         bg: 'bg-indigo-100 dark:bg-indigo-900/30',
         text: 'text-indigo-600 dark:text-indigo-400',
         hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
-      }
-    },
-    {
-      id: 5,
-      title: 'How AI Resume Builders Are Revolutionizing the Job Application Process',
-      date: 'May 28, 2024',
-      author: 'Hanan Amos',
-      excerpt: 'Discover how AI resume builders are transforming the job application process with ATS optimization, data-driven content recommendations, personalized job matching, and professional design optimization.',
-      slug: 'ai-resume-builders-revolution',
-      categories: ['AI Tools', 'Resume Optimization', 'Job Search'],
-      color: {
-        bg: 'bg-teal-100 dark:bg-teal-900/30',
-        text: 'text-teal-600 dark:text-teal-400',
-        hover: 'hover:bg-teal-200 dark:hover:bg-teal-800/40'
       }
     }
   ];
