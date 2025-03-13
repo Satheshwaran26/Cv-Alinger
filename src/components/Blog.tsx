@@ -20,7 +20,7 @@ interface PostWithMetadata {
   categories: string[];
 }
 
-// Define our 6 primary categories
+// Define our primary categories
 const primaryCategories = [
   "Career Advice",
   "Resume Tips",
