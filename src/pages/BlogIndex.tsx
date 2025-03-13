@@ -1,4 +1,3 @@
-
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -20,44 +19,46 @@ interface PostWithMetadata {
   categories: string[];
 }
 
+const primaryCategories = [
+  "Career Advice",
+  "Resume Tips",
+  "Interview Skills",
+  "Job Search", 
+  "Industry Trends",
+  "AI Tools"
+];
+
 const BlogIndex = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  // Get all available blog posts that have content
-  const allPosts = Object.entries(posts).map(([slug, post], index) => ({
-    ...post,
-    slug,
-    id: index,
-    // Generate an id based on index
-    excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
-    // Generate excerpt from content
-    categories: post.categories || [] // Default empty categories array if not present
-  })) as PostWithMetadata[];
+  const allPosts = Object.entries(posts).map(([slug, post], index) => {
+    const filteredCategories = post.categories ? 
+      post.categories.filter(cat => primaryCategories.includes(cat)) : [];
+    
+    const postCategories = filteredCategories.length > 0 ? 
+      filteredCategories : [primaryCategories[index % primaryCategories.length]];
+    
+    return {
+      ...post,
+      slug,
+      id: index,
+      excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
+      categories: postCategories
+    };
+  }) as PostWithMetadata[];
 
-  // Extract all unique categories
   const allCategories = useMemo(() => {
-    const categoriesSet = new Set<string>();
-    
-    allPosts.forEach(post => {
-      if (post.categories && post.categories.length > 0) {
-        post.categories.forEach(category => categoriesSet.add(category));
-      }
-    });
-    
-    return Array.from(categoriesSet).sort();
-  }, [allPosts]);
+    return primaryCategories;
+  }, []);
 
-  // Create two balanced columns for categories
   const categoryColumns = useMemo(() => {
-    const midpoint = Math.ceil(allCategories.length / 2);
     return [
-      allCategories.slice(0, midpoint),
-      allCategories.slice(midpoint)
+      allCategories.slice(0, 3),
+      allCategories.slice(3)
     ];
   }, [allCategories]);
 
-  // Filter posts based on search query and selected category
   const filteredPosts = useMemo(() => {
     return allPosts.filter(post => {
       const matchesSearch = 
@@ -89,7 +90,6 @@ const BlogIndex = () => {
               Industry insights and expert advice on AI-powered job searching, resume optimization, and career advancement.
             </p>
             
-            {/* Search Bar */}
             <div className="relative max-w-md mx-auto mb-8">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-slate-400" />
@@ -103,76 +103,76 @@ const BlogIndex = () => {
               />
             </div>
             
-            {/* Categories Section */}
-            {allCategories.length > 0 && (
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
-                  <Tag className="inline mr-2 h-5 w-5" />
-                  Categories
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-2xl mx-auto">
-                  {categoryColumns.map((column, colIndex) => (
-                    <div key={colIndex} className="flex flex-col gap-2">
-                      {column.map(category => (
-                        <Badge 
-                          key={category}
-                          className={`cursor-pointer text-sm py-1.5 px-3 ${
-                            selectedCategory === category 
-                              ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
-                              : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
-                          }`}
-                          onClick={() => handleCategoryClick(category)}
-                        >
-                          {category} {selectedCategory === category && '✓'}
-                        </Badge>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-                
-                {selectedCategory && (
-                  <div className="mt-4">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setSelectedCategory(null)}
-                    >
-                      Clear Filter
-                    </Button>
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
+                <Tag className="inline mr-2 h-5 w-5" />
+                Categories
+              </h2>
+              <div className="grid grid-cols-2 gap-2 max-w-2xl mx-auto">
+                {categoryColumns.map((column, colIndex) => (
+                  <div key={colIndex} className="flex flex-col gap-2">
+                    {column.map(category => (
+                      <Badge 
+                        key={category}
+                        className={`cursor-pointer text-sm py-1.5 px-3 ${
+                          selectedCategory === category 
+                            ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
+                            : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
+                        }`}
+                        onClick={() => handleCategoryClick(category)}
+                      >
+                        {category} {selectedCategory === category && '✓'}
+                      </Badge>
+                    ))}
                   </div>
-                )}
+                ))}
               </div>
-            )}
+              
+              {selectedCategory && (
+                <div className="mt-4">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setSelectedCategory(null)}
+                  >
+                    Clear Filter
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
 
-          {filteredPosts.length > 0 ? <div className="grid grid-cols-1 gap-8">
+          {filteredPosts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {filteredPosts.map(post => {
-            const colorClasses = {
-              blue: {
-                bg: 'bg-blue-100 dark:bg-blue-900/30',
-                text: 'text-blue-600 dark:text-blue-400',
-                hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
-              },
-              amber: {
-                bg: 'bg-amber-100 dark:bg-amber-900/30',
-                text: 'text-amber-600 dark:text-amber-400',
-                hover: 'hover:bg-amber-200 dark:hover:bg-amber-800/40'
-              },
-              purple: {
-                bg: 'bg-purple-100 dark:bg-purple-900/30',
-                text: 'text-purple-600 dark:text-purple-400',
-                hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
-              },
-              green: {
-                bg: 'bg-green-100 dark:bg-green-900/30',
-                text: 'text-green-600 dark:text-green-400',
-                hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
-              }
-            };
-            const colorKeys = Object.keys(colorClasses);
-            const colorKey = colorKeys[post.id % colorKeys.length] as keyof typeof colorClasses;
-            const color = colorClasses[colorKey];
-            return <Card key={post.slug} className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                const colorClasses = {
+                  blue: {
+                    bg: 'bg-blue-100 dark:bg-blue-900/30',
+                    text: 'text-blue-600 dark:text-blue-400',
+                    hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
+                  },
+                  amber: {
+                    bg: 'bg-amber-100 dark:bg-amber-900/30',
+                    text: 'text-amber-600 dark:text-amber-400',
+                    hover: 'hover:bg-amber-200 dark:hover:bg-amber-800/40'
+                  },
+                  purple: {
+                    bg: 'bg-purple-100 dark:bg-purple-900/30',
+                    text: 'text-purple-600 dark:text-purple-400',
+                    hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
+                  },
+                  green: {
+                    bg: 'bg-green-100 dark:bg-green-900/30',
+                    text: 'text-green-600 dark:text-green-400',
+                    hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
+                  }
+                };
+                const colorKeys = Object.keys(colorClasses);
+                const colorKey = colorKeys[post.id % colorKeys.length] as keyof typeof colorClasses;
+                const color = colorClasses[colorKey];
+
+                return (
+                  <Card key={post.slug} className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
                     <CardHeader className="pb-2">
                       <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
                         <div className={`flex items-center justify-center w-6 h-6 rounded-full ${color.bg}`}>
@@ -211,9 +211,12 @@ const BlogIndex = () => {
                         </Button>
                       </Link>
                     </CardFooter>
-                  </Card>;
-          })}
-            </div> : <div className="text-center py-16">
+                  </Card>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-16">
               <h2 className="text-xl font-medium mb-4 text-slate-700 dark:text-slate-300">
                 No articles found
               </h2>
@@ -236,9 +239,11 @@ const BlogIndex = () => {
                   Reset Filters
                 </Button>
               )}
-            </div>}
+            </div>
+          )}
         </div>
       </div>
     </Layout>;
 };
+
 export default BlogIndex;

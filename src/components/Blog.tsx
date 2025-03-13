@@ -20,15 +20,35 @@ interface PostWithMetadata {
   categories: string[];
 }
 
+// Define our 6 primary categories
+const primaryCategories = [
+  "Career Advice",
+  "Resume Tips",
+  "Interview Skills",
+  "Job Search",
+  "Industry Trends",
+  "AI Tools"
+];
+
 export const Blog: FC = () => {
   // Create an array of post data from the posts object
-  const allPostsData = Object.entries(posts).map(([slug, post], index) => ({
-    ...post,
-    slug,
-    id: index, // Generate an id based on index
-    excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...', // Generate excerpt from content
-    categories: post.categories || [] // Default empty categories array if not present
-  })) as PostWithMetadata[];
+  const allPostsData = Object.entries(posts).map(([slug, post], index) => {
+    // Filter post categories to only include our primary categories
+    const filteredCategories = post.categories ? 
+      post.categories.filter(cat => primaryCategories.includes(cat)) : [];
+    
+    // If no matching categories, assign the first primary category
+    const postCategories = filteredCategories.length > 0 ? 
+      filteredCategories : [primaryCategories[index % primaryCategories.length]];
+    
+    return {
+      ...post,
+      slug,
+      id: index, // Generate an id based on index
+      excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...', // Generate excerpt from content
+      categories: postCategories // Use filtered or assigned categories
+    };
+  }) as PostWithMetadata[];
 
   // Sort by date (newest first) and limit to 4 posts
   const recentPosts = allPostsData
