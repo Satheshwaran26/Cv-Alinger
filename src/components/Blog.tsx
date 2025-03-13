@@ -27,7 +27,8 @@ const primaryCategories = [
   "Interview Skills",
   "Job Search",
   "Industry Trends",
-  "AI Tools"
+  "AI Tools",
+  "Industry-Specific" // Adding the new category
 ];
 
 export const Blog: FC = () => {
@@ -106,9 +107,20 @@ export const Blog: FC = () => {
                   bg: 'bg-green-100 dark:bg-green-900/30',
                   text: 'text-green-600 dark:text-green-400', 
                   hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
+                },
+                indigo: {
+                  bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+                  text: 'text-indigo-600 dark:text-indigo-400',
+                  hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
+                },
+                teal: {
+                  bg: 'bg-teal-100 dark:bg-teal-900/30',
+                  text: 'text-teal-600 dark:text-teal-400',
+                  hover: 'hover:bg-teal-200 dark:hover:bg-teal-800/40'
                 }
               };
 
+              // Expanded color options to include indigo for the new blog post
               const colorKeys = Object.keys(colorClasses);
               const colorKey = colorKeys[post.id % colorKeys.length] as keyof typeof colorClasses;
               const color = colorClasses[colorKey];
