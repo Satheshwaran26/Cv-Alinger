@@ -1,4 +1,3 @@
-
 import { FC, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
@@ -25,11 +24,12 @@ const primaryCategories = [
   "Career Advice",
   "Resume Tips",
   "Interview Skills",
-  "Job Search",
+  "Job Search", 
   "Industry Trends",
   "AI Tools",
-  "Industry-Specific", // Adding the new category
-  "Interview Preparation" // Adding Interview Preparation as a primary category
+  "Industry-Specific", 
+  "Interview Preparation",
+  "Career Development"
 ];
 
 export const Blog: FC = () => {
