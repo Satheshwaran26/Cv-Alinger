@@ -229,7 +229,7 @@ const BlogIndex = () => {
       <div className="bg-white dark:bg-gray-950 py-12 md:py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">Our Blog</h1>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">Knowledge base </h1>
             <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400 mb-8">AI-driven job search, resume tips, and career growth strategies.</p>
             
             {/* Search Bar */}
