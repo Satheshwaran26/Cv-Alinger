@@ -9,6 +9,20 @@ import { Badge } from '@/components/ui/badge';
 export const Blog: FC = () => {
   const recentPosts = [
     {
+      id: 26,
+      title: '10 Ways Resume AI Tools Can Boost Your Interview Chances',
+      date: 'June 25, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Discover ten proven strategies for using AI-powered resume tools to dramatically increase your interview invitation rate, backed by data showing up to 65% higher success rates for optimized applications.',
+      slug: '10-ways-resume-ai-interview-chances',
+      categories: ['AI Tools', 'Resume Optimization', 'Interview Tips'],
+      color: {
+        bg: 'bg-purple-100 dark:bg-purple-900/30',
+        text: 'text-purple-600 dark:text-purple-400',
+        hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
+      }
+    },
+    {
       id: 25,
       title: 'Resume AI for Career Changers: Highlighting Transferable Skills',
       date: 'June 18, 2024',
@@ -48,20 +62,6 @@ export const Blog: FC = () => {
         bg: 'bg-teal-100 dark:bg-teal-900/30',
         text: 'text-teal-600 dark:text-teal-400',
         hover: 'hover:bg-teal-200 dark:hover:bg-teal-800/40'
-      }
-    },
-    {
-      id: 1,
-      title: 'KSAO Framework: The Foundation of Strategic HR Management',
-      date: 'May 15, 2024',
-      author: 'Hanan Amos',
-      excerpt: 'Discover how the KSAO framework systematically aligns workforce capabilities with job requirements, enhancing recruitment, employee development, and organizational agility.',
-      slug: 'ksao-hr-framework',
-      categories: ['AI Tools', 'Career Growth'],
-      color: {
-        bg: 'bg-blue-100 dark:bg-blue-900/30',
-        text: 'text-blue-600 dark:text-blue-400',
-        hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
       }
     }
   ];
