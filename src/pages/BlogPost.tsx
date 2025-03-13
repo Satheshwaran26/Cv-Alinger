@@ -1,3 +1,4 @@
+
 import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -389,4 +390,157 @@ const BlogPost = () => {
         <p class="mb-4">Generative AI refers to artificial intelligence systems capable of producing original, human-like outputs such as text, images, and audio. These systems use advanced algorithms, including generative adversarial networks (GANs), to create new content based on the data they've been trained on.</p>
 
         <h3 class="text-xl font-bold mb-2 mt-6">Transforming Business Operations</h3>
-        <p class="mb-4">Businesses across various industries are leveraging generative AI to streamline operations, enhance productivity, and foster innovation. From automating report generation to optimizing workflows, the impact is substantial
+        <p class="mb-4">Businesses across various industries are leveraging generative AI to streamline operations, enhance productivity, and foster innovation. From automating report generation to optimizing workflows, the impact is substantial and measurable.</p>
+
+        <h3 class="text-xl font-bold mb-2 mt-6">Ethical Considerations and Responsible Usage</h3>
+        <p class="mb-4">As generative AI adoption grows, it's crucial to address ethical challenges including potential deepfakes, data privacy concerns, and biases in AI-generated content. Organizations must implement transparent AI governance policies and stay informed about regulatory frameworks.</p>
+      `
+    },
+    'customize-ai-resume-for-industries': {
+      title: 'How to Customize Your AI-Generated Resume for Different Industries',
+      date: 'July 15, 2024',
+      author: 'Hanan Amos',
+      content: `
+        <p class="mb-4">The era of the one-size-fits-all resume is over. Today's hiring landscape demands customization not just for individual job postings but for entire industries. Each sector has its own values, terminology, and expectations when evaluating candidates. While AI resume tools provide an excellent foundation, understanding how to tailor these documents for specific industries can dramatically improve your success rate.</p>
+
+        <p class="mb-4">This guide explores industry-specific optimization strategies to help you maximize the effectiveness of your AI-generated resume across different sectors.</p>
+
+        <h3 class="text-xl font-bold mb-2 mt-6">The Industry Customization Advantage</h3>
+        <h4 class="text-lg font-semibold mb-2">By the Numbers</h4>
+        <p class="mb-4">Recent studies highlight the impact of industry-specific resume customization:</p>
+        <ul class="list-disc pl-6 mb-4">
+          <li class="mb-1">Resumes tailored for specific industries receive 60% more callbacks than generic versions</li>
+          <li class="mb-1">Industry-specific keyword optimization increases ATS pass-through rates by 44%</li>
+          <li class="mb-1">91% of hiring managers report that industry-aligned formatting and terminology positively influence their perception of candidates</li>
+          <li class="mb-1">Candidates using industry-customized resumes typically receive interview requests in 40% less time</li>
+        </ul>
+        
+        <p class="mb-4">Let's explore how to achieve these advantages across major industry sectors.</p>
+
+        <h3 class="text-xl font-bold mb-2 mt-6">Technology Sector Optimization</h3>
+        <h4 class="text-lg font-semibold mb-2">Understanding Tech Industry Expectations</h4>
+        <p class="mb-4">The technology sector values innovation, technical proficiency, and adaptability. Your resume should reflect these priorities through:</p>
+
+        <h4 class="text-lg font-semibold mb-2">Technical Skill Presentation</h4>
+        <p class="mb-4"><strong>AI-Generated Baseline:</strong></p>
+        <pre class="bg-gray-100 p-2 rounded dark:bg-gray-800 mb-2 text-sm">Skills: Python, Java, SQL, Agile, Docker, Kubernetes</pre>
+
+        <p class="mb-4"><strong>Industry-Enhanced Version:</strong></p>
+        <pre class="bg-gray-100 p-2 rounded dark:bg-gray-800 mb-2 text-sm">Technical Proficiencies:
+• Development: Python (6+ years), Java (4+ years), SQL (8+ years)
+• Methodologies: Agile/Scrum, CI/CD pipelines, Test-driven development
+• Infrastructure: Docker containerization, Kubernetes orchestration, AWS cloud architecture</pre>
+
+        <h4 class="text-lg font-semibold mb-2">Project Emphasis Strategies</h4>
+        <p class="mb-4">Technology employers value proven implementation experience. Transform your AI-generated work history with project details:</p>
+
+        <p class="mb-4"><strong>Before Industry Customization:</strong></p>
+        <pre class="bg-gray-100 p-2 rounded dark:bg-gray-800 mb-2 text-sm">Senior Developer, XYZ Corp
+• Led development team on multiple projects
+• Implemented new features and fixed bugs
+• Collaborated with cross-functional teams</pre>
+
+        <p class="mb-4"><strong>After Tech Industry Customization:</strong></p>
+        <pre class="bg-gray-100 p-2 rounded dark:bg-gray-800 mb-2 text-sm">Senior Developer, XYZ Corp
+• Led 6-person development team delivering microservices architecture that reduced API response times by 78%
+• Architected and implemented OAuth 2.0 authentication system supporting 1.2M daily users
+• Spearheaded migration from monolith to containerized services, cutting deployment time from days to 27 minutes</pre>
+
+        <h4 class="text-lg font-semibold mb-2">Technical Balance for Different Audiences</h4>
+        <p class="mb-4">Tech resumes often face both technical and non-technical reviewers. AI-generated resumes should be optimized for both audiences:</p>
+
+        <p class="mb-4"><strong>For Technical Screeners:</strong></p>
+        <ul class="list-disc pl-6 mb-4">
+          <li class="mb-1">Include specific methodologies and frameworks</li>
+          <li class="mb-1">Mention exact versions and implementation details</li>
+          <li class="mb-1">Reference specific algorithms and architecture patterns</li>
+        </ul>
+
+        <p class="mb-4"><strong>For HR/Recruitment:</strong></p>
+        <ul class="list-disc pl-6 mb-4">
+          <li class="mb-1">Include business impact of technical work</li>
+          <li class="mb-1">Explain technical concepts in accessible terms</li>
+          <li class="mb-1">Emphasize collaboration and communication skills</li>
+        </ul>
+
+        <h4 class="text-lg font-semibold mb-2">Industry-Leading Tech Resume Components</h4>
+        <ul class="list-disc pl-6 mb-4">
+          <li class="mb-1"><strong>GitHub/Portfolio Link:</strong> Prominently featured near contact information</li>
+          <li class="mb-1"><strong>Technical Skills Matrix:</strong> Visual representation of skill proficiency levels</li>
+          <li class="mb-1"><strong>System Architecture Highlights:</strong> Brief descriptions of complex systems designed</li>
+          <li class="mb-1"><strong>Technical Performance Metrics:</strong> Quantified improvements in speed, efficiency, or reliability</li>
+        </ul>
+
+        <h3 class="text-xl font-bold mb-2 mt-6">Healthcare Industry Customization</h3>
+        <h4 class="text-lg font-semibold mb-2">Understanding Healthcare Priorities</h4>
+        <p class="mb-4">Healthcare organizations prioritize patient care, regulatory compliance, and continuous improvement. Your AI-generated resume should emphasize:</p>
+
+        <h4 class="text-lg font-semibold mb-2">Regulatory and Compliance Emphasis</h4>
+        <p class="mb-4"><strong>AI-Generated Baseline:</strong></p>
+        <pre class="bg-gray-100 p-2 rounded dark:bg-gray-800 mb-2 text-sm">• Ensured company policies were followed
+• Maintained accurate records
+• Participated in training programs</pre>
+
+        <p class="mb-4"><strong>Healthcare-Enhanced Version:</strong></p>
+        <pre class="bg-gray-100 p-2 rounded dark:bg-gray-800 mb-2 text-sm">• Maintained 100% compliance with HIPAA regulations across 12,000+ patient records
+• Implemented Joint Commission standards, contributing to facility's 97.8% compliance score
+• Led quarterly staff training on updated CMS regulatory requirements and documentation protocols</pre>
+      `
+    }
+  };
+
+  // Get the current blog post content
+  const currentPost = slug && posts[slug as keyof typeof posts] || null;
+
+  return (
+    <Layout>
+      <div className="container mx-auto px-4 py-12">
+        {currentPost ? (
+          <div>
+            {/* Back button */}
+            <Link to="/blog" className="inline-flex items-center mb-6 text-sm font-medium transition-colors hover:text-blue-600">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to all articles
+            </Link>
+            
+            {/* Article Header */}
+            <div className={`rounded-lg p-6 mb-8 ${colors.bg}`}>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">{currentPost.title}</h1>
+              
+              <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+                <div className={`flex items-center gap-1 ${colors.text}`}>
+                  <Calendar className="h-4 w-4" />
+                  <span>{currentPost.date}</span>
+                </div>
+                <div className={`flex items-center gap-1 ${colors.text}`}>
+                  <User className="h-4 w-4" />
+                  <span>{currentPost.author}</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Article Content */}
+            <div className="prose prose-blue max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-700 dark:prose-p:text-slate-300">
+              <div dangerouslySetInnerHTML={{ __html: currentPost.content }} />
+            </div>
+            
+            {/* Share buttons would go here */}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold mb-4">Blog post not found</h2>
+            <p className="mb-6">The article you're looking for doesn't exist or has been removed.</p>
+            <Link to="/blog">
+              <Button>
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to all articles
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
+    </Layout>
+  );
+};
+
+export default BlogPost;
