@@ -28,7 +28,8 @@ const primaryCategories = [
   "Job Search",
   "Industry Trends",
   "AI Tools",
-  "Industry-Specific" // Adding the new category
+  "Industry-Specific", // Adding the new category
+  "Interview Preparation" // Adding Interview Preparation as a primary category
 ];
 
 export const Blog: FC = () => {
