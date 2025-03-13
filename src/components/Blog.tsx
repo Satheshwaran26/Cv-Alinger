@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-// Import the posts data
-import { posts } from '@/utils/blogPosts';
+// Import the posts data and color palette
+import { posts, colorPalette } from '@/utils/blogPosts';
 
 interface PostWithMetadata {
   title: string;
@@ -32,28 +32,32 @@ const primaryCategories = [
 
 export const Blog: FC = () => {
   // Create an array of post data from the posts object
-  const allPostsData = Object.entries(posts).map(([slug, post], index) => {
-    // Filter post categories to only include our primary categories
-    const filteredCategories = post.categories ? 
-      post.categories.filter(cat => primaryCategories.includes(cat)) : [];
-    
-    // If no matching categories, assign the first primary category
-    const postCategories = filteredCategories.length > 0 ? 
-      filteredCategories : [primaryCategories[index % primaryCategories.length]];
-    
-    return {
-      ...post,
-      slug,
-      id: index, // Generate an id based on index
-      excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...', // Generate excerpt from content
-      categories: postCategories // Use filtered or assigned categories
-    };
-  }) as PostWithMetadata[];
+  const allPostsData = useMemo(() => {
+    return Object.entries(posts).map(([slug, post], index) => {
+      // Filter post categories to only include our primary categories
+      const filteredCategories = post.categories ? 
+        post.categories.filter(cat => primaryCategories.includes(cat)) : [];
+      
+      // If no matching categories, assign the first primary category
+      const postCategories = filteredCategories.length > 0 ? 
+        filteredCategories : [primaryCategories[index % primaryCategories.length]];
+      
+      return {
+        ...post,
+        slug,
+        id: index, // Generate an id based on index
+        excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...', // Generate excerpt from content
+        categories: postCategories // Use filtered or assigned categories
+      };
+    });
+  }, []);
 
   // Sort by date (newest first) and limit to 4 posts
-  const recentPosts = allPostsData
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 4);
+  const recentPosts = useMemo(() => {
+    return allPostsData
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 4);
+  }, [allPostsData]);
 
   const handleViewAllClick = () => {
     // Scroll to top when user navigates to the blog page
@@ -79,6 +83,9 @@ export const Blog: FC = () => {
         {recentPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
             {recentPosts.map(post => {
+              // Use colorPalette if available for the post slug, otherwise use default colors
+              const postColors = colorPalette[post.slug as keyof typeof colorPalette] || colorPalette.default;
+              
               const colorClasses = {
                 blue: {
                   bg: 'bg-blue-100 dark:bg-blue-900/30',
@@ -110,13 +117,13 @@ export const Blog: FC = () => {
                 <Card key={post.slug} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
                   <CardHeader className="pb-4">
                     <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
-                      <div className={`flex items-center justify-center w-6 h-6 rounded-full ${color.bg}`}>
-                        <Calendar className={`h-3 w-3 ${color.text}`} />
+                      <div className={`flex items-center justify-center w-6 h-6 rounded-full ${postColors.bg || color.bg}`}>
+                        <Calendar className={`h-3 w-3 ${postColors.text || color.text}`} />
                       </div>
                       <span>{post.date}</span>
                       <span className="mx-1">•</span>
-                      <div className={`flex items-center justify-center w-6 h-6 rounded-full ${color.bg}`}>
-                        <User className={`h-3 w-3 ${color.text}`} />
+                      <div className={`flex items-center justify-center w-6 h-6 rounded-full ${postColors.bg || color.bg}`}>
+                        <User className={`h-3 w-3 ${postColors.text || color.text}`} />
                       </div>
                       <span>{post.author}</span>
                     </div>
@@ -130,7 +137,7 @@ export const Blog: FC = () => {
                     {post.categories && post.categories.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-3">
                         {post.categories.map((category) => (
-                          <Badge key={category} className={`${color.bg} ${color.text}`}>
+                          <Badge key={category} className={`${postColors.bg || color.bg} ${postColors.text || color.text}`}>
                             <Tag className="h-3 w-3 mr-1" />
                             {category}
                           </Badge>
@@ -145,8 +152,8 @@ export const Blog: FC = () => {
                         className={`w-full transition-colors ${color.hover}`}
                       >
                         <div className="flex items-center gap-2">
-                          <div className={`flex items-center justify-center w-5 h-5 rounded-full ${color.bg}`}>
-                            <BookOpenText className={`h-3 w-3 ${color.text}`} />
+                          <div className={`flex items-center justify-center w-5 h-5 rounded-full ${postColors.bg || color.bg}`}>
+                            <BookOpenText className={`h-3 w-3 ${postColors.text || color.text}`} />
                           </div>
                           <span>Read More</span>
                         </div>
