@@ -1,4 +1,3 @@
-
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
@@ -8,6 +7,20 @@ import { Badge } from '@/components/ui/badge';
 
 export const Blog: FC = () => {
   const recentPosts = [
+    {
+      id: 5,
+      title: 'How AI Resume Builders Are Revolutionizing the Job Application Process',
+      date: 'May 28, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Discover how AI resume builders are transforming the job application process with ATS optimization, data-driven content recommendations, personalized job matching, and professional design optimization.',
+      slug: 'ai-resume-builders-revolution',
+      categories: ['AI Tools', 'Resume Optimization', 'Job Search'],
+      color: {
+        bg: 'bg-teal-100 dark:bg-teal-900/30',
+        text: 'text-teal-600 dark:text-teal-400',
+        hover: 'hover:bg-teal-200 dark:hover:bg-teal-800/40'
+      }
+    },
     {
       id: 1,
       title: 'KSAO Framework: The Foundation of Strategic HR Management',
