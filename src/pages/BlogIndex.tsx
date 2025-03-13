@@ -1,3 +1,4 @@
+
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -108,9 +109,9 @@ const BlogIndex = () => {
                 <Tag className="inline mr-2 h-5 w-5" />
                 Categories
               </h2>
-              <div className="grid grid-cols-2 gap-2 max-w-2xl mx-auto">
+              <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
                 {categoryColumns.map((column, colIndex) => (
-                  <div key={colIndex} className="flex flex-col gap-2">
+                  <div key={colIndex} className="flex flex-col gap-2 w-full">
                     {column.map(category => (
                       <Badge 
                         key={category}
@@ -172,7 +173,7 @@ const BlogIndex = () => {
                 const color = colorClasses[colorKey];
 
                 return (
-                  <Card key={post.slug} className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <Card key={post.slug} className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
                     <CardHeader className="pb-2">
                       <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
                         <div className={`flex items-center justify-center w-6 h-6 rounded-full ${color.bg}`}>
@@ -199,7 +200,7 @@ const BlogIndex = () => {
                             </Badge>)}
                         </div>}
                     </CardHeader>
-                    <CardFooter className="pt-4">
+                    <CardFooter className="pt-4 mt-auto">
                       <Link to={`/blog/${post.slug}`} className="w-full">
                         <Button variant="outline" className={`w-full transition-colors ${color.hover}`}>
                           <div className="flex items-center gap-2">
