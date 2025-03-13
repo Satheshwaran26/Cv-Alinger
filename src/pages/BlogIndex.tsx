@@ -52,6 +52,7 @@ const categoryMap = {
   "Career Growth": [6, 11, 19, 20, 23],
   "Networking": [4, 7, 8, 11]
 };
+
 const BlogIndex = () => {
   // Scroll to top when the component mounts
   useEffect(() => {
@@ -65,6 +66,7 @@ const BlogIndex = () => {
     date: 'May 28, 2024',
     author: 'Hanan Amos',
     excerpt: 'Discover how AI resume builders are transforming the job application process with ATS optimization, data-driven content recommendations, personalized job matching, and professional design optimization.',
+    content: `AI resume builders are fundamentally changing how job seekers create and optimize their resumes. These intelligent tools analyze job descriptions to highlight relevant skills, provide real-time feedback on resume content, and ensure ATS compatibility. Modern AI tools can match candidates with suitable job openings based on their qualifications and career goals. They also optimize resume designs for both visual appeal and machine readability, increasing the chances of getting past initial screening processes. By leveraging data from successful applications, these platforms provide personalized recommendations that significantly improve application success rates.`,
     slug: 'ai-resume-builders-revolution',
     categories: ['AI Tools', 'Resume Optimization', 'Job Search']
   }, {
@@ -72,6 +74,7 @@ const BlogIndex = () => {
     title: 'KSAO Framework: The Foundation of Strategic HR Management',
     date: 'May 15, 2024',
     excerpt: 'Discover how the KSAO framework systematically aligns workforce capabilities with job requirements, enhancing recruitment, employee development, and organizational agility.',
+    content: `The KSAO (Knowledge, Skills, Abilities, and Other characteristics) framework serves as a cornerstone for modern HR management. This approach meticulously categorizes workforce attributes, allowing organizations to match employees to roles with precision. Knowledge represents acquired information necessary for job performance. Skills encompass demonstrated proficiencies developed through training and experience. Abilities refer to innate talents that facilitate learning and task execution. Other characteristics include work styles, personality traits, and values that influence workplace fit. By implementing KSAO assessments, organizations can develop targeted training programs, create more effective job descriptions, and make more informed hiring decisions that lead to better retention and performance outcomes.`,
     slug: 'ksao-hr-framework',
     categories: ['AI Tools', 'Career Growth']
   }, {
@@ -79,6 +82,7 @@ const BlogIndex = () => {
     title: 'Generative AI: Revolutionizing Industries and Reshaping the Future',
     date: 'April 30, 2024',
     excerpt: 'Explore how generative AI is transforming industries through AI-powered content creation, business automation, and innovative applications across sectors.',
+    content: `Generative AI systems are radically transforming entire industries through their ability to create original content, optimize business processes, and enable innovation. In content creation, these systems now produce written materials, visuals, music, and code with increasing sophistication. Businesses are leveraging generative AI to automate customer service through intelligent chatbots, streamline document processing, and enhance product development cycles. The technology is making particularly significant impacts in healthcare (through drug discovery acceleration and medical imaging analysis), manufacturing (via optimal design generation and predictive maintenance), and creative industries (by enabling new forms of artistic expression and content personalization). As generative AI continues to evolve, it promises to create entirely new business models and transform how organizations deliver value to customers.`,
     slug: 'generative-ai-revolution',
     categories: ['AI Tools']
   }, {
@@ -86,6 +90,7 @@ const BlogIndex = () => {
     title: 'AI Revolution in Job Hunting: A Personalized Approach',
     date: 'August 15, 2023',
     excerpt: 'AI has fundamentally transformed the way we approach job searching. Traditional methods are now giving way to highly personalized, targeted, and efficient AI-driven strategies.',
+    content: `Artificial intelligence is revolutionizing job hunting by delivering unprecedented personalization. AI-powered platforms now analyze individual career histories, skills profiles, and professional goals to identify ideal job matches with remarkable accuracy. These systems continuously learn from user interactions, refining recommendations over time to better align with candidate preferences. Beyond job matching, AI tools now optimize resumes for specific positions, prepare candidates for interviews through simulated sessions, and provide real-time feedback on application materials. The result is a significantly more efficient job search process with higher success rates and better employment outcomes.`,
     slug: 'ai-revolution-job-hunting'
   }, {
     id: 2,
@@ -209,8 +214,13 @@ const BlogIndex = () => {
     slug: 'optimizing-job-alerts'
   }];
 
-  // Add categories to the rest of the posts
+  // Add sample content to posts that don't have it
   posts.forEach(post => {
+    if (!post.content) {
+      // Generate placeholder content based on excerpt
+      post.content = `${post.excerpt} This article explores this topic in depth, providing practical insights and actionable strategies for professionals at all career stages. By understanding these key principles, readers can improve their professional outcomes and achieve greater success in their chosen fields.`;
+    }
+    
     if (!post.categories) {
       post.categories = Object.entries(categoryMap).filter(([_, ids]) => ids.includes(post.id)).map(([category]) => category);
     }
@@ -218,13 +228,18 @@ const BlogIndex = () => {
 
   // Filter posts based on search and category
   const filteredPosts = posts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = 
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.content.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || post.categories.includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
+  
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+  
   return <Layout>
       <div className="bg-white dark:bg-gray-950 py-12 md:py-20">
         <div className="container mx-auto px-4">
@@ -312,3 +327,4 @@ const BlogIndex = () => {
     </Layout>;
 };
 export default BlogIndex;
+
