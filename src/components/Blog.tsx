@@ -1,3 +1,4 @@
+
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
@@ -7,6 +8,20 @@ import { Badge } from '@/components/ui/badge';
 
 export const Blog: FC = () => {
   const recentPosts = [
+    {
+      id: 28,
+      title: 'How to Customize Your AI-Generated Resume for Different Industries',
+      date: 'July 15, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Learn industry-specific optimization strategies to maximize the effectiveness of your AI-generated resume across technology, healthcare, finance, and other major sectors.',
+      slug: 'customize-ai-resume-for-industries',
+      categories: ['AI Tools', 'Resume Optimization', 'Industry Insights'],
+      color: {
+        bg: 'bg-blue-100 dark:bg-blue-900/30',
+        text: 'text-blue-600 dark:text-blue-400',
+        hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
+      }
+    },
     {
       id: 27,
       title: 'The Future of Resume Writing: AI Tools vs. Professional Resume Writers',
@@ -47,20 +62,6 @@ export const Blog: FC = () => {
         bg: 'bg-green-100 dark:bg-green-900/30',
         text: 'text-green-600 dark:text-green-400',
         hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
-      }
-    },
-    {
-      id: 24,
-      title: 'Resume Keywords: How AI Can Help You Pass ATS Screening Systems',
-      date: 'June 12, 2024',
-      author: 'Hanan Amos',
-      excerpt: 'Discover how AI tools can help optimize your resume with the right keywords to pass Applicant Tracking Systems, increasing your chances of getting your resume in front of human recruiters.',
-      slug: 'resume-keywords-ats-optimization',
-      categories: ['AI Tools', 'Resume Optimization', 'Job Search'],
-      color: {
-        bg: 'bg-indigo-100 dark:bg-indigo-900/30',
-        text: 'text-indigo-600 dark:text-indigo-400',
-        hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
       }
     }
   ];
