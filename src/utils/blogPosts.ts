@@ -407,3 +407,90 @@ export const posts = {
       <p class="mb-4">Successful ATS optimization is about balance—incorporating the right keywords and following formatting best practices while still creating a document that's compelling to human readers. By understanding how these systems work and adapting your resume accordingly, you can significantly increase your chances of making it past the digital gatekeeper to the interview stage.</p>
     `
   },
+  'how-ai-helps-job-interview-preparation': {
+    title: 'How AI Can Help You Prepare for Your Next Job Interview',
+    date: 'July 15, 2024',
+    author: 'Hanan Amos',
+    categories: ['AI Tools', 'Interview Preparation', 'Career Advice'],
+    content: `
+      <p class="mb-4">Job interviews remain one of the most stressful aspects of the career advancement process. According to a LinkedIn survey, 92% of job seekers experience significant anxiety before interviews, with 15% reporting they've withdrawn from opportunities due to interview stress. Today's competitive landscape makes preparation more critical than ever—but also more complex, with candidates needing to prepare for a wide variety of interview formats and questions.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Powered Interview Preparation</h3>
+      <p class="mb-4">AI-powered interview preparation platforms can help alleviate this stress by providing mock interview scenarios tailored to the specific roles you're applying for. These platforms simulate real interview conditions, record your responses, and analyze your performance, providing detailed feedback on areas for improvement. This personalized coaching approach boosts your confidence and greatly enhances your performance in actual interviews.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Generated Interview Questions</h3>
+      <p class="mb-4">AI can also generate interview questions based on your resume and job history, helping you prepare for a wide range of interview formats. These questions are tailored to your skills and experience, ensuring that you're well-prepared for any situation.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Driven Interview Practice</h3>
+      <p class="mb-4">AI-powered interview practice platforms can simulate real interview conditions, allowing you to practice answering common interview questions and receive feedback on your performance. This practice can help you feel more confident and prepared for your actual interview.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Generated Resume and Cover Letter</h3>
+      <p class="mb-4">AI can also generate a resume and cover letter based on your job history and skills, helping you craft a strong application that highlights your strengths and experience.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Driven Career Advice</h3>
+      <p class="mb-4">AI can provide career advice and guidance on how to prepare for job interviews, including tips on how to answer common interview questions and how to showcase your skills and experience.</p>
+    `
+  },
+  '5-common-interview-questions-ai': {
+    title: '5 Common Interview Questions AI Can Help You Answer Perfectly',
+    date: 'July 28, 2024',
+    author: 'Hanan Amos',
+    categories: ['Interview Preparation', 'AI Tools', 'Career Advice'],
+    content: `
+      <p class="mb-4">Job interviews remain one of the most critical—and stressful—steps in the career advancement journey. No matter how impressive your resume, your interview performance often determines whether you receive an offer. According to hiring managers, 33% of candidates with perfect qualifications are rejected due to poor interview performance.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Powered Interview Preparation</h3>
+      <p class="mb-4">AI-powered interview preparation platforms can help alleviate this stress by providing mock interview scenarios tailored to the specific roles you're applying for. These platforms simulate real interview conditions, record your responses, and analyze your performance, providing detailed feedback on areas for improvement. This personalized coaching approach boosts your confidence and greatly enhances your performance in actual interviews.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Generated Interview Questions</h3>
+      <p class="mb-4">AI can also generate interview questions based on your resume and job history, helping you prepare for a wide range of interview formats. These questions are tailored to your skills and experience, ensuring that you're well-prepared for any situation.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Driven Interview Practice</h3>
+      <p class="mb-4">AI-powered interview practice platforms can simulate real interview conditions, allowing you to practice answering common interview questions and receive feedback on your performance. This practice can help you feel more confident and prepared for your actual interview.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Generated Resume and Cover Letter</h3>
+      <p class="mb-4">AI can also generate a resume and cover letter based on your job history and skills, helping you craft a strong application that highlights your strengths and experience.</p>
+
+      <h3 class="text-xl font-bold mb-2 mt-6">AI-Driven Career Advice</h3>
+      <p class="mb-4">AI can provide career advice and guidance on how to prepare for job interviews, including tips on how to answer common interview questions and how to showcase your skills and experience.</p>
+    `
+  }
+};
+
+export const colorPalette = {
+  'how-ai-resume-builders-revolutionizing-job-application': {
+    bg: 'bg-blue-100 dark:bg-blue-900/30',
+    text: 'text-blue-600 dark:text-blue-400',
+    hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
+  },
+  '10-ways-resume-ai-interview-chances': {
+    bg: 'bg-purple-100 dark:bg-purple-900/30', 
+    text: 'text-purple-600 dark:text-purple-400',
+    hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
+  },
+  'ai-revolution-job-hunting': {
+    bg: 'bg-amber-100 dark:bg-amber-900/30',
+    text: 'text-amber-600 dark:text-amber-400',
+    hover: 'hover:bg-amber-200 dark:hover:bg-amber-800/40'
+  },
+  'ats-friendly-resumes': {
+    bg: 'bg-green-100 dark:bg-green-900/30',
+    text: 'text-green-600 dark:text-green-400',
+    hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
+  },
+  'how-ai-helps-job-interview-preparation': {
+    bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+    text: 'text-indigo-600 dark:text-indigo-400',
+    hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
+  },
+  '5-common-interview-questions-ai': {
+    bg: 'bg-teal-100 dark:bg-teal-900/30',
+    text: 'text-teal-600 dark:text-teal-400',
+    hover: 'hover:bg-teal-200 dark:hover:bg-teal-800/40'
+  },
+  'default': {
+    bg: 'bg-slate-100 dark:bg-slate-900/30',
+    text: 'text-slate-600 dark:text-slate-400',
+    hover: 'hover:bg-slate-200 dark:hover:bg-slate-800/40'
+  }
+};
