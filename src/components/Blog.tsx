@@ -9,6 +9,20 @@ import { Badge } from '@/components/ui/badge';
 export const Blog: FC = () => {
   const recentPosts = [
     {
+      id: 24,
+      title: 'Resume Keywords: How AI Can Help You Pass ATS Screening Systems',
+      date: 'June 12, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Discover how AI tools can help optimize your resume with the right keywords to pass Applicant Tracking Systems, increasing your chances of getting your resume in front of human recruiters.',
+      slug: 'resume-keywords-ats-optimization',
+      categories: ['AI Tools', 'Resume Optimization', 'Job Search'],
+      color: {
+        bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+        text: 'text-indigo-600 dark:text-indigo-400',
+        hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
+      }
+    },
+    {
       id: 5,
       title: 'How AI Resume Builders Are Revolutionizing the Job Application Process',
       date: 'May 28, 2024',
@@ -48,20 +62,6 @@ export const Blog: FC = () => {
         bg: 'bg-purple-100 dark:bg-purple-900/30',
         text: 'text-purple-600 dark:text-purple-400',
         hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
-      }
-    },
-    {
-      id: 3,
-      title: 'AI Revolution in Job Hunting: A Personalized Approach',
-      date: 'August 15, 2023',
-      author: 'Hanan Amos',
-      excerpt: 'AI has fundamentally transformed the way we approach job searching. Traditional methods are now giving way to highly personalized, targeted, and efficient AI-driven strategies.',
-      slug: 'ai-revolution-job-hunting',
-      categories: ['AI Tools', 'Job Search'],
-      color: {
-        bg: 'bg-green-100 dark:bg-green-900/30',
-        text: 'text-green-600 dark:text-green-400',
-        hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
       }
     }
   ];
