@@ -21,12 +21,12 @@ interface PostWithMetadata {
 }
 
 const primaryCategories = [
-  "Career Advice",
+  "AI Tools",
   "Resume Tips",
-  "Interview Skills",
+  "Resume Optimization",
   "Job Search", 
-  "Industry Trends",
-  "AI Tools"
+  "Interviews",
+  "Career Growth"
 ];
 
 const BlogIndex = () => {
@@ -50,15 +50,8 @@ const BlogIndex = () => {
   }) as PostWithMetadata[];
 
   const allCategories = useMemo(() => {
-    return primaryCategories;
+    return ["All", ...primaryCategories];
   }, []);
-
-  const categoryColumns = useMemo(() => {
-    return [
-      allCategories.slice(0, 3),
-      allCategories.slice(3)
-    ];
-  }, [allCategories]);
 
   const filteredPosts = useMemo(() => {
     return allPosts.filter(post => {
@@ -69,7 +62,7 @@ const BlogIndex = () => {
         post.author.toLowerCase().includes(searchQuery.toLowerCase());
       
       const matchesCategory = 
-        !selectedCategory || 
+        !selectedCategory || selectedCategory === "All" || 
         (post.categories && post.categories.includes(selectedCategory));
       
       return matchesSearch && matchesCategory;
@@ -77,69 +70,46 @@ const BlogIndex = () => {
   }, [allPosts, searchQuery, selectedCategory]);
 
   const handleCategoryClick = (category: string) => {
-    setSelectedCategory(prevCategory => 
-      prevCategory === category ? null : category
-    );
+    setSelectedCategory(category === "All" ? "All" : 
+      category === selectedCategory ? null : category);
   };
 
   return <Layout>
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 bg-slate-900 dark:bg-slate-900">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white">Knowledge Base</h1>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
-              Industry insights and expert advice on AI-powered job searching, resume optimization, and career advancement.
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold mb-3 text-white">Knowledge Base</h1>
+            <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10">
+              AI-driven job search, resume tips, and career growth strategies.
             </p>
             
-            <div className="relative max-w-md mx-auto mb-8">
+            <div className="relative max-w-lg mx-auto mb-12">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-slate-400" />
               </div>
               <Input
                 type="text"
                 placeholder="Search articles..."
-                className="pl-10 w-full"
+                className="pl-10 w-full bg-slate-800 text-white border-slate-700"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
-                <Tag className="inline mr-2 h-5 w-5" />
-                Categories
-              </h2>
-              <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
-                {categoryColumns.map((column, colIndex) => (
-                  <div key={colIndex} className="flex flex-col gap-2 w-full">
-                    {column.map(category => (
-                      <Badge 
-                        key={category}
-                        className={`cursor-pointer text-sm py-1.5 px-3 ${
-                          selectedCategory === category 
-                            ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
-                            : 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
-                        }`}
-                        onClick={() => handleCategoryClick(category)}
-                      >
-                        {category} {selectedCategory === category && '✓'}
-                      </Badge>
-                    ))}
-                  </div>
-                ))}
-              </div>
-              
-              {selectedCategory && (
-                <div className="mt-4">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setSelectedCategory(null)}
-                  >
-                    Clear Filter
-                  </Button>
-                </div>
-              )}
+            <div className="mb-10 flex flex-wrap justify-center gap-3">
+              {allCategories.map(category => (
+                <Badge 
+                  key={category}
+                  className={`cursor-pointer text-sm py-2 px-4 ${
+                    (selectedCategory === category || (category === "All" && !selectedCategory))
+                      ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                      : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                  }`}
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  {category}
+                </Badge>
+              ))}
             </div>
           </div>
 
@@ -218,11 +188,11 @@ const BlogIndex = () => {
             </div>
           ) : (
             <div className="text-center py-16">
-              <h2 className="text-xl font-medium mb-4 text-slate-700 dark:text-slate-300">
+              <h2 className="text-xl font-medium mb-4 text-slate-300">
                 No articles found
               </h2>
-              <p className="text-slate-600 dark:text-slate-400">
-                {selectedCategory ? 
+              <p className="text-slate-400">
+                {selectedCategory && selectedCategory !== "All" ? 
                   `No articles found in the "${selectedCategory}" category.` : 
                   searchQuery ? 
                     `No articles found matching "${searchQuery}".` : 
@@ -231,7 +201,7 @@ const BlogIndex = () => {
               {(selectedCategory || searchQuery) && (
                 <Button 
                   variant="outline" 
-                  className="mt-4"
+                  className="mt-4 bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
                   onClick={() => {
                     setSearchQuery('');
                     setSelectedCategory(null);
