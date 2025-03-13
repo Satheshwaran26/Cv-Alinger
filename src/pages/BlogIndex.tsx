@@ -9,6 +9,17 @@ import { posts } from '@/utils/blogPosts';
 import { useState, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 
+interface PostWithMetadata {
+  title: string;
+  date: string;
+  author: string;
+  content: string;
+  slug: string;
+  id: number;
+  excerpt: string;
+  categories: string[];
+}
+
 const BlogIndex = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -22,7 +33,7 @@ const BlogIndex = () => {
     excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
     // Generate excerpt from content
     categories: post.categories || [] // Default empty categories array if not present
-  }));
+  })) as PostWithMetadata[];
 
   // Extract all unique categories
   const allCategories = useMemo(() => {

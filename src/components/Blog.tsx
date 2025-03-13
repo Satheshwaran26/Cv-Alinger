@@ -9,6 +9,17 @@ import { Badge } from '@/components/ui/badge';
 // Import the posts data
 import { posts } from '@/utils/blogPosts';
 
+interface PostWithMetadata {
+  title: string;
+  date: string;
+  author: string;
+  content: string;
+  slug: string;
+  id: number;
+  excerpt: string;
+  categories: string[];
+}
+
 export const Blog: FC = () => {
   // Create an array of post data from the posts object
   const allPostsData = Object.entries(posts).map(([slug, post], index) => ({
@@ -17,7 +28,7 @@ export const Blog: FC = () => {
     id: index, // Generate an id based on index
     excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...', // Generate excerpt from content
     categories: post.categories || [] // Default empty categories array if not present
-  }));
+  })) as PostWithMetadata[];
 
   // Sort by date (newest first) and limit to 4 posts
   const recentPosts = allPostsData

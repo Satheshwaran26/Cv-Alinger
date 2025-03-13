@@ -4,6 +4,7 @@ export const posts = {
     title: '10 Ways Resume AI Tools Can Boost Your Interview Chances',
     date: 'June 25, 2024',
     author: 'Hanan Amos',
+    categories: ['Resume Tips', 'AI Tools', 'Interview Preparation'],
     content: `
       <p class="mb-4">In today's competitive job market, landing an interview is increasingly challenging. Employers receive an average of 250 applications per job posting, with only 4-6 candidates typically receiving an interview invitation. With these daunting statistics, job seekers need every advantage possible—and resume AI tools are providing that edge. Let's explore the ten most impactful ways AI resume optimization can dramatically increase your chances of getting past the initial screening and into the interview chair.</p>
 
@@ -212,6 +213,7 @@ export const posts = {
     title: 'AI Revolution in Job Hunting: A Personalized Approach',
     date: 'August 15, 2023',
     author: 'Hanan Amos',
+    categories: ['AI Tools', 'Job Search', 'Career Development'],
     content: `
       <p class="mb-4">AI has fundamentally transformed the way we approach job searching. Traditional methods, involving hours spent browsing through job listings and manually tailoring applications, are now giving way to highly personalized, targeted, and efficient AI-driven strategies. Here's how AI is revolutionizing the job hunt and adding significant value through personalization:</p>
 
@@ -243,6 +245,7 @@ export const posts = {
     title: 'Mastering ATS-Friendly Resumes: Standing Out in the Digital Pile',
     date: 'September 2, 2023',
     author: 'Hanan Amos',
+    categories: ['Resume Tips', 'ATS Optimization', 'Job Application'],
     content: `
       <p class="mb-4">In today's digital job market, your resume often meets an algorithm before it ever reaches human eyes. With over 90% of large companies using Applicant Tracking Systems (ATS) to screen candidates, understanding how to create an ATS-friendly resume is no longer optional—it's essential.</p>
 
@@ -274,6 +277,7 @@ export const posts = {
     title: 'The Art of Virtual Interviewing: Techniques for Remote Success',
     date: 'September 18, 2023',
     author: 'Hanan Amos',
+    categories: ['Interview Preparation', 'Remote Work', 'Communication Skills'],
     content: `
       <p class="mb-4">Virtual interviews have become a permanent fixture in the hiring landscape. Whether conducted via Zoom, Microsoft Teams, Google Meet, or other platforms, these remote interactions present unique challenges and opportunities. Mastering the art of virtual interviewing requires a combination of technical preparation, environmental awareness, and adapted communication skills.</p>
 
@@ -305,6 +309,7 @@ export const posts = {
     title: 'The Future of Resume Writing: AI Tools vs. Professional Resume Writers',
     date: 'July 5, 2024',
     author: 'Hanan Amos',
+    categories: ['Resume Tips', 'AI Tools', 'Career Services'],
     content: `
       <p class="mb-4">The resume writing landscape is undergoing a significant transformation as artificial intelligence tools challenge the traditional domain of professional resume writers. This evolution raises important questions for job seekers: Should you invest in an AI-powered resume builder or hire a professional resume writer? What are the comparative advantages of each approach? And is there perhaps a middle ground that combines the best of both worlds?</p>
 
@@ -408,6 +413,7 @@ export const posts = {
     title: 'How to Customize Your AI-Generated Resume for Different Industries',
     date: 'July 15, 2024',
     author: 'Hanan Amos',
+    categories: ['Resume Tips', 'Industry Insights', 'Job Search'],
     content: `
       <p class="mb-4">The era of the one-size-fits-all resume is over. Today's hiring landscape demands customization not just for individual job postings but for entire industries. Each sector has its own values, terminology, and expectations when evaluating candidates. While AI resume tools provide an excellent foundation, understanding how to tailor these documents for specific industries can dramatically improve your success rate.</p>
 
