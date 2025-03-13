@@ -1,3 +1,4 @@
+
 export const posts = {
   'how-ai-resume-builders-revolutionizing-job-application': {
     title: 'How AI Resume Builders Are Revolutionizing the Job Application Process',
@@ -405,5 +406,29 @@ export const posts = {
 
       <h3 class="text-xl font-bold mb-2 mt-6">The Balanced Approach</h3>
       <p class="mb-4">Successful ATS optimization is about balance—incorporating the right keywords and following formatting best practices while still creating a document that's compelling to human readers. By understanding how these systems work and adapting your resume accordingly, you can significantly increase your chances of making it past the digital gatekeeper to the interview stage.</p>
+    `
+  }
+};
 
-      <p
+export const colorPalette = {
+  'how-ai-resume-builders-revolutionizing-job-application': {
+    bg: 'bg-blue-100 dark:bg-blue-900/30',
+    text: 'text-blue-600 dark:text-blue-400'
+  },
+  '10-ways-resume-ai-interview-chances': {
+    bg: 'bg-amber-100 dark:bg-amber-900/30',
+    text: 'text-amber-600 dark:text-amber-400'
+  },
+  'ai-revolution-job-hunting': {
+    bg: 'bg-purple-100 dark:bg-purple-900/30',
+    text: 'text-purple-600 dark:text-purple-400'
+  },
+  'ats-friendly-resumes': {
+    bg: 'bg-green-100 dark:bg-green-900/30',
+    text: 'text-green-600 dark:text-green-400'
+  },
+  'default': {
+    bg: 'bg-slate-100 dark:bg-slate-800',
+    text: 'text-slate-600 dark:text-slate-400'
+  }
+};
