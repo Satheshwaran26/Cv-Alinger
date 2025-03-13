@@ -9,6 +9,20 @@ import { Badge } from '@/components/ui/badge';
 export const Blog: FC = () => {
   const recentPosts = [
     {
+      id: 25,
+      title: 'Resume AI for Career Changers: Highlighting Transferable Skills',
+      date: 'June 18, 2024',
+      author: 'Hanan Amos',
+      excerpt: 'Learn how AI-powered resume tools can help career changers identify and showcase transferable skills, overcome the experience gap, and successfully transition to new industries without formal retraining.',
+      slug: 'resume-ai-career-changers',
+      categories: ['AI Tools', 'Resume Optimization', 'Career Growth'],
+      color: {
+        bg: 'bg-green-100 dark:bg-green-900/30',
+        text: 'text-green-600 dark:text-green-400',
+        hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
+      }
+    },
+    {
       id: 24,
       title: 'Resume Keywords: How AI Can Help You Pass ATS Screening Systems',
       date: 'June 12, 2024',
@@ -48,20 +62,6 @@ export const Blog: FC = () => {
         bg: 'bg-blue-100 dark:bg-blue-900/30',
         text: 'text-blue-600 dark:text-blue-400',
         hover: 'hover:bg-blue-200 dark:hover:bg-blue-800/40'
-      }
-    },
-    {
-      id: 2,
-      title: 'Generative AI: Revolutionizing Industries and Reshaping the Future',
-      date: 'April 30, 2024',
-      author: 'Hanan Amos',
-      excerpt: 'Explore how generative AI is transforming industries through AI-powered content creation, business automation, and innovative applications across sectors.',
-      slug: 'generative-ai-revolution',
-      categories: ['AI Tools'],
-      color: {
-        bg: 'bg-purple-100 dark:bg-purple-900/30',
-        text: 'text-purple-600 dark:text-purple-400',
-        hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
       }
     }
   ];
