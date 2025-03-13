@@ -52,7 +52,6 @@ const categoryMap = {
   "Career Growth": [6, 11, 19, 20, 23],
   "Networking": [4, 7, 8, 11]
 };
-
 const BlogIndex = () => {
   // Scroll to top when the component mounts
   useEffect(() => {
@@ -582,7 +581,6 @@ By leveraging AI for keyword optimization while preserving your unique value pro
       // Generate placeholder content based on excerpt
       post.content = `${post.excerpt} This article explores this topic in depth, providing practical insights and actionable strategies for professionals at all career stages. By understanding these key principles, readers can improve their professional outcomes and achieve greater success in their chosen fields.`;
     }
-    
     if (!post.categories) {
       post.categories = Object.entries(categoryMap).filter(([_, ids]) => ids.includes(post.id)).map(([category]) => category);
     }
@@ -590,23 +588,18 @@ By leveraging AI for keyword optimization while preserving your unique value pro
 
   // Filter posts based on search and category
   const filteredPosts = posts.filter(post => {
-    const matchesSearch = 
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.content.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) || post.content.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || post.categories.includes(selectedCategory);
     return matchesSearch && matchesCategory;
   });
-  
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
-  
   return <Layout>
       <div className="bg-white dark:bg-gray-950 py-12 md:py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">Knowledge base </h1>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">Knowledge Base</h1>
             <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400 mb-8">AI-driven job search, resume tips, and career growth strategies.</p>
             
             {/* Search Bar */}
