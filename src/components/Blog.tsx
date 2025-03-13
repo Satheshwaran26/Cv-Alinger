@@ -1,9 +1,10 @@
 
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpenText, Calendar, User } from 'lucide-react';
+import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 export const Blog: FC = () => {
   const recentPosts = [
@@ -14,6 +15,7 @@ export const Blog: FC = () => {
       author: 'Hanan Amos',
       excerpt: 'Discover how the KSAO framework systematically aligns workforce capabilities with job requirements, enhancing recruitment, employee development, and organizational agility.',
       slug: 'ksao-hr-framework',
+      categories: ['AI Tools', 'Career Growth'],
       color: {
         bg: 'bg-blue-100 dark:bg-blue-900/30',
         text: 'text-blue-600 dark:text-blue-400',
@@ -27,6 +29,7 @@ export const Blog: FC = () => {
       author: 'Hanan Amos',
       excerpt: 'Explore how generative AI is transforming industries through AI-powered content creation, business automation, and innovative applications across sectors.',
       slug: 'generative-ai-revolution',
+      categories: ['AI Tools'],
       color: {
         bg: 'bg-purple-100 dark:bg-purple-900/30',
         text: 'text-purple-600 dark:text-purple-400',
@@ -40,6 +43,7 @@ export const Blog: FC = () => {
       author: 'Hanan Amos',
       excerpt: 'AI has fundamentally transformed the way we approach job searching. Traditional methods are now giving way to highly personalized, targeted, and efficient AI-driven strategies.',
       slug: 'ai-revolution-job-hunting',
+      categories: ['AI Tools', 'Job Search'],
       color: {
         bg: 'bg-green-100 dark:bg-green-900/30',
         text: 'text-green-600 dark:text-green-400',
@@ -90,6 +94,16 @@ export const Blog: FC = () => {
                 <CardDescription className="text-slate-600 dark:text-slate-400 line-clamp-3">
                   {post.excerpt}
                 </CardDescription>
+                
+                {/* Categories */}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {post.categories.map((category) => (
+                    <Badge key={category} className={`${post.color.bg} ${post.color.text}`}>
+                      <Tag className="h-3 w-3 mr-1" />
+                      {category}
+                    </Badge>
+                  ))}
+                </div>
               </CardHeader>
               <CardContent className="mt-auto">
                 <Link to={`/blog/${post.slug}`}>

@@ -1,10 +1,12 @@
-
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, User, BookOpenText } from 'lucide-react';
+import { Calendar, User, BookOpenText, Search, Tag } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Color palette for blog posts
 const colorPalettes = [
@@ -40,11 +42,35 @@ const colorPalettes = [
   }
 ];
 
+// Define the categories
+const categories = [
+  "All",
+  "AI Tools",
+  "Resume Tips",
+  "Job Search",
+  "Interviews",
+  "Career Growth",
+  "Networking"
+];
+
+// Map posts to categories
+const categoryMap = {
+  "AI Tools": [1, 2, 13, 20, 22, 23],
+  "Resume Tips": [2, 8, 12, 15, 18],
+  "Job Search": [1, 7, 8, 10, 13, 16, 17, 21],
+  "Interviews": [3, 5, 9, 14],
+  "Career Growth": [6, 11, 19, 20],
+  "Networking": [4, 7, 8, 11]
+};
+
 const BlogIndex = () => {
   // Scroll to top when the component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const posts = [
     {
@@ -52,14 +78,16 @@ const BlogIndex = () => {
       title: 'KSAO Framework: The Foundation of Strategic HR Management',
       date: 'May 15, 2024',
       excerpt: 'Discover how the KSAO framework systematically aligns workforce capabilities with job requirements, enhancing recruitment, employee development, and organizational agility.',
-      slug: 'ksao-hr-framework'
+      slug: 'ksao-hr-framework',
+      categories: ['AI Tools', 'Career Growth']
     },
     {
       id: 22,
       title: 'Generative AI: Revolutionizing Industries and Reshaping the Future',
       date: 'April 30, 2024',
       excerpt: 'Explore how generative AI is transforming industries through AI-powered content creation, business automation, and innovative applications across sectors.',
-      slug: 'generative-ai-revolution'
+      slug: 'generative-ai-revolution',
+      categories: ['AI Tools']
     },
     {
       id: 1,
@@ -210,61 +238,141 @@ const BlogIndex = () => {
     }
   ];
 
+  // Add categories to the rest of the posts
+  posts.forEach(post => {
+    if (!post.categories) {
+      post.categories = Object.entries(categoryMap)
+        .filter(([_, ids]) => ids.includes(post.id))
+        .map(([category]) => category);
+    }
+  });
+
+  // Filter posts based on search and category
+  const filteredPosts = posts.filter(post => {
+    const matchesSearch = 
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCategory = 
+      selectedCategory === 'All' || 
+      post.categories.includes(selectedCategory);
+    
+    return matchesSearch && matchesCategory;
+  });
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <Layout>
       <div className="bg-white dark:bg-gray-950 py-12 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h1 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">Our Blog</h1>
-            <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400">
+            <p className="text-slate-600 max-w-2xl mx-auto dark:text-slate-400 mb-8">
               Expert articles on AI-powered job searching, resume optimization, and career advancement strategies.
             </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {posts.map((post, index) => {
-              // Cycle through the color palettes
-              const colorPalette = colorPalettes[index % colorPalettes.length];
+            
+            {/* Search Bar */}
+            <div className="relative max-w-xl mx-auto mb-8">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  type="text"
+                  placeholder="Search articles..."
+                  className="pl-10 pr-4 py-2 w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
+              </div>
+            </div>
+            
+            {/* Category Tabs */}
+            <Tabs defaultValue="All" className="w-full max-w-3xl mx-auto">
+              <TabsList className="h-auto flex flex-wrap justify-center bg-transparent gap-2 mb-4">
+                {categories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className="px-4 py-2 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  >
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
               
-              return (
-                <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
-                      <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colorPalette.bg}`}>
-                        <Calendar className={`h-3 w-3 ${colorPalette.text}`} />
-                      </div>
-                      <span>{post.date}</span>
-                      <span className="mx-1">•</span>
-                      <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colorPalette.bg}`}>
-                        <User className={`h-3 w-3 ${colorPalette.text}`} />
-                      </div>
-                      <span>Hanan Amos</span>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
-                      {post.title}
-                    </CardTitle>
-                    <CardDescription className="text-slate-600 dark:text-slate-400">
-                      {post.excerpt}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Link to={`/blog/${post.slug}`}>
-                      <Button 
-                        variant="outline" 
-                        className={`w-full transition-colors ${colorPalette.hover}`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className={`flex items-center justify-center w-5 h-5 rounded-full ${colorPalette.bg}`}>
-                            <BookOpenText className={`h-3 w-3 ${colorPalette.text}`} />
-                          </div>
-                          <span>Read More</span>
-                        </div>
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              );
-            })}
+              {categories.map((category) => (
+                <TabsContent key={category} value={category} className="mt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    {filteredPosts.map((post, index) => {
+                      // Cycle through the color palettes
+                      const colorPalette = colorPalettes[index % colorPalettes.length];
+                      
+                      return (
+                        <Card key={post.id} className="bg-white dark:bg-slate-900 overflow-hidden border border-slate-100 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                          <CardHeader className="pb-4">
+                            <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
+                              <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colorPalette.bg}`}>
+                                <Calendar className={`h-3 w-3 ${colorPalette.text}`} />
+                              </div>
+                              <span>{post.date}</span>
+                              <span className="mx-1">•</span>
+                              <div className={`flex items-center justify-center w-6 h-6 rounded-full ${colorPalette.bg}`}>
+                                <User className={`h-3 w-3 ${colorPalette.text}`} />
+                              </div>
+                              <span>Hanan Amos</span>
+                            </div>
+                            <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
+                              {post.title}
+                            </CardTitle>
+                            <CardDescription className="text-slate-600 dark:text-slate-400">
+                              {post.excerpt}
+                            </CardDescription>
+                            
+                            {/* Categories */}
+                            <div className="flex flex-wrap gap-2 mt-3">
+                              {post.categories.map((category) => (
+                                <Badge key={category} className={`${colorPalette.bg} ${colorPalette.text}`}>
+                                  <Tag className="h-3 w-3 mr-1" />
+                                  {category}
+                                </Badge>
+                              ))}
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <Link to={`/blog/${post.slug}`}>
+                              <Button 
+                                variant="outline" 
+                                className={`w-full transition-colors ${colorPalette.hover}`}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <div className={`flex items-center justify-center w-5 h-5 rounded-full ${colorPalette.bg}`}>
+                                    <BookOpenText className={`h-3 w-3 ${colorPalette.text}`} />
+                                  </div>
+                                  <span>Read More</span>
+                                </div>
+                              </Button>
+                            </Link>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+            
+            {/* No results message */}
+            {filteredPosts.length === 0 && (
+              <div className="text-center py-12">
+                <h3 className="text-xl font-medium text-slate-900 dark:text-white mb-2">No articles found</h3>
+                <p className="text-slate-600 dark:text-slate-400">
+                  Try adjusting your search or category filter to find what you're looking for.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
