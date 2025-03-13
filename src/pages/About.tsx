@@ -1,6 +1,7 @@
 
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { Ribbon } from "lucide-react";
 
 const About = () => {
   return (
@@ -54,7 +55,12 @@ const About = () => {
             
             {/* Profile Information */}
             <div className="w-full md:w-2/3">
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">Hanan Amos</h1>
+              <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center gap-2">
+                Hanan Amos
+                <span className="inline-flex animate-bounce">
+                  <Ribbon className="h-6 w-6 text-yellow-400" />
+                </span>
+              </h1>
               <h2 className="text-xl text-primary mb-6">Head of Marketing Operations</h2>
               
               <p className="text-lg mb-8 text-muted-foreground">
