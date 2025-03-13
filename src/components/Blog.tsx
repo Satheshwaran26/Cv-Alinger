@@ -52,16 +52,16 @@ export const Blog: FC = () => {
     },
     {
       id: 25,
-      title: 'Resume AI for Career Changers: Highlighting Transferable Skills',
-      date: 'June 18, 2024',
+      title: 'The Art of Virtual Interviewing: Techniques for Remote Success',
+      date: 'September 18, 2023',
       author: 'Hanan Amos',
-      excerpt: 'Learn how AI-powered resume tools can help career changers identify and showcase transferable skills, overcome the experience gap, and successfully transition to new industries without formal retraining.',
-      slug: 'resume-ai-career-changers',
-      categories: ['AI Tools', 'Resume Optimization', 'Career Growth'],
+      excerpt: 'Master the unique challenges of virtual interviews with expert techniques for technical preparation, environmental optimization, and adapted communication skills for remote hiring processes.',
+      slug: 'virtual-interviewing-techniques',
+      categories: ['Interview Tips', 'Career Growth', 'Remote Work'],
       color: {
-        bg: 'bg-green-100 dark:bg-green-900/30',
-        text: 'text-green-600 dark:text-green-400',
-        hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
+        bg: 'bg-purple-100 dark:bg-purple-900/30',
+        text: 'text-purple-600 dark:text-purple-400',
+        hover: 'hover:bg-purple-200 dark:hover:bg-purple-800/40'
       }
     }
   ];
@@ -150,3 +150,4 @@ export const Blog: FC = () => {
     </section>
   );
 };
+
