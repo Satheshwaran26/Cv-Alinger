@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, User, BookOpenText } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 // Color palette for blog posts
 const colorPalette = {
@@ -70,6 +71,8 @@ const colorPalette = {
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [generatingPost, setGeneratingPost] = useState(false);
+  const [generatedPost, setGeneratedPost] = useState<{title: string; content: string; date: string; author: string} | null>(null);
   
   // Get colors for the current post
   const colors = slug && colorPalette[slug as keyof typeof colorPalette] 
@@ -489,8 +492,75 @@ const BlogPost = () => {
     }
   };
 
+  // Check if the current post exists and generate content if it doesn't
+  useEffect(() => {
+    const currentPost = slug && posts[slug as keyof typeof posts] || null;
+    
+    if (!currentPost && slug && !generatedPost && !generatingPost) {
+      generateBlogPost(slug);
+    }
+  }, [slug, generatedPost, generatingPost]);
+
+  // Function to generate a blog post using OpenAI API
+  const generateBlogPost = async (title: string) => {
+    try {
+      setGeneratingPost(true);
+      
+      // Format the title for better readability
+      const formattedTitle = title.split('-').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' ');
+      
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: "gpt-4o",
+          messages: [
+            {
+              role: "system",
+              content: "You are a professional blog writer specializing in career development, resume building, and job search strategies."
+            },
+            {
+              role: "user",
+              content: `Write a detailed blog post titled "${formattedTitle}". The post should be about 1000 words and formatted with HTML. Include h3 tags for sections, p tags with class="mb-4" for paragraphs, and proper formatting. Focus on providing valuable insights and actionable advice related to careers, resumes, or job searching.`
+            }
+          ],
+          temperature: 0.7,
+          max_tokens: 2500
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to generate blog post');
+      }
+      
+      const data = await response.json();
+      const content = data.choices[0].message.content;
+      
+      // Create a new post object with the generated content
+      setGeneratedPost({
+        title: formattedTitle,
+        content,
+        date: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }),
+        author: 'AI Assistant'
+      });
+    } catch (error) {
+      console.error('Error generating blog post:', error);
+    } finally {
+      setGeneratingPost(false);
+    }
+  };
+
   // Get the current blog post content
-  const currentPost = slug && posts[slug as keyof typeof posts] || null;
+  const currentPost = slug && posts[slug as keyof typeof posts] || generatedPost;
 
   return (
     <Layout>
@@ -516,6 +586,11 @@ const BlogPost = () => {
                   <User className="h-4 w-4" />
                   <span>{currentPost.author}</span>
                 </div>
+                {generatedPost && (
+                  <div className="bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-2 py-0.5 rounded text-xs">
+                    AI Generated
+                  </div>
+                )}
               </div>
             </div>
             
@@ -523,19 +598,29 @@ const BlogPost = () => {
             <div className="prose prose-blue max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-700 dark:prose-p:text-slate-300">
               <div dangerouslySetInnerHTML={{ __html: currentPost.content }} />
             </div>
-            
-            {/* Share buttons would go here */}
           </div>
         ) : (
           <div className="text-center py-12">
-            <h2 className="text-2xl font-bold mb-4">Blog post not found</h2>
-            <p className="mb-6">The article you're looking for doesn't exist or has been removed.</p>
-            <Link to="/blog">
-              <Button>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to all articles
-              </Button>
-            </Link>
+            {generatingPost ? (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Generating blog post...</h2>
+                <p className="mb-6">We're creating a new article for you using AI. This may take a moment.</p>
+                <div className="flex justify-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Blog post not found</h2>
+                <p className="mb-6">The article you're looking for doesn't exist or has been removed.</p>
+                <Link to="/blog">
+                  <Button>
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back to all articles
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </div>
