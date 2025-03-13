@@ -23,6 +23,12 @@ export const Layout = ({ children }: LayoutProps) => {
     // Set content with proper mobile viewport settings
     viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
     
+    // Ensure favicon is set correctly
+    let favicon = document.querySelector('link[rel="icon"]');
+    if (favicon) {
+      favicon.setAttribute('href', '/lovable-uploads/693f6918-4653-48bb-8eac-a0ff575b648b.png');
+    }
+    
     // Ensure Open Graph image is set correctly
     let ogImage = document.querySelector('meta[property="og:image"]');
     if (ogImage) {
