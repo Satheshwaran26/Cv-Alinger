@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AdminLayout } from '@/components/AdminLayout';
@@ -12,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { posts } from '@/utils/posts';
+import { posts, BlogPost } from '@/utils/posts';
 import { saveCustomPost, getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
 import { useToast } from '@/hooks/use-toast';
 import { SaveIcon, X, Info } from 'lucide-react';
@@ -83,6 +84,9 @@ const AdminPostForm = () => {
   const [author, setAuthor] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [newCategory, setNewCategory] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [newKeyword, setNewKeyword] = useState('');
   
   useEffect(() => {
     // Debug - check what posts are stored
@@ -98,6 +102,8 @@ const AdminPostForm = () => {
         setContent(post.content);
         setAuthor(post.author);
         setSelectedCategories(post.categories || []);
+        setMetaDescription(post.metaDescription || '');
+        setKeywords(post.keywords || []);
       } else {
         // Then check in custom posts
         const customPosts = getCustomPosts();
@@ -109,6 +115,8 @@ const AdminPostForm = () => {
           setContent(post.content);
           setAuthor(post.author);
           setSelectedCategories(post.categories || []);
+          setMetaDescription(post.metaDescription || '');
+          setKeywords(post.keywords || []);
         } else {
           toast({
             title: "Post not found",
@@ -131,6 +139,17 @@ const AdminPostForm = () => {
   const handleRemoveCategory = (category: string) => {
     setSelectedCategories(selectedCategories.filter(c => c !== category));
   };
+  
+  const handleAddKeyword = () => {
+    if (newKeyword && !keywords.includes(newKeyword)) {
+      setKeywords([...keywords, newKeyword]);
+      setNewKeyword('');
+    }
+  };
+
+  const handleRemoveKeyword = (keyword: string) => {
+    setKeywords(keywords.filter(k => k !== keyword));
+  };
 
   const handleTemplateInsert = () => {
     setContent(htmlTemplateExample);
@@ -148,8 +167,15 @@ const AdminPostForm = () => {
       return;
     }
 
+    // Generate meta description if not provided
+    const generatedMetaDescription = metaDescription || 
+      content.replace(/<[^>]*>/g, '').substring(0, 160) + '...';
+    
+    // Generate keywords from categories if not provided
+    const generatedKeywords = keywords.length > 0 ? keywords : selectedCategories;
+
     // Create the post object
-    const postData = {
+    const postData: BlogPost = {
       title,
       content,
       author,
@@ -158,7 +184,9 @@ const AdminPostForm = () => {
         month: 'long', 
         day: 'numeric' 
       }),
-      categories: selectedCategories
+      categories: selectedCategories,
+      metaDescription: generatedMetaDescription,
+      keywords: generatedKeywords
     };
 
     // Generate slug from title if not in edit mode
@@ -230,6 +258,21 @@ const AdminPostForm = () => {
           </div>
           
           <div className="space-y-2">
+            <Label htmlFor="metaDescription">Meta Description (SEO)</Label>
+            <Textarea
+              id="metaDescription"
+              placeholder="Enter a description for search engines (max 160 characters)"
+              value={metaDescription}
+              onChange={(e) => setMetaDescription(e.target.value)}
+              maxLength={160}
+              className="resize-none h-20"
+            />
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              {metaDescription.length}/160 characters. If left empty, it will be generated from your content.
+            </p>
+          </div>
+          
+          <div className="space-y-2">
             <Label htmlFor="categories">Categories</Label>
             <div className="flex gap-2">
               <Select onValueChange={(value) => setNewCategory(value)}>
@@ -265,6 +308,54 @@ const AdminPostForm = () => {
                       size="sm" 
                       className="h-5 w-5 p-0 ml-1" 
                       onClick={() => handleRemoveCategory(category)}
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="keywords">Keywords (SEO)</Label>
+            <div className="flex gap-2">
+              <Input
+                id="keywords"
+                placeholder="Enter a keyword and press Add"
+                value={newKeyword}
+                onChange={(e) => setNewKeyword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && newKeyword) {
+                    e.preventDefault();
+                    handleAddKeyword();
+                  }
+                }}
+              />
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={handleAddKeyword}
+                disabled={!newKeyword}
+              >
+                Add
+              </Button>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Keywords help search engines understand your content. If none are added, categories will be used.
+            </p>
+            
+            {keywords.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {keywords.map((keyword) => (
+                  <div key={keyword} className="inline-flex items-center bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full px-3 py-1 text-sm">
+                    {keyword}
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-5 w-5 p-0 ml-1" 
+                      onClick={() => handleRemoveKeyword(keyword)}
                     >
                       <X className="h-3 w-3" />
                     </Button>
