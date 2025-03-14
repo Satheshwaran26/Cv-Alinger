@@ -1,5 +1,6 @@
 
-import { useParams, Link, Navigate, useEffect } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
