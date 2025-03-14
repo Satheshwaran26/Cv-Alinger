@@ -61,7 +61,7 @@ export const deleteCustomPost = (slug: string): void => {
 };
 
 // Debug function to check what posts are stored
-export const debugStoredPosts = (): void => {
+export const debugStoredPosts = (): Record<string, BlogPost> => {
   const posts = getCustomPosts();
   console.log("Currently stored custom posts:", posts);
   return posts;
