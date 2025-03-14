@@ -21,4 +21,14 @@ export const posts = {
   '5-common-interview-questions-ai-help-answer-perfectly': interviewQuestionsAI
 };
 
+// Add SEO metadata to all posts if not already present
+Object.entries(posts).forEach(([slug, post]) => {
+  if (!post.metaDescription) {
+    post.metaDescription = post.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...';
+  }
+  if (!post.keywords && post.categories) {
+    post.keywords = [...post.categories];
+  }
+});
+
 export { colorPalette };

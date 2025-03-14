@@ -8,6 +8,8 @@ interface BlogPost {
   author: string;
   content: string;
   categories?: string[];
+  metaDescription?: string; // Added for SEO optimization
+  keywords?: string[];      // Added for SEO optimization
 }
 
 // Key for storing posts in localStorage
@@ -36,7 +38,13 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
   // Add/update the post with the given slug
   const updatedPosts = {
     ...currentPosts,
-    [slug]: post
+    [slug]: {
+      ...post,
+      // Generate a meta description from content if not provided (for SEO)
+      metaDescription: post.metaDescription || post.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...',
+      // Generate keywords from categories if not provided (for SEO)
+      keywords: post.keywords || post.categories || []
+    }
   };
   
   // Save back to localStorage
@@ -44,7 +52,15 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
   console.log(`Saved post "${post.title}" with slug "${slug}"`, updatedPosts);
   
   // Force a refresh of localStorage to ensure data persists
+  const backupPosts = JSON.stringify(updatedPosts);
   setTimeout(() => {
+    // Double-check if the data is still there (localStorage can be flaky)
+    const currentStorage = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!currentStorage || currentStorage === "{}") {
+      console.warn("localStorage data was lost, restoring from backup");
+      localStorage.setItem(LOCAL_STORAGE_KEY, backupPosts);
+    }
+    
     const verifyPosts = getCustomPosts();
     console.log("Verification of saved posts:", verifyPosts);
   }, 500);

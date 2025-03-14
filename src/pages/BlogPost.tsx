@@ -2,9 +2,11 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Layout } from '@/components/Layout';
-import { ArrowLeft, Calendar, User } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Tag } from 'lucide-react';
 import { posts, colorPalette } from '@/utils/posts';
 import { getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
+import { Badge } from '@/components/ui/badge';
+import { Helmet } from 'react-helmet';
 
 interface Post {
   title: string;
@@ -12,6 +14,8 @@ interface Post {
   author: string;
   content: string;
   categories?: string[];
+  metaDescription?: string;
+  keywords?: string[];
 }
 
 const BlogPost = () => {
@@ -82,8 +86,29 @@ const BlogPost = () => {
     ? colorPalette[slug as keyof typeof colorPalette]
     : colorPalette['default'];
 
+  // Prepare SEO metadata
+  const metaDescription = currentPost.metaDescription || 
+    currentPost.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...';
+  const keywords = currentPost.keywords || 
+    (currentPost.categories ? currentPost.categories.join(', ') : '');
+
   return (
     <Layout>
+      {/* SEO Optimization */}
+      <Helmet>
+        <title>{currentPost.title} | Resume AI</title>
+        <meta name="description" content={metaDescription} />
+        <meta name="keywords" content={keywords} />
+        <meta property="og:title" content={currentPost.title} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={new Date(currentPost.date).toISOString()} />
+        <meta property="article:author" content={currentPost.author} />
+        {currentPost.categories?.map(category => (
+          <meta key={category} property="article:tag" content={category} />
+        ))}
+      </Helmet>
+      
       <div className="bg-slate-50 dark:bg-slate-900 py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
@@ -95,7 +120,7 @@ const BlogPost = () => {
             <div className={`rounded-lg p-6 mb-8 ${colors.bg}`}>
               <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">{currentPost.title}</h1>
               
-              <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
                 <div className={`flex items-center gap-1 ${colors.text}`}>
                   <Calendar className="h-4 w-4" />
                   <span>{currentPost.date}</span>
@@ -104,12 +129,25 @@ const BlogPost = () => {
                   <User className="h-4 w-4" />
                   <span>{currentPost.author}</span>
                 </div>
+                
+                {currentPost.categories && currentPost.categories.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {currentPost.categories.map((category) => (
+                      <Badge key={category} className={`${colors.bg} ${colors.text}`}>
+                        <Tag className="h-3 w-3 mr-1" />
+                        {category}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             
             <div className="prose prose-blue max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-700 dark:prose-p:text-slate-300">
               <div dangerouslySetInnerHTML={{ __html: currentPost.content }} />
             </div>
+            
+            {/* Related articles could be added here in the future */}
           </div>
         </div>
       </div>

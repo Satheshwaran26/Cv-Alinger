@@ -1,3 +1,4 @@
+
 export const colorPalette = {
   'how-ai-resume-builders-revolutionizing-job-application': {
     bg: 'bg-blue-100 dark:bg-blue-900/30',
