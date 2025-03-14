@@ -3,7 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
-import { posts, colorPalette } from '@/utils/blogPosts';
+import { posts, colorPalette } from '@/utils/posts';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, User, Tag, BookOpenText, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { posts } from '@/utils/blogPosts';
+import { posts } from '@/utils/posts';
 import { useState, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 

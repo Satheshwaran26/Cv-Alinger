@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 
 // Import the posts data and color palette
-import { posts, colorPalette } from '@/utils/blogPosts';
+import { posts, colorPalette } from '@/utils/posts';
 
 interface PostWithMetadata {
   title: string;
