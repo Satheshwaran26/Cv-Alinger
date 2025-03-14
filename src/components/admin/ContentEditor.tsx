@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card } from '@/components/ui/card';
+import { useEffect } from 'react';
 
 // Example HTML template for blog posts with better structure
 const htmlTemplateExample = `<h2>Introduction</h2>
@@ -49,7 +49,7 @@ export const ContentEditor = ({
   };
   
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    // Preserve HTML formatting by ensuring proper line breaks
+    // Preserve HTML formatting by keeping the content exactly as entered
     let newContent = e.target.value;
     
     // Log for debugging
@@ -57,6 +57,13 @@ export const ContentEditor = ({
     
     setContent(newContent);
   };
+
+  // Format tags properly when content is loaded initially
+  useEffect(() => {
+    if (content) {
+      console.log("Initial content loaded, length:", content.length);
+    }
+  }, []);
 
   return (
     <div className="space-y-2">
@@ -73,7 +80,7 @@ export const ContentEditor = ({
         </Button>
       </div>
       
-      <Accordion type="single" collapsible className="mb-4">
+      <Accordion type="single" collapsible className="mb-4" defaultValue="formatting-guide">
         <AccordionItem value="formatting-guide">
           <AccordionTrigger className="py-2 text-sm">
             <div className="flex items-center">
@@ -94,8 +101,17 @@ export const ContentEditor = ({
                 <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;em&gt;</code> - For italic text</li>
                 <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;a href="..."&gt;</code> - For links</li>
               </ul>
-              <p className="text-xs mt-2">For best results, maintain a consistent structure with other blog posts on the site.</p>
-              <p className="text-xs mt-2 text-red-500">Important: Do not use single quotes inside attribute values as they may cause formatting issues.</p>
+              <div className="text-xs mt-4 p-3 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 rounded">
+                <p className="font-semibold mb-1">Important HTML Formatting Tips:</p>
+                <ul className="list-disc pl-4 space-y-1">
+                  <li>Always close tags properly (e.g., <code>&lt;p&gt;Text&lt;/p&gt;</code>)</li>
+                  <li>Use <code>&lt;h2&gt;</code> for main section headings (not <code>&lt;h1&gt;</code>)</li>
+                  <li>Place each paragraph in <code>&lt;p&gt;</code> tags</li>
+                  <li>Use double quotes for attributes (not single quotes)</li>
+                  <li>Don't use complex nested HTML structures</li>
+                </ul>
+              </div>
+              <p className="text-xs mt-3">For best results, maintain a consistent structure with other blog posts on the site.</p>
             </Card>
           </AccordionContent>
         </AccordionItem>
@@ -107,7 +123,7 @@ export const ContentEditor = ({
         value={content}
         onChange={handleContentChange}
         required
-        className="min-h-[300px] font-mono"
+        className="min-h-[400px] font-mono text-sm"
       />
       <p className="text-xs text-slate-500 dark:text-slate-400">
         HTML formatting is supported and encouraged for consistent styling. Use the template button for a starting point.

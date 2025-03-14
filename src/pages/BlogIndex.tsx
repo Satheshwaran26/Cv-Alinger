@@ -1,3 +1,4 @@
+
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,6 +9,7 @@ import { posts, colorPalette } from '@/utils/posts';
 import { getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
 import { useState, useMemo, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 interface PostWithMetadata {
   title: string;
@@ -44,7 +46,7 @@ const BlogIndex = () => {
   }, []);
 
   useEffect(() => {
-    console.log("BlogIndex - Starting to load posts, checking localStorage:");
+    console.log("BlogIndex - Starting to load posts, checking localStorage:", renderKey);
     const storedPosts = debugStoredPosts();
     
     const predefinedPosts = Object.entries(posts).map(([slug, post], index) => {
@@ -63,22 +65,43 @@ const BlogIndex = () => {
       };
     });
 
-    const customPosts = getCustomPosts();
-    console.log("BlogIndex - Custom posts from localStorage:", customPosts);
-    
-    const customPostsArray = Object.entries(customPosts).map(([slug, post], index) => {
-      return {
-        ...post,
-        slug,
-        id: predefinedPosts.length + index,
-        excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
-        categories: post.categories || []
-      };
-    });
+    try {
+      const customPosts = getCustomPosts();
+      console.log("BlogIndex - Custom posts loaded, count:", Object.keys(customPosts).length);
+      console.log("BlogIndex - Custom posts slugs:", Object.keys(customPosts));
+      
+      const customPostsArray = Object.entries(customPosts).map(([slug, post], index) => {
+        console.log(`Processing custom post: "${post.title}" with slug: "${slug}"`);
+        return {
+          ...post,
+          slug,
+          id: 1000 + index, // Use higher IDs to separate from predefined posts
+          excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
+          categories: post.categories || []
+        };
+      });
 
-    const combinedPosts = [...predefinedPosts, ...customPostsArray];
-    console.log("BlogIndex - All blog posts loaded:", combinedPosts);
-    setAllBlogPosts(combinedPosts);
+      const combinedPosts = [...predefinedPosts, ...customPostsArray];
+      console.log("BlogIndex - All blog posts loaded, total count:", combinedPosts.length);
+      console.log("BlogIndex - Custom posts in combined array:", customPostsArray.length);
+      
+      setAllBlogPosts(combinedPosts);
+      
+      // Check if we have the specific post the user is looking for
+      const hasLeveragingAIPost = combinedPosts.some(post => 
+        post.slug.toLowerCase().includes('leveraging-ai-for-strategic-career-planning') ||
+        post.title.toLowerCase().includes('leveraging ai for strategic career planning')
+      );
+      
+      if (hasLeveragingAIPost) {
+        console.log("Found the 'Leveraging AI for Strategic Career Planning' post!");
+      } else {
+        console.log("The 'Leveraging AI for Strategic Career Planning' post was NOT found!");
+      }
+    } catch (error) {
+      console.error("Error loading blog posts:", error);
+      toast.error("There was an error loading blog posts. Please try refreshing the page.");
+    }
   }, [renderKey]);
 
   const allCategories = useMemo(() => {
