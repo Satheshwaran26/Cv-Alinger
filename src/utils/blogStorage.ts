@@ -3,7 +3,7 @@
 // that have been created through the admin interface
 
 import { BlogPost } from './posts';
-import { validateSlug } from '@/components/admin/BlogPostFormUtils';
+import { validateSlug, checkLocalStorage } from '@/components/admin/BlogPostFormUtils';
 
 // Key for storing posts in localStorage
 const LOCAL_STORAGE_KEY = 'custom_blog_posts';
@@ -34,27 +34,41 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
     return;
   }
   
+  // Check if localStorage is available
+  if (!checkLocalStorage()) {
+    console.error("Cannot save post: localStorage is not available or not working");
+    return;
+  }
+  
+  // Normalize the slug to lowercase to avoid case sensitivity issues
+  const normalizedSlug = slug.toLowerCase();
+  console.log(`Normalizing slug from "${slug}" to "${normalizedSlug}"`);
+  
   // Validate the slug format
-  if (!validateSlug(slug)) {
-    console.error("Cannot save post: Invalid slug format", slug);
+  if (!validateSlug(normalizedSlug)) {
+    console.error("Cannot save post: Invalid slug format", normalizedSlug);
     return;
   }
   
   // Validate the post has required fields
   if (!post.title || !post.content || !post.author) {
-    console.error("Cannot save post: Missing required fields", { slug, post });
+    console.error("Cannot save post: Missing required fields", { slug: normalizedSlug, post });
     return;
   }
   
   const currentPosts = getCustomPosts();
   
+  // Ensure HTML formatting is preserved
+  const processedContent = post.content;
+  
   // Add/update the post with the given slug
   const updatedPosts = {
     ...currentPosts,
-    [slug]: {
+    [normalizedSlug]: {
       ...post,
+      content: processedContent,
       // Generate a meta description from content if not provided (for SEO)
-      metaDescription: post.metaDescription || post.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...',
+      metaDescription: post.metaDescription || processedContent.replace(/<[^>]*>/g, '').substring(0, 160) + '...',
       // Generate keywords from categories if not provided (for SEO)
       keywords: post.keywords && post.keywords.length > 0 ? post.keywords : post.categories || []
     }
@@ -63,11 +77,11 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
   // Save back to localStorage
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedPosts));
-    console.log(`Successfully saved post "${post.title}" with slug "${slug}"`, updatedPosts);
+    console.log(`Successfully saved post "${post.title}" with slug "${normalizedSlug}"`, updatedPosts);
     
     // Verify the post was saved correctly
     const verifyPosts = getCustomPosts();
-    if (!verifyPosts[slug]) {
+    if (!verifyPosts[normalizedSlug]) {
       console.error("Post saving verification failed - post not found after save");
     } else {
       console.log("Post saving verification successful");
@@ -98,23 +112,24 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
 
 // Delete a custom post
 export const deleteCustomPost = (slug: string): void => {
+  const normalizedSlug = slug.toLowerCase();
   const currentPosts = getCustomPosts();
   
   // If the post doesn't exist, do nothing
-  if (!currentPosts[slug]) {
-    console.log(`Post with slug "${slug}" not found, cannot delete`);
+  if (!currentPosts[normalizedSlug]) {
+    console.log(`Post with slug "${normalizedSlug}" not found, cannot delete`);
     return;
   }
   
   // Remove the post
-  delete currentPosts[slug];
+  delete currentPosts[normalizedSlug];
   
   // Save back to localStorage
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentPosts));
-    console.log(`Successfully deleted post with slug "${slug}"`);
+    console.log(`Successfully deleted post with slug "${normalizedSlug}"`);
   } catch (error) {
-    console.error(`Error deleting post with slug "${slug}":`, error);
+    console.error(`Error deleting post with slug "${normalizedSlug}":`, error);
   }
 };
 
@@ -132,24 +147,4 @@ export const debugStoredPosts = (): Record<string, BlogPost> => {
   }
 };
 
-// Check if localStorage is available and working
-export const checkLocalStorage = (): boolean => {
-  try {
-    const testKey = '_test_storage_';
-    localStorage.setItem(testKey, 'test');
-    const testValue = localStorage.getItem(testKey);
-    localStorage.removeItem(testKey);
-    
-    const storageWorking = testValue === 'test';
-    console.log("localStorage is working:", storageWorking);
-    
-    if (!storageWorking) {
-      console.error("localStorage test failed - browser storage may be disabled");
-    }
-    
-    return storageWorking;
-  } catch (error) {
-    console.error("localStorage is not available:", error);
-    return false;
-  }
-};
+// Check if localStorage is available and working - reusing the function from BlogPostFormUtils

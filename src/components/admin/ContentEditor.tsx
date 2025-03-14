@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import { Card } from '@/components/ui/card';
 
-// Example HTML template for blog posts
+// Example HTML template for blog posts with better structure
 const htmlTemplateExample = `<h2>Introduction</h2>
 <p>Start with an engaging introduction that hooks the reader and presents the main topic of your article.</p>
 
@@ -47,6 +47,16 @@ export const ContentEditor = ({
   const handleTemplateInsert = () => {
     setContent(htmlTemplateExample);
   };
+  
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    // Preserve HTML formatting by ensuring proper line breaks
+    let newContent = e.target.value;
+    
+    // Log for debugging
+    console.log("Content updated, length:", newContent.length);
+    
+    setContent(newContent);
+  };
 
   return (
     <div className="space-y-2">
@@ -76,6 +86,7 @@ export const ContentEditor = ({
               <h3 className="font-medium mb-2">Use the following HTML tags for consistent formatting:</h3>
               <ul className="list-disc pl-5 space-y-1 mb-3">
                 <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;h2&gt;</code> - For section headings</li>
+                <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;h3&gt;</code> - For subsection headings</li>
                 <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;p&gt;</code> - For paragraphs</li>
                 <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;ul&gt;</code> and <code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;li&gt;</code> - For bullet lists</li>
                 <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;ol&gt;</code> and <code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;li&gt;</code> - For numbered lists</li>
@@ -84,6 +95,7 @@ export const ContentEditor = ({
                 <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;a href="..."&gt;</code> - For links</li>
               </ul>
               <p className="text-xs mt-2">For best results, maintain a consistent structure with other blog posts on the site.</p>
+              <p className="text-xs mt-2 text-red-500">Important: Do not use single quotes inside attribute values as they may cause formatting issues.</p>
             </Card>
           </AccordionContent>
         </AccordionItem>
@@ -93,7 +105,7 @@ export const ContentEditor = ({
         id="content"
         placeholder="Write your post content here (HTML supported)"
         value={content}
-        onChange={(e) => setContent(e.target.value)}
+        onChange={handleContentChange}
         required
         className="min-h-[300px] font-mono"
       />

@@ -13,7 +13,7 @@ import { SaveIcon } from 'lucide-react';
 import { CategorySelector } from '@/components/admin/CategorySelector';
 import { KeywordSelector } from '@/components/admin/KeywordSelector';
 import { ContentEditor } from '@/components/admin/ContentEditor';
-import { generateSlug } from '@/components/admin/BlogPostFormUtils';
+import { generateSlug, checkLocalStorage } from '@/components/admin/BlogPostFormUtils';
 
 const AdminPostForm = () => {
   const { slug } = useParams();
@@ -27,13 +27,28 @@ const AdminPostForm = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [metaDescription, setMetaDescription] = useState('');
   const [keywords, setKeywords] = useState<string[]>([]);
+  const [isLocalStorageAvailable, setIsLocalStorageAvailable] = useState(true);
   
   useEffect(() => {
+    // Check if localStorage is available
+    const storageAvailable = checkLocalStorage();
+    setIsLocalStorageAvailable(storageAvailable);
+    
+    if (!storageAvailable) {
+      toast({
+        title: "Storage Error",
+        description: "Your browser's local storage is not available. Custom posts cannot be saved.",
+        variant: "destructive",
+      });
+    }
+    
     // Debug - check what posts are stored
     console.log("AdminPostForm - Checking stored posts:");
     debugStoredPosts();
     
     if (isEditMode && slug) {
+      const normalizedSlug = slug.toLowerCase();
+      
       // First check in built-in posts
       if (posts[slug]) {
         const post = posts[slug];
@@ -48,29 +63,57 @@ const AdminPostForm = () => {
         // Then check in custom posts
         const customPosts = getCustomPosts();
         console.log("Custom posts for editing:", customPosts);
+        
+        // Try with exact slug
         if (customPosts[slug]) {
-          const post = customPosts[slug];
-          console.log("Editing custom post:", post);
-          setTitle(post.title);
-          setContent(post.content);
-          setAuthor(post.author);
-          setSelectedCategories(post.categories || []);
-          setMetaDescription(post.metaDescription || '');
-          setKeywords(post.keywords || []);
-        } else {
-          toast({
-            title: "Post not found",
-            description: "The post you're trying to edit doesn't exist.",
-            variant: "destructive",
-          });
-          navigate('/admin/posts');
+          loadPostData(customPosts[slug]);
+        } 
+        // Try with normalized slug
+        else if (customPosts[normalizedSlug]) {
+          loadPostData(customPosts[normalizedSlug]);
+        } 
+        // Try case-insensitive match
+        else {
+          const possibleMatch = Object.keys(customPosts).find(
+            key => key.toLowerCase() === slug.toLowerCase()
+          );
+          
+          if (possibleMatch) {
+            loadPostData(customPosts[possibleMatch]);
+          } else {
+            toast({
+              title: "Post not found",
+              description: "The post you're trying to edit doesn't exist.",
+              variant: "destructive",
+            });
+            navigate('/admin/posts');
+          }
         }
       }
     }
   }, [isEditMode, slug, navigate, toast]);
 
+  const loadPostData = (post: BlogPost) => {
+    console.log("Loading post data:", post);
+    setTitle(post.title);
+    setContent(post.content);
+    setAuthor(post.author);
+    setSelectedCategories(post.categories || []);
+    setMetaDescription(post.metaDescription || '');
+    setKeywords(post.keywords || []);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isLocalStorageAvailable) {
+      toast({
+        title: "Cannot save post",
+        description: "Local storage is not available in your browser.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     if (!title || !content || !author) {
       toast({

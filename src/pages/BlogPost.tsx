@@ -28,6 +28,7 @@ const BlogPost = () => {
     // Debug - Check what posts are stored
     console.log("BlogPost - Loading post with slug:", slug);
     const storedPosts = debugStoredPosts();
+    console.log("Available custom posts:", Object.keys(storedPosts));
     
     // First check if it's a predefined post
     if (posts[slug as keyof typeof posts]) {
@@ -44,6 +45,27 @@ const BlogPost = () => {
     if (customPosts[slug]) {
       console.log("Found post in custom posts:", customPosts[slug]);
       setCurrentPost(customPosts[slug]);
+      setIsLoading(false);
+      return;
+    }
+    
+    // Try lowercase slug as a fallback
+    const lowercaseSlug = slug.toLowerCase();
+    if (customPosts[lowercaseSlug]) {
+      console.log("Found post with lowercase slug:", lowercaseSlug);
+      setCurrentPost(customPosts[lowercaseSlug]);
+      setIsLoading(false);
+      return;
+    }
+    
+    // Try checking for similar slugs (case insensitive)
+    const possibleMatch = Object.keys(customPosts).find(
+      key => key.toLowerCase() === slug.toLowerCase()
+    );
+    
+    if (possibleMatch) {
+      console.log("Found similar slug match:", possibleMatch);
+      setCurrentPost(customPosts[possibleMatch]);
       setIsLoading(false);
       return;
     }
