@@ -18,13 +18,17 @@ export const KeywordSelector = ({
 
   const handleAddKeyword = () => {
     if (newKeyword && !keywords.includes(newKeyword)) {
-      setKeywords([...keywords, newKeyword]);
+      const updatedKeywords = [...keywords, newKeyword];
+      setKeywords(updatedKeywords);
       setNewKeyword('');
+      console.log("Added keyword:", newKeyword, "Updated keywords:", updatedKeywords);
     }
   };
 
   const handleRemoveKeyword = (keyword: string) => {
-    setKeywords(keywords.filter(k => k !== keyword));
+    const updatedKeywords = keywords.filter(k => k !== keyword);
+    setKeywords(updatedKeywords);
+    console.log("Removed keyword:", keyword, "Updated keywords:", updatedKeywords);
   };
 
   return (
