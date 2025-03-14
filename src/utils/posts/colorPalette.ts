@@ -20,6 +20,11 @@ export const colorPalette = {
     text: 'text-green-600 dark:text-green-400',
     hover: 'hover:bg-green-200 dark:hover:bg-green-800/40'
   },
+  'future-resume-writing-ai-vs-professional': {
+    bg: 'bg-indigo-100 dark:bg-indigo-900/30',
+    text: 'text-indigo-600 dark:text-indigo-400',
+    hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
+  },
   'default': {
     bg: 'bg-blue-100 dark:bg-blue-900/30',
     text: 'text-blue-600 dark:text-blue-400',
