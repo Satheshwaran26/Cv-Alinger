@@ -12,6 +12,10 @@ import BlogPost from "./pages/BlogPost";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import InterviewPrep from "./pages/InterviewPrep";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminPosts from "./pages/AdminPosts";
+import AdminPostForm from "./pages/AdminPostForm";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +33,14 @@ const App = () => (
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/about" element={<About />} />
             <Route path="/interview-prep" element={<InterviewPrep />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/posts" element={<AdminPosts />} />
+            <Route path="/admin/posts/new" element={<AdminPostForm />} />
+            <Route path="/admin/posts/edit/:slug" element={<AdminPostForm />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
