@@ -1,5 +1,5 @@
 
-import { FC, useState, useMemo } from 'react';
+import { FC, useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 
 // Import the posts data and color palette
 import { posts, colorPalette } from '@/utils/posts';
+import { getCustomPosts } from '@/utils/blogStorage';
 
 interface PostWithMetadata {
   title: string;
@@ -34,9 +35,12 @@ const primaryCategories = [
 ];
 
 export const Blog: FC = () => {
-  // Create an array of post data from the posts object
-  const allPostsData = useMemo(() => {
-    return Object.entries(posts).map(([slug, post], index) => {
+  const [allPostsData, setAllPostsData] = useState<PostWithMetadata[]>([]);
+
+  // Load all blog posts (built-in and custom)
+  useEffect(() => {
+    // Get predefined posts
+    const predefinedPosts = Object.entries(posts).map(([slug, post], index) => {
       // Filter post categories to only include our primary categories
       const filteredCategories = post.categories ? 
         post.categories.filter(cat => primaryCategories.includes(cat)) : [];
@@ -53,6 +57,21 @@ export const Blog: FC = () => {
         categories: postCategories // Use filtered or assigned categories
       };
     });
+
+    // Get custom posts from localStorage
+    const customPosts = getCustomPosts();
+    const customPostsArray = Object.entries(customPosts).map(([slug, post], index) => {
+      return {
+        ...post,
+        slug,
+        id: predefinedPosts.length + index,
+        excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
+        categories: post.categories || []
+      };
+    });
+
+    // Combine both types of posts
+    setAllPostsData([...predefinedPosts, ...customPostsArray]);
   }, []);
 
   // Sort by date (newest first) and limit to 4 posts

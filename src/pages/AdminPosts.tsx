@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AdminLayout } from '@/components/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -30,18 +30,46 @@ import {
   DialogTitle 
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { getCustomPosts, deleteCustomPost } from '@/utils/blogStorage';
+
+interface PostWithMetadata {
+  slug: string;
+  title: string;
+  date: string;
+  author: string;
+  content: string;
+  categories?: string[];
+  isCustom: boolean;
+}
 
 const AdminPosts = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
+  const [allPosts, setAllPosts] = useState<PostWithMetadata[]>([]);
   const { toast } = useToast();
   
-  const allPosts = Object.entries(posts).map(([slug, post]) => ({
-    slug,
-    ...post
-  }));
-  
+  // Load all posts (built-in and custom)
+  useEffect(() => {
+    // Get predefined posts
+    const predefinedPosts = Object.entries(posts).map(([slug, post]) => ({
+      slug,
+      ...post,
+      isCustom: false
+    }));
+    
+    // Get custom posts
+    const customPosts = getCustomPosts();
+    const customPostsArray = Object.entries(customPosts).map(([slug, post]) => ({
+      slug,
+      ...post,
+      isCustom: true
+    }));
+    
+    // Combine both types of posts
+    setAllPosts([...predefinedPosts, ...customPostsArray]);
+  }, []);
+
   const filteredPosts = allPosts.filter(post => 
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     post.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -54,12 +82,29 @@ const AdminPosts = () => {
   };
 
   const confirmDelete = () => {
-    // In a real application, this would call an API to delete the post
-    // For now we'll just show a toast notification
-    toast({
-      title: "Post deletion functionality",
-      description: "In a complete implementation, the post would be deleted from the database.",
-    });
+    if (!postToDelete) return;
+    
+    // Only custom posts can be deleted
+    const postToRemove = allPosts.find(post => post.slug === postToDelete);
+    
+    if (postToRemove && postToRemove.isCustom) {
+      // Delete from localStorage
+      deleteCustomPost(postToDelete);
+      
+      // Update the UI by removing the post from our state
+      setAllPosts(allPosts.filter(post => post.slug !== postToDelete));
+      
+      toast({
+        title: "Post deleted",
+        description: "The post has been successfully deleted.",
+      });
+    } else {
+      toast({
+        title: "Cannot delete predefined post",
+        description: "Only custom posts can be deleted.",
+        variant: "destructive"
+      });
+    }
     
     setIsDeleteDialogOpen(false);
     setPostToDelete(null);
@@ -95,6 +140,7 @@ const AdminPosts = () => {
               <TableHead>Author</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Categories</TableHead>
+              <TableHead>Type</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -119,6 +165,11 @@ const AdminPosts = () => {
                       )}
                     </div>
                   </TableCell>
+                  <TableCell>
+                    <Badge variant={post.isCustom ? "default" : "secondary"} className="text-xs">
+                      {post.isCustom ? "Custom" : "Predefined"}
+                    </Badge>
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button variant="ghost" size="sm" asChild>
@@ -137,6 +188,7 @@ const AdminPosts = () => {
                         variant="ghost" 
                         size="sm" 
                         onClick={() => handleDeleteClick(post.slug)}
+                        disabled={!post.isCustom}
                       >
                         <Trash2 className="h-4 w-4 text-red-500" />
                         <span className="sr-only">Delete</span>
@@ -147,7 +199,7 @@ const AdminPosts = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-6 text-slate-500 dark:text-slate-400">
+                <TableCell colSpan={6} className="text-center py-6 text-slate-500 dark:text-slate-400">
                   No posts found matching your search.
                 </TableCell>
               </TableRow>

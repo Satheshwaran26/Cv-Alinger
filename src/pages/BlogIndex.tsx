@@ -1,10 +1,11 @@
+
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, User, Tag, BookOpenText, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { posts } from '@/utils/posts';
+import { posts, colorPalette } from '@/utils/posts';
 import { getCustomPosts } from '@/utils/blogStorage';
 import { useState, useMemo, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
@@ -17,7 +18,7 @@ interface PostWithMetadata {
   slug: string;
   id: number;
   excerpt: string;
-  categories: string[];
+  categories?: string[];
 }
 
 const primaryCategories = [
@@ -34,7 +35,9 @@ const BlogIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [allBlogPosts, setAllBlogPosts] = useState<PostWithMetadata[]>([]);
 
+  // Load all blog posts (built-in and custom)
   useEffect(() => {
+    // Get predefined posts
     const predefinedPosts = Object.entries(posts).map(([slug, post], index) => {
       const filteredCategories = post.categories ? 
         post.categories.filter(cat => primaryCategories.includes(cat)) : [];
@@ -51,30 +54,28 @@ const BlogIndex = () => {
       };
     });
 
+    // Get custom posts from localStorage
     const customPosts = getCustomPosts();
     const customPostsArray = Object.entries(customPosts).map(([slug, post], index) => {
-      const filteredCategories = post.categories ? 
-        post.categories.filter(cat => primaryCategories.includes(cat)) : [];
-      
-      const postCategories = filteredCategories.length > 0 ? 
-        filteredCategories : [primaryCategories[index % primaryCategories.length]];
-      
       return {
         ...post,
         slug,
         id: predefinedPosts.length + index,
         excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
-        categories: postCategories
+        categories: post.categories || []
       };
     });
 
+    // Combine both types of posts
     setAllBlogPosts([...predefinedPosts, ...customPostsArray]);
   }, []);
 
+  // Get all unique categories
   const allCategories = useMemo(() => {
     return ["All", ...primaryCategories];
   }, []);
 
+  // Filter posts based on search query and selected category
   const filteredPosts = useMemo(() => {
     return allBlogPosts.filter(post => {
       const matchesSearch = 
@@ -100,7 +101,8 @@ const BlogIndex = () => {
     window.scrollTo(0, 0);
   };
 
-  return <Layout>
+  return (
+    <Layout>
       <div className="container mx-auto px-4 py-12 bg-slate-900 dark:bg-slate-900">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -189,12 +191,16 @@ const BlogIndex = () => {
                         {post.excerpt}
                       </CardDescription>
 
-                      {post.categories && post.categories.length > 0 && <div className="flex flex-wrap gap-2 mt-4">
-                          {post.categories.map(category => <Badge key={category} className={`${color.bg} ${color.text}`}>
+                      {post.categories && post.categories.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {post.categories.map(category => (
+                            <Badge key={category} className={`${color.bg} ${color.text}`}>
                               <Tag className="h-3 w-3 mr-1" />
                               {category}
-                            </Badge>)}
-                        </div>}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
                     </CardHeader>
                     <CardFooter className="pt-4 mt-auto">
                       <Link to={`/blog/${post.slug}`} className="w-full" onClick={handlePostClick}>
@@ -240,7 +246,8 @@ const BlogIndex = () => {
           )}
         </div>
       </div>
-    </Layout>;
+    </Layout>
+  );
 };
 
 export default BlogIndex;
