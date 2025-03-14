@@ -1,32 +1,77 @@
 
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout } from '@/components/Layout';
-import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 import { posts, colorPalette } from '@/utils/posts';
+import { getCustomPosts } from '@/utils/blogStorage';
+
+interface Post {
+  title: string;
+  date: string;
+  author: string;
+  content: string;
+  categories?: string[];
+}
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [currentPost, setCurrentPost] = useState<Post | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   // Scroll to top when the component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
   
-  // Check if the post exists in our posts object
-  const postExists = slug && posts[slug as keyof typeof posts];
+  // Load the post data
+  useEffect(() => {
+    if (!slug) {
+      setIsLoading(false);
+      return;
+    }
+    
+    // First check if it's a predefined post
+    if (posts[slug as keyof typeof posts]) {
+      setCurrentPost(posts[slug as keyof typeof posts]);
+      setIsLoading(false);
+      return;
+    }
+    
+    // Then check if it's a custom post
+    const customPosts = getCustomPosts();
+    if (customPosts[slug]) {
+      setCurrentPost(customPosts[slug]);
+      setIsLoading(false);
+      return;
+    }
+    
+    // If we get here, the post doesn't exist
+    setIsLoading(false);
+  }, [slug]);
+  
+  // If the post doesn't exist or is still loading, show a loading state or redirect
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="text-slate-600 dark:text-slate-400">Loading article...</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
   
   // If the post doesn't exist, redirect to the blog index page
-  if (!postExists) {
+  if (!currentPost) {
     return <Navigate to="/blog" replace />;
   }
   
-  const colors = colorPalette[slug as keyof typeof colorPalette] 
+  // Determine colors for the post
+  const colors = slug && colorPalette[slug as keyof typeof colorPalette] 
     ? colorPalette[slug as keyof typeof colorPalette]
     : colorPalette['default'];
-  
-  const currentPost = posts[slug as keyof typeof posts];
 
   return (
     <Layout>

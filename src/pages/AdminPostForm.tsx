@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AdminLayout } from '@/components/AdminLayout';
@@ -14,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { posts } from '@/utils/posts';
+import { saveCustomPost, getCustomPosts } from '@/utils/blogStorage';
 import { useToast } from '@/hooks/use-toast';
 import { SaveIcon, X } from 'lucide-react';
 
@@ -54,19 +54,32 @@ const AdminPostForm = () => {
   const [newCategory, setNewCategory] = useState('');
   
   useEffect(() => {
-    if (isEditMode && slug && posts[slug]) {
-      const post = posts[slug];
-      setTitle(post.title);
-      setContent(post.content);
-      setAuthor(post.author);
-      setSelectedCategories(post.categories || []);
-    } else if (isEditMode && slug && !posts[slug]) {
-      toast({
-        title: "Post not found",
-        description: "The post you're trying to edit doesn't exist.",
-        variant: "destructive",
-      });
-      navigate('/admin/posts');
+    if (isEditMode && slug) {
+      // First check in built-in posts
+      if (posts[slug]) {
+        const post = posts[slug];
+        setTitle(post.title);
+        setContent(post.content);
+        setAuthor(post.author);
+        setSelectedCategories(post.categories || []);
+      } else {
+        // Then check in custom posts
+        const customPosts = getCustomPosts();
+        if (customPosts[slug]) {
+          const post = customPosts[slug];
+          setTitle(post.title);
+          setContent(post.content);
+          setAuthor(post.author);
+          setSelectedCategories(post.categories || []);
+        } else {
+          toast({
+            title: "Post not found",
+            description: "The post you're trying to edit doesn't exist.",
+            variant: "destructive",
+          });
+          navigate('/admin/posts');
+        }
+      }
     }
   }, [isEditMode, slug, navigate, toast]);
 
@@ -92,12 +105,29 @@ const AdminPostForm = () => {
       });
       return;
     }
+
+    // Create the post object
+    const postData = {
+      title,
+      content,
+      author,
+      date: new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }),
+      categories: selectedCategories
+    };
+
+    // Generate slug from title if not in edit mode
+    const postSlug = isEditMode ? slug! : generateSlug(title);
     
-    // In a real application, this would save to a database
-    // For now we'll just show a toast notification
+    // Save the post
+    saveCustomPost(postSlug, postData);
+    
     toast({
       title: isEditMode ? "Post updated" : "Post created",
-      description: "In a complete implementation, this would be saved to the database.",
+      description: `Your post has been ${isEditMode ? 'updated' : 'created'} successfully.`,
     });
     
     // Redirect back to posts list
@@ -134,7 +164,7 @@ const AdminPostForm = () => {
             <Label htmlFor="slug">Generated Slug</Label>
             <Input
               id="slug"
-              value={generateSlug(title)}
+              value={isEditMode ? slug : generateSlug(title)}
               readOnly
               disabled
               className="bg-slate-50 dark:bg-slate-700"

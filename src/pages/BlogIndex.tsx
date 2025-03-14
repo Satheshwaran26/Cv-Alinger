@@ -1,4 +1,3 @@
-
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,7 +5,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Calendar, User, Tag, BookOpenText, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { posts } from '@/utils/posts';
-import { useState, useMemo } from 'react';
+import { getCustomPosts } from '@/utils/blogStorage';
+import { useState, useMemo, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 
 interface PostWithMetadata {
@@ -32,29 +32,51 @@ const primaryCategories = [
 const BlogIndex = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [allBlogPosts, setAllBlogPosts] = useState<PostWithMetadata[]>([]);
 
-  const allPosts = Object.entries(posts).map(([slug, post], index) => {
-    const filteredCategories = post.categories ? 
-      post.categories.filter(cat => primaryCategories.includes(cat)) : [];
-    
-    const postCategories = filteredCategories.length > 0 ? 
-      filteredCategories : [primaryCategories[index % primaryCategories.length]];
-    
-    return {
-      ...post,
-      slug,
-      id: index,
-      excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
-      categories: postCategories
-    };
-  }) as PostWithMetadata[];
+  useEffect(() => {
+    const predefinedPosts = Object.entries(posts).map(([slug, post], index) => {
+      const filteredCategories = post.categories ? 
+        post.categories.filter(cat => primaryCategories.includes(cat)) : [];
+      
+      const postCategories = filteredCategories.length > 0 ? 
+        filteredCategories : [primaryCategories[index % primaryCategories.length]];
+      
+      return {
+        ...post,
+        slug,
+        id: index,
+        excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
+        categories: postCategories
+      };
+    });
+
+    const customPosts = getCustomPosts();
+    const customPostsArray = Object.entries(customPosts).map(([slug, post], index) => {
+      const filteredCategories = post.categories ? 
+        post.categories.filter(cat => primaryCategories.includes(cat)) : [];
+      
+      const postCategories = filteredCategories.length > 0 ? 
+        filteredCategories : [primaryCategories[index % primaryCategories.length]];
+      
+      return {
+        ...post,
+        slug,
+        id: predefinedPosts.length + index,
+        excerpt: post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
+        categories: postCategories
+      };
+    });
+
+    setAllBlogPosts([...predefinedPosts, ...customPostsArray]);
+  }, []);
 
   const allCategories = useMemo(() => {
     return ["All", ...primaryCategories];
   }, []);
 
   const filteredPosts = useMemo(() => {
-    return allPosts.filter(post => {
+    return allBlogPosts.filter(post => {
       const matchesSearch = 
         searchQuery === '' || 
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -67,14 +89,13 @@ const BlogIndex = () => {
       
       return matchesSearch && matchesCategory;
     });
-  }, [allPosts, searchQuery, selectedCategory]);
+  }, [allBlogPosts, searchQuery, selectedCategory]);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category === "All" ? "All" : 
       category === selectedCategory ? null : category);
   };
 
-  // Add scroll to top function
   const handlePostClick = () => {
     window.scrollTo(0, 0);
   };
