@@ -25,6 +25,11 @@ export const colorPalette = {
     text: 'text-indigo-600 dark:text-indigo-400',
     hover: 'hover:bg-indigo-200 dark:hover:bg-indigo-800/40'
   },
+  'customize-resume-by-industry': {
+    bg: 'bg-teal-100 dark:bg-teal-900/30',
+    text: 'text-teal-600 dark:text-teal-400',
+    hover: 'hover:bg-teal-200 dark:hover:bg-teal-800/40'
+  },
   'default': {
     bg: 'bg-blue-100 dark:bg-blue-900/30',
     text: 'text-blue-600 dark:text-blue-400',
