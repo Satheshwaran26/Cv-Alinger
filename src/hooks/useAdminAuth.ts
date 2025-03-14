@@ -9,18 +9,22 @@ export const useAdminAuth = (redirectTo: string = '/admin/login') => {
   const location = useLocation();
   
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       const adminAuth = localStorage.getItem('adminAuthenticated');
       
-      // Don't redirect if we're already on the login page
       if (adminAuth === 'true') {
         setIsAuthenticated(true);
-      } else if (location.pathname !== redirectTo) {
-        // Only redirect if we're not already on the login page
-        navigate(redirectTo);
+        setIsLoading(false);
+      } else {
+        setIsAuthenticated(false);
+        
+        // Only redirect if we're not already on the login page and not trying to access it
+        if (location.pathname !== redirectTo && !location.pathname.includes(redirectTo)) {
+          navigate(redirectTo);
+        }
+        
+        setIsLoading(false);
       }
-      
-      setIsLoading(false);
     };
 
     checkAuth();
