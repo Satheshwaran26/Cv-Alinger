@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
@@ -10,16 +11,17 @@ import { LockKeyhole } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+
 const formSchema = z.object({
   username: z.string().min(1, "Username is required"),
   password: z.string().min(6, "Password must be at least 6 characters")
 });
+
 const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,12 +29,13 @@ const AdminLogin = () => {
       password: ""
     }
   });
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
 
     // In a real application, you would validate credentials against a backend
     // This is a simple check for demo purposes
-    if (values.username === "admin" && values.password === "admin123") {
+    if (values.username === "admin" && values.password === "Beyond2024!") {
       // Set admin authenticated in localStorage for persistence
       localStorage.setItem("adminAuthenticated", "true");
       toast({
@@ -49,6 +52,7 @@ const AdminLogin = () => {
     }
     setIsLoading(false);
   };
+
   return <Layout>
       <div className="flex items-center justify-center min-h-[calc(100vh-200px)] bg-slate-50 dark:bg-slate-900 py-12">
         <Card className="w-full max-w-md">
@@ -97,4 +101,5 @@ const AdminLogin = () => {
       </div>
     </Layout>;
 };
+
 export default AdminLogin;
