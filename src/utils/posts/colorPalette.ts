@@ -30,6 +30,11 @@ export const colorPalette = {
     text: 'text-teal-600 dark:text-teal-400',
     hover: 'hover:bg-teal-200 dark:hover:bg-teal-800/40'
   },
+  'ai-interview-preparation': {
+    bg: 'bg-rose-100 dark:bg-rose-900/30',
+    text: 'text-rose-600 dark:text-rose-400',
+    hover: 'hover:bg-rose-200 dark:hover:bg-rose-800/40'
+  },
   'default': {
     bg: 'bg-blue-100 dark:bg-blue-900/30',
     text: 'text-blue-600 dark:text-blue-400',
