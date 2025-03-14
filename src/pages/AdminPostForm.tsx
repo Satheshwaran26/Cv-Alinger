@@ -6,72 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { posts, BlogPost } from '@/utils/posts';
 import { saveCustomPost, getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
 import { useToast } from '@/hooks/use-toast';
-import { SaveIcon, X, Info } from 'lucide-react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Card } from '@/components/ui/card';
-
-interface PostCategory {
-  value: string;
-  label: string;
-}
-
-const categories: PostCategory[] = [
-  { value: "AI Tools", label: "AI Tools" },
-  { value: "Resume Tips", label: "Resume Tips" },
-  { value: "Resume Optimization", label: "Resume Optimization" },
-  { value: "Job Search", label: "Job Search" },
-  { value: "Interviews", label: "Interviews" },
-  { value: "Career Growth", label: "Career Growth" },
-  { value: "Industry Trends", label: "Industry Trends" },
-  { value: "Technical Skills", label: "Technical Skills" },
-  { value: "Soft Skills", label: "Soft Skills" },
-];
-
-const generateSlug = (title: string): string => {
-  return title
-    .toLowerCase()
-    .replace(/[^\w ]+/g, '')
-    .replace(/ +/g, '-');
-};
-
-// Example HTML template for blog posts
-const htmlTemplateExample = `<h2>Introduction</h2>
-<p>Start with an engaging introduction that hooks the reader and presents the main topic of your article.</p>
-
-<h2>First Main Point</h2>
-<p>Develop your first key point with clear explanations and evidence.</p>
-<ul>
-  <li>Supporting point one</li>
-  <li>Supporting point two</li>
-  <li>Supporting point three</li>
-</ul>
-
-<h2>Second Main Point</h2>
-<p>Continue with your next important point, maintaining a logical flow.</p>
-
-<h2>Third Main Point</h2>
-<p>Develop your third key argument or information section.</p>
-
-<h2>Practical Tips</h2>
-<p>Provide actionable advice that readers can implement.</p>
-
-<h2>Conclusion</h2>
-<p>Summarize your main points and end with a thought-provoking statement or call to action.</p>`;
+import { SaveIcon } from 'lucide-react';
+import { CategorySelector } from '@/components/admin/CategorySelector';
+import { KeywordSelector } from '@/components/admin/KeywordSelector';
+import { ContentEditor } from '@/components/admin/ContentEditor';
+import { generateSlug } from '@/components/admin/BlogPostFormUtils';
 
 const AdminPostForm = () => {
   const { slug } = useParams();
@@ -83,10 +25,8 @@ const AdminPostForm = () => {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [newCategory, setNewCategory] = useState('');
   const [metaDescription, setMetaDescription] = useState('');
   const [keywords, setKeywords] = useState<string[]>([]);
-  const [newKeyword, setNewKeyword] = useState('');
   
   useEffect(() => {
     // Debug - check what posts are stored
@@ -128,32 +68,6 @@ const AdminPostForm = () => {
       }
     }
   }, [isEditMode, slug, navigate, toast]);
-
-  const handleAddCategory = () => {
-    if (newCategory && !selectedCategories.includes(newCategory)) {
-      setSelectedCategories([...selectedCategories, newCategory]);
-      setNewCategory('');
-    }
-  };
-
-  const handleRemoveCategory = (category: string) => {
-    setSelectedCategories(selectedCategories.filter(c => c !== category));
-  };
-  
-  const handleAddKeyword = () => {
-    if (newKeyword && !keywords.includes(newKeyword)) {
-      setKeywords([...keywords, newKeyword]);
-      setNewKeyword('');
-    }
-  };
-
-  const handleRemoveKeyword = (keyword: string) => {
-    setKeywords(keywords.filter(k => k !== keyword));
-  };
-
-  const handleTemplateInsert = () => {
-    setContent(htmlTemplateExample);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -272,151 +186,20 @@ const AdminPostForm = () => {
             </p>
           </div>
           
-          <div className="space-y-2">
-            <Label htmlFor="categories">Categories</Label>
-            <div className="flex gap-2">
-              <Select onValueChange={(value) => setNewCategory(value)}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.value} value={category.value}>
-                      {category.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={handleAddCategory}
-                disabled={!newCategory}
-              >
-                Add
-              </Button>
-            </div>
-            
-            {selectedCategories.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
-                {selectedCategories.map((category) => (
-                  <div key={category} className="inline-flex items-center bg-slate-100 dark:bg-slate-700 rounded-full px-3 py-1 text-sm">
-                    {category}
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-5 w-5 p-0 ml-1" 
-                      onClick={() => handleRemoveCategory(category)}
-                    >
-                      <X className="h-3 w-3" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <CategorySelector 
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+          />
           
-          <div className="space-y-2">
-            <Label htmlFor="keywords">Keywords (SEO)</Label>
-            <div className="flex gap-2">
-              <Input
-                id="keywords"
-                placeholder="Enter a keyword and press Add"
-                value={newKeyword}
-                onChange={(e) => setNewKeyword(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && newKeyword) {
-                    e.preventDefault();
-                    handleAddKeyword();
-                  }
-                }}
-              />
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={handleAddKeyword}
-                disabled={!newKeyword}
-              >
-                Add
-              </Button>
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              Keywords help search engines understand your content. If none are added, categories will be used.
-            </p>
-            
-            {keywords.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
-                {keywords.map((keyword) => (
-                  <div key={keyword} className="inline-flex items-center bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full px-3 py-1 text-sm">
-                    {keyword}
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-5 w-5 p-0 ml-1" 
-                      onClick={() => handleRemoveKeyword(keyword)}
-                    >
-                      <X className="h-3 w-3" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <KeywordSelector 
+            keywords={keywords}
+            setKeywords={setKeywords}
+          />
           
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <Label htmlFor="content">Content *</Label>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={handleTemplateInsert}
-                className="text-xs"
-              >
-                Insert Template
-              </Button>
-            </div>
-            
-            <Accordion type="single" collapsible className="mb-4">
-              <AccordionItem value="formatting-guide">
-                <AccordionTrigger className="py-2 text-sm">
-                  <div className="flex items-center">
-                    <Info className="h-4 w-4 mr-2" />
-                    HTML Formatting Guidelines
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <Card className="p-4 bg-slate-50 dark:bg-slate-900 text-sm">
-                    <h3 className="font-medium mb-2">Use the following HTML tags for consistent formatting:</h3>
-                    <ul className="list-disc pl-5 space-y-1 mb-3">
-                      <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;h2&gt;</code> - For section headings</li>
-                      <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;p&gt;</code> - For paragraphs</li>
-                      <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;ul&gt;</code> and <code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;li&gt;</code> - For bullet lists</li>
-                      <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;ol&gt;</code> and <code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;li&gt;</code> - For numbered lists</li>
-                      <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;strong&gt;</code> - For bold text</li>
-                      <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;em&gt;</code> - For italic text</li>
-                      <li><code className="bg-slate-200 dark:bg-slate-800 px-1 rounded">&lt;a href="..."&gt;</code> - For links</li>
-                    </ul>
-                    <p className="text-xs mt-2">For best results, maintain a consistent structure with other blog posts on the site.</p>
-                  </Card>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-            
-            <Textarea
-              id="content"
-              placeholder="Write your post content here (HTML supported)"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              required
-              className="min-h-[300px] font-mono"
-            />
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              HTML formatting is supported and encouraged for consistent styling. Use the template button for a starting point.
-            </p>
-          </div>
+          <ContentEditor 
+            content={content}
+            setContent={setContent}
+          />
         </div>
         
         <div className="flex justify-end gap-2">
