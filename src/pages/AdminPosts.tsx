@@ -67,7 +67,9 @@ const AdminPosts = () => {
     }));
     
     // Combine both types of posts
-    setAllPosts([...predefinedPosts, ...customPostsArray]);
+    const combinedPosts = [...predefinedPosts, ...customPostsArray];
+    console.log("AdminPosts - All posts:", combinedPosts);
+    setAllPosts(combinedPosts);
   }, []);
 
   const filteredPosts = allPosts.filter(post => 

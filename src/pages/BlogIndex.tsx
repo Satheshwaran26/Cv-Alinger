@@ -66,14 +66,27 @@ const BlogIndex = () => {
       };
     });
 
-    // Combine both types of posts
+    // Combine both types of posts and force a re-render
     setAllBlogPosts([...predefinedPosts, ...customPostsArray]);
+    console.log("All blog posts loaded:", [...predefinedPosts, ...customPostsArray]);
   }, []);
 
   // Get all unique categories
   const allCategories = useMemo(() => {
-    return ["All", ...primaryCategories];
-  }, []);
+    const categories = new Set<string>(["All"]);
+    
+    // Add primary categories
+    primaryCategories.forEach(cat => categories.add(cat));
+    
+    // Add categories from custom posts
+    allBlogPosts.forEach(post => {
+      if (post.categories) {
+        post.categories.forEach(cat => categories.add(cat));
+      }
+    });
+    
+    return Array.from(categories);
+  }, [allBlogPosts]);
 
   // Filter posts based on search query and selected category
   const filteredPosts = useMemo(() => {

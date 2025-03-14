@@ -70,8 +70,10 @@ export const Blog: FC = () => {
       };
     });
 
-    // Combine both types of posts
-    setAllPostsData([...predefinedPosts, ...customPostsArray]);
+    // Combine both types of posts and log for debugging
+    const allPosts = [...predefinedPosts, ...customPostsArray];
+    console.log("Blog component - All loaded posts:", allPosts);
+    setAllPostsData(allPosts);
   }, []);
 
   // Sort by date (newest first) and limit to 4 posts

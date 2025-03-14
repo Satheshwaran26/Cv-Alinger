@@ -40,6 +40,8 @@ const BlogPost = () => {
     
     // Then check if it's a custom post
     const customPosts = getCustomPosts();
+    console.log("BlogPost - Custom posts:", customPosts, "Looking for slug:", slug);
+    
     if (customPosts[slug]) {
       setCurrentPost(customPosts[slug]);
       setIsLoading(false);
