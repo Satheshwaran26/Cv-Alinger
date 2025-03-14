@@ -1,3 +1,4 @@
+
 import { FC, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
@@ -63,6 +64,11 @@ export const Blog: FC = () => {
 
   const handleViewAllClick = () => {
     // Scroll to top when user navigates to the blog page
+    window.scrollTo(0, 0);
+  };
+
+  // Add scroll to top function for individual posts
+  const handlePostClick = () => {
     window.scrollTo(0, 0);
   };
 
@@ -159,7 +165,7 @@ export const Blog: FC = () => {
                     )}
                   </CardHeader>
                   <CardContent className="pt-2 mt-auto">
-                    <Link to={`/blog/${post.slug}`}>
+                    <Link to={`/blog/${post.slug}`} onClick={handlePostClick}>
                       <Button 
                         variant="outline" 
                         className={`w-full transition-colors ${color.hover}`}

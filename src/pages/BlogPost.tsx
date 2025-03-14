@@ -1,5 +1,5 @@
 
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, Navigate, useEffect } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
@@ -7,6 +7,11 @@ import { posts, colorPalette } from '@/utils/posts';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
+  
+  // Scroll to top when the component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
   
   // Check if the post exists in our posts object
   const postExists = slug && posts[slug as keyof typeof posts];

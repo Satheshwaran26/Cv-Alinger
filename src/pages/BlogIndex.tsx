@@ -74,6 +74,11 @@ const BlogIndex = () => {
       category === selectedCategory ? null : category);
   };
 
+  // Add scroll to top function
+  const handlePostClick = () => {
+    window.scrollTo(0, 0);
+  };
+
   return <Layout>
       <div className="container mx-auto px-4 py-12 bg-slate-900 dark:bg-slate-900">
         <div className="max-w-5xl mx-auto">
@@ -171,7 +176,7 @@ const BlogIndex = () => {
                         </div>}
                     </CardHeader>
                     <CardFooter className="pt-4 mt-auto">
-                      <Link to={`/blog/${post.slug}`} className="w-full">
+                      <Link to={`/blog/${post.slug}`} className="w-full" onClick={handlePostClick}>
                         <Button variant="outline" className={`w-full transition-colors ${color.hover}`}>
                           <div className="flex items-center gap-2">
                             <div className={`flex items-center justify-center w-5 h-5 rounded-full ${color.bg}`}>
