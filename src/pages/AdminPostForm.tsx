@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AdminLayout } from '@/components/AdminLayout';
@@ -14,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { posts } from '@/utils/posts';
-import { saveCustomPost, getCustomPosts } from '@/utils/blogStorage';
+import { saveCustomPost, getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
 import { useToast } from '@/hooks/use-toast';
 import { SaveIcon, X, Info } from 'lucide-react';
 import {
@@ -86,10 +85,15 @@ const AdminPostForm = () => {
   const [newCategory, setNewCategory] = useState('');
   
   useEffect(() => {
+    // Debug - check what posts are stored
+    console.log("AdminPostForm - Checking stored posts:");
+    debugStoredPosts();
+    
     if (isEditMode && slug) {
       // First check in built-in posts
       if (posts[slug]) {
         const post = posts[slug];
+        console.log("Editing built-in post:", post);
         setTitle(post.title);
         setContent(post.content);
         setAuthor(post.author);
@@ -97,8 +101,10 @@ const AdminPostForm = () => {
       } else {
         // Then check in custom posts
         const customPosts = getCustomPosts();
+        console.log("Custom posts for editing:", customPosts);
         if (customPosts[slug]) {
           const post = customPosts[slug];
+          console.log("Editing custom post:", post);
           setTitle(post.title);
           setContent(post.content);
           setAuthor(post.author);
@@ -159,7 +165,9 @@ const AdminPostForm = () => {
     const postSlug = isEditMode ? slug! : generateSlug(title);
     
     // Save the post
+    console.log("Saving post with slug:", postSlug, "Data:", postData);
     saveCustomPost(postSlug, postData);
+    debugStoredPosts();
     
     toast({
       title: isEditMode ? "Post updated" : "Post created",

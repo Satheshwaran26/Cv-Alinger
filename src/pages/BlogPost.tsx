@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 import { posts, colorPalette } from '@/utils/posts';
-import { getCustomPosts } from '@/utils/blogStorage';
+import { getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
 
 interface Post {
   title: string;
@@ -31,8 +31,13 @@ const BlogPost = () => {
       return;
     }
     
+    // Debug - Check what posts are stored
+    console.log("BlogPost - Loading post with slug:", slug);
+    const storedPosts = debugStoredPosts();
+    
     // First check if it's a predefined post
     if (posts[slug as keyof typeof posts]) {
+      console.log("Found post in predefined posts");
       setCurrentPost(posts[slug as keyof typeof posts]);
       setIsLoading(false);
       return;
@@ -40,15 +45,17 @@ const BlogPost = () => {
     
     // Then check if it's a custom post
     const customPosts = getCustomPosts();
-    console.log("BlogPost - Custom posts:", customPosts, "Looking for slug:", slug);
+    console.log("Custom posts:", customPosts, "Looking for slug:", slug);
     
     if (customPosts[slug]) {
+      console.log("Found post in custom posts:", customPosts[slug]);
       setCurrentPost(customPosts[slug]);
       setIsLoading(false);
       return;
     }
     
     // If we get here, the post doesn't exist
+    console.log("Post not found with slug:", slug);
     setIsLoading(false);
   }, [slug]);
   

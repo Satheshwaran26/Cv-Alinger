@@ -1,4 +1,3 @@
-
 import { FC, useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenText, Calendar, User, Tag } from 'lucide-react';
@@ -8,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 
 // Import the posts data and color palette
 import { posts, colorPalette } from '@/utils/posts';
-import { getCustomPosts } from '@/utils/blogStorage';
+import { getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
 
 interface PostWithMetadata {
   title: string;
@@ -36,9 +35,23 @@ const primaryCategories = [
 
 export const Blog: FC = () => {
   const [allPostsData, setAllPostsData] = useState<PostWithMetadata[]>([]);
+  const [renderKey, setRenderKey] = useState(Date.now());
+
+  // Force periodic refresh to catch new posts
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRenderKey(Date.now());
+    }, 1000); // Check every second
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   // Load all blog posts (built-in and custom)
   useEffect(() => {
+    // Debug current localStorage state
+    console.log("Blog component - Checking localStorage for posts:");
+    const storedPosts = debugStoredPosts();
+    
     // Get predefined posts
     const predefinedPosts = Object.entries(posts).map(([slug, post], index) => {
       // Filter post categories to only include our primary categories
@@ -60,6 +73,8 @@ export const Blog: FC = () => {
 
     // Get custom posts from localStorage
     const customPosts = getCustomPosts();
+    console.log("Blog component - Custom posts from localStorage:", customPosts);
+    
     const customPostsArray = Object.entries(customPosts).map(([slug, post], index) => {
       return {
         ...post,
@@ -74,7 +89,7 @@ export const Blog: FC = () => {
     const allPosts = [...predefinedPosts, ...customPostsArray];
     console.log("Blog component - All loaded posts:", allPosts);
     setAllPostsData(allPosts);
-  }, []);
+  }, [renderKey]); // Re-run when renderKey changes
 
   // Sort by date (newest first) and limit to 4 posts
   const recentPosts = useMemo(() => {

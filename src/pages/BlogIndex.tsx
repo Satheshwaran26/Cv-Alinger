@@ -1,4 +1,3 @@
-
 import { Layout } from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Calendar, User, Tag, BookOpenText, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { posts, colorPalette } from '@/utils/posts';
-import { getCustomPosts } from '@/utils/blogStorage';
+import { getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
 import { useState, useMemo, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 
@@ -34,10 +33,20 @@ const BlogIndex = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [allBlogPosts, setAllBlogPosts] = useState<PostWithMetadata[]>([]);
+  const [renderKey, setRenderKey] = useState(Date.now());
 
-  // Load all blog posts (built-in and custom)
   useEffect(() => {
-    // Get predefined posts
+    const intervalId = setInterval(() => {
+      setRenderKey(Date.now());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    console.log("BlogIndex - Starting to load posts, checking localStorage:");
+    const storedPosts = debugStoredPosts();
+    
     const predefinedPosts = Object.entries(posts).map(([slug, post], index) => {
       const filteredCategories = post.categories ? 
         post.categories.filter(cat => primaryCategories.includes(cat)) : [];
@@ -54,8 +63,9 @@ const BlogIndex = () => {
       };
     });
 
-    // Get custom posts from localStorage
     const customPosts = getCustomPosts();
+    console.log("BlogIndex - Custom posts from localStorage:", customPosts);
+    
     const customPostsArray = Object.entries(customPosts).map(([slug, post], index) => {
       return {
         ...post,
@@ -66,19 +76,16 @@ const BlogIndex = () => {
       };
     });
 
-    // Combine both types of posts and force a re-render
-    setAllBlogPosts([...predefinedPosts, ...customPostsArray]);
-    console.log("All blog posts loaded:", [...predefinedPosts, ...customPostsArray]);
-  }, []);
+    const combinedPosts = [...predefinedPosts, ...customPostsArray];
+    console.log("BlogIndex - All blog posts loaded:", combinedPosts);
+    setAllBlogPosts(combinedPosts);
+  }, [renderKey]);
 
-  // Get all unique categories
   const allCategories = useMemo(() => {
     const categories = new Set<string>(["All"]);
     
-    // Add primary categories
     primaryCategories.forEach(cat => categories.add(cat));
     
-    // Add categories from custom posts
     allBlogPosts.forEach(post => {
       if (post.categories) {
         post.categories.forEach(cat => categories.add(cat));
@@ -88,7 +95,6 @@ const BlogIndex = () => {
     return Array.from(categories);
   }, [allBlogPosts]);
 
-  // Filter posts based on search query and selected category
   const filteredPosts = useMemo(() => {
     return allBlogPosts.filter(post => {
       const matchesSearch = 

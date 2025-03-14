@@ -41,6 +41,7 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
   
   // Save back to localStorage
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedPosts));
+  console.log(`Saved post "${post.title}" with slug "${slug}"`, updatedPosts);
 };
 
 // Delete a custom post
@@ -57,4 +58,11 @@ export const deleteCustomPost = (slug: string): void => {
   
   // Save back to localStorage
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentPosts));
+};
+
+// Debug function to check what posts are stored
+export const debugStoredPosts = (): void => {
+  const posts = getCustomPosts();
+  console.log("Currently stored custom posts:", posts);
+  return posts;
 };
