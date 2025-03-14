@@ -1,26 +1,15 @@
-
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { ArrowLeft, Calendar, User, Tag } from 'lucide-react';
-import { posts, colorPalette } from '@/utils/posts';
+import { posts, colorPalette, BlogPost as BlogPostType } from '@/utils/posts';
 import { getCustomPosts, debugStoredPosts } from '@/utils/blogStorage';
 import { Badge } from '@/components/ui/badge';
 import { Helmet } from 'react-helmet';
 
-interface Post {
-  title: string;
-  date: string;
-  author: string;
-  content: string;
-  categories?: string[];
-  metaDescription?: string;
-  keywords?: string[];
-}
-
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [currentPost, setCurrentPost] = useState<Post | null>(null);
+  const [currentPost, setCurrentPost] = useState<BlogPostType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
   // Scroll to top when the component mounts
@@ -89,8 +78,10 @@ const BlogPost = () => {
   // Prepare SEO metadata
   const metaDescription = currentPost.metaDescription || 
     currentPost.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...';
-  const keywords = currentPost.keywords || 
-    (currentPost.categories ? currentPost.categories.join(', ') : '');
+  const keywords = Array.isArray(currentPost.keywords) 
+    ? currentPost.keywords.join(', ')
+    : currentPost.keywords || 
+      (currentPost.categories ? currentPost.categories.join(', ') : '');
 
   return (
     <Layout>

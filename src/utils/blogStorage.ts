@@ -2,15 +2,7 @@
 // This file provides utilities for storing and retrieving blog posts
 // that have been created through the admin interface
 
-interface BlogPost {
-  title: string;
-  date: string;
-  author: string;
-  content: string;
-  categories?: string[];
-  metaDescription?: string; // Added for SEO optimization
-  keywords?: string[];      // Added for SEO optimization
-}
+import { BlogPost } from './posts';
 
 // Key for storing posts in localStorage
 const LOCAL_STORAGE_KEY = 'custom_blog_posts';

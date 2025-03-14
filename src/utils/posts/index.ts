@@ -1,4 +1,15 @@
 
+// Define the interface for blog posts
+export interface BlogPost {
+  title: string;
+  date: string;
+  author: string;
+  content: string;
+  categories?: string[];
+  metaDescription?: string;
+  keywords?: string[];
+}
+
 import { howAiResumeBuilders } from './howAiResumeBuilders';
 import { tenWaysResumeAI } from './tenWaysResumeAI';
 import { aiRevolutionJobHunting } from './aiRevolutionJobHunting';
@@ -10,7 +21,7 @@ import { interviewQuestionsAI } from './interviewQuestionsAI';
 import { colorPalette } from './colorPalette';
 
 // Export posts mapped by their slugs
-export const posts = {
+export const posts: Record<string, BlogPost> = {
   'how-ai-resume-builders-revolutionizing-job-application': howAiResumeBuilders,
   '10-ways-resume-ai-interview-chances': tenWaysResumeAI,
   'ai-revolution-job-hunting': aiRevolutionJobHunting,
