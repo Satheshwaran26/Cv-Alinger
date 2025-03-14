@@ -406,3 +406,4 @@ export const posts = {
       <h3 class="text-xl font-bold mb-2 mt-6">The Balanced Approach</h3>
       <p class="mb-4">Successful ATS optimization is about balance—incorporating the right keywords and following formatting best practices while still creating a document that's compelling to human readers. By understanding how these systems work and adapting your resume accordingly, you can significantly increase your chances of making it past the digital gatekeeper to the interview stage.</p>
     `
+  },
