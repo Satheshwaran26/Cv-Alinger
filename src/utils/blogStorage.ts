@@ -3,6 +3,7 @@
 // that have been created through the admin interface
 
 import { BlogPost } from './posts';
+import { validateSlug } from '@/components/admin/BlogPostFormUtils';
 
 // Key for storing posts in localStorage
 const LOCAL_STORAGE_KEY = 'custom_blog_posts';
@@ -33,6 +34,12 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
     return;
   }
   
+  // Validate the slug format
+  if (!validateSlug(slug)) {
+    console.error("Cannot save post: Invalid slug format", slug);
+    return;
+  }
+  
   // Validate the post has required fields
   if (!post.title || !post.content || !post.author) {
     console.error("Cannot save post: Missing required fields", { slug, post });
@@ -49,7 +56,7 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
       // Generate a meta description from content if not provided (for SEO)
       metaDescription: post.metaDescription || post.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...',
       // Generate keywords from categories if not provided (for SEO)
-      keywords: post.keywords || post.categories || []
+      keywords: post.keywords && post.keywords.length > 0 ? post.keywords : post.categories || []
     }
   };
   
@@ -146,4 +153,3 @@ export const checkLocalStorage = (): boolean => {
     return false;
   }
 };
-

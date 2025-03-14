@@ -22,6 +22,10 @@ export const KeywordSelector = ({
       setKeywords(updatedKeywords);
       setNewKeyword('');
       console.log("Added keyword:", newKeyword, "Updated keywords:", updatedKeywords);
+    } else if (keywords.includes(newKeyword)) {
+      console.log("Keyword already exists:", newKeyword);
+    } else {
+      console.log("Empty keyword, not adding");
     }
   };
 
