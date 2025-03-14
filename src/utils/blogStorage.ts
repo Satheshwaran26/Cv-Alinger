@@ -42,6 +42,12 @@ export const saveCustomPost = (slug: string, post: BlogPost): void => {
   // Save back to localStorage
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedPosts));
   console.log(`Saved post "${post.title}" with slug "${slug}"`, updatedPosts);
+  
+  // Force a refresh of localStorage to ensure data persists
+  setTimeout(() => {
+    const verifyPosts = getCustomPosts();
+    console.log("Verification of saved posts:", verifyPosts);
+  }, 500);
 };
 
 // Delete a custom post

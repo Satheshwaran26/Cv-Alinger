@@ -6,6 +6,7 @@ import { atsFriendlyResumes } from './atsFriendlyResumes';
 import { resumeAIvsProfessional } from './resumeAIvsProfessional';
 import { customizeResumeByIndustry } from './customizeResumeByIndustry';
 import { aiInterviewPrep } from './aiInterviewPrep';
+import { interviewQuestionsAI } from './interviewQuestionsAI';
 import { colorPalette } from './colorPalette';
 
 // Export posts mapped by their slugs
@@ -16,7 +17,8 @@ export const posts = {
   'ats-friendly-resumes': atsFriendlyResumes,
   'future-resume-writing-ai-vs-professional': resumeAIvsProfessional,
   'customize-resume-by-industry': customizeResumeByIndustry,
-  'ai-interview-preparation': aiInterviewPrep
+  'ai-interview-preparation': aiInterviewPrep,
+  '5-common-interview-questions-ai-help-answer-perfectly': interviewQuestionsAI
 };
 
 export { colorPalette };
