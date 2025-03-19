@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MessageSquare, ThumbsUp, ThumbsDown, Copy, Sparkles, GraduationCap, Briefcase, Brain } from "lucide-react";
+import {  ThumbsUp, ThumbsDown, Copy, Sparkles, GraduationCap, Briefcase, Brain } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { InterviewTips } from "./InterviewTips";
 

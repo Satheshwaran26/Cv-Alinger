@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "./AnimatedStat";
 import { Rocket, Zap, Star, Trophy, ArrowRight } from "lucide-react";
@@ -64,8 +63,8 @@ export const Hero = () => {
       value: "98%",
       label: "Accuracy in skill matching",
       badge: {
-        bg: "bg-orange-100 dark:bg-orange-900/30",
-        text: "text-orange-600 dark:text-orange-400",
+        bg: "bg-rose-100/80 dark:bg-rose-900/30",
+        text: "text-rose-600 dark:text-rose-400",
         content: "Boost Your Interview Chances"
       }
     },
@@ -73,8 +72,8 @@ export const Hero = () => {
       value: "75%",
       label: "Improvement in interview chances",
       badge: {
-        bg: "bg-green-100 dark:bg-green-900/30",
-        text: "text-green-600 dark:text-green-400",
+        bg: "bg-teal-100/80 dark:bg-teal-900/30",
+        text: "text-teal-600 dark:text-teal-400",
         content: "Optimize Your Resume with AI"
       }
     },
@@ -82,43 +81,44 @@ export const Hero = () => {
       value: "250",
       label: "Successful job matches",
       badge: {
-        bg: "bg-blue-100 dark:bg-blue-900/30",
-        text: "text-blue-600 dark:text-blue-400",
+        bg: "bg-violet-100/80 dark:bg-violet-900/30",
+        text: "text-violet-600 dark:text-violet-400",
         content: "Get Instant, Data-Driven Feedback"
       }
     }
   ];
 
   return (
-    <section id="hero" className="relative w-full min-h-screen pt-16 pb-20 flex flex-col items-center justify-center bg-white dark:bg-gray-950" ref={containerRef}>
+    <section id="hero" className="relative w-full min-h-screen pt-16 pb-20 flex flex-col items-center justify-center bg-gradient-to-br from-rose-50 via-white to-violet-50 dark:from-gray-950 dark:via-gray-900 dark:to-violet-950" ref={containerRef}>
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20 dark:bg-blue-900 dark:opacity-10"></div>
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-rose-200/30 to-violet-300/30 rounded-full blur-3xl dark:from-rose-900/20 dark:to-violet-900/20 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/30 to-rose-300/30 rounded-full blur-3xl dark:from-teal-900/20 dark:to-rose-900/20 animate-pulse delay-700"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-violet-200/20 to-rose-300/20 rounded-full blur-3xl dark:from-violet-900/10 dark:to-rose-900/10 animate-pulse delay-1000"></div>
       </div>
 
       <div className="container max-w-screen-2xl mx-auto text-center px-4 md:px-8 relative z-10">
-        <div className="relative">
+        <div className="relative mb-16">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-blue-50 w-[90%] h-24 rounded-xl blur-xl opacity-30 dark:bg-blue-900 dark:opacity-10"></div>
+            <div className="bg-gradient-to-r from-rose-100/50 via-violet-100/50 to-teal-100/50 w-[90%] h-32 rounded-2xl blur-2xl opacity-50 dark:from-rose-900/20 dark:via-violet-900/20 dark:to-teal-900/20"></div>
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 mx-auto max-w-6xl text-slate-900 leading-tight relative z-10 dark:text-white">
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block mb-2 dark:bg-gray-900 min-h-[64px] min-w-[300px]">
+            <span className="bg-white/80 backdrop-blur-md px-6 py-3 rounded-2xl shadow-xl inline-block mb-3 dark:bg-gray-900/80 min-h-[64px] min-w-[300px] border border-white/20 dark:border-gray-700/30">
               {displayedText1}
-              {!isTypingComplete && <span className="animate-pulse text-orange-500 dark:text-orange-400">|</span>}
+              {!isTypingComplete && <span className="animate-pulse text-rose-500 dark:text-rose-400">|</span>}
             </span>
             <br />
-            <span className="bg-white px-4 py-2 rounded-xl shadow-sm inline-block dark:bg-gray-900 min-h-[64px] min-w-[400px]">
+            <span className="bg-white/80 backdrop-blur-md px-6 py-3 rounded-2xl shadow-xl inline-block dark:bg-gray-900/80 min-h-[64px] min-w-[400px] border border-white/20 dark:border-gray-700/30">
               {displayedText2}
-              {!isTypingComplete && displayedText1.length === fullText1.length && <span className="animate-pulse text-orange-500 dark:text-orange-400">|</span>}
+              {!isTypingComplete && displayedText1.length === fullText1.length && <span className="animate-pulse text-rose-500 dark:text-rose-400">|</span>}
             </span>
           </h1>
         </div>
 
-        <p className="text-lg md:text-xl text-slate-600 mb-8 mx-auto max-w-4xl leading-relaxed dark:text-slate-300">
+        <p className="text-lg md:text-xl text-slate-700 mb-12 mx-auto max-w-4xl leading-relaxed dark:text-slate-300 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-2xl border border-white/20 dark:border-gray-700/30">
           Revolutionize your job search with Resume AI - the cutting-edge tool that transforms your application from ordinary to extraordinary. Our advanced AI technology doesn't just create resumes; it crafts your ticket to career success.
         </p>
 
-        <div className="mb-10">
+        <div className="mb-16">
           <button onClick={() => {
             const toolSection = document.getElementById('tool');
             if (toolSection) {
@@ -126,56 +126,56 @@ export const Hero = () => {
                 behavior: 'smooth'
               });
             }
-          }} className="inline-flex items-center gap-3 bg-white py-2.5 rounded-full shadow-md hero-animate mx-auto hover:bg-gray-50 transition-all px-[20px] scale-90">
-            <Rocket className="text-blue-600 h-5 w-5 rounded-none" />
-            <span className="font-medium text-slate-800 text-2xl">Analyze Now</span>
-            <div className="w-9 h-9 bg-green-400 rounded-full flex items-center justify-center text-white font-medium text-sm">97</div>
+          }} className="inline-flex items-center gap-4 bg-gradient-to-r from-rose-500 to-violet-500 py-4 px-8 rounded-2xl shadow-lg hero-animate mx-auto hover:from-rose-600 hover:to-violet-600 transition-all duration-300 transform hover:scale-105 group border border-white/20">
+            <Rocket className="text-white h-6 w-6" />
+            <span className="font-medium text-white text-2xl">Analyze Now</span>
+            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white font-medium text-lg border border-white/30 group-hover:bg-white/30">97</div>
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto hero-animate-delayed mb-16">
-          {stats.map((stat, index) => <div key={index} className="flex flex-col items-center">
-              <AnimatedStat value={stat.value} label={stat.label} delay={index * 300}
-                duration={2000}
-              />
-              <span className={`${stat.badge.bg} ${stat.badge.text} px-4 py-1 rounded-full text-sm font-medium mt-3`}>
+          {stats.map((stat, index) => (
+            <div key={index} className="flex flex-col items-center backdrop-blur-sm bg-white/50 dark:bg-gray-900/50 p-6 rounded-2xl border border-white/20 dark:border-gray-700/30">
+              <AnimatedStat value={stat.value} label={stat.label} delay={index * 300} duration={2000} />
+              <span className={`${stat.badge.bg} ${stat.badge.text} px-6 py-2 rounded-xl text-sm font-medium mt-4 shadow-lg backdrop-blur-sm border border-white/20`}>
                 {stat.badge.content}
               </span>
-            </div>)}
+            </div>
+          ))}
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-10">
-          <Card className="border-blue-100 bg-gradient-to-br from-white to-blue-50 dark:from-slate-900 dark:to-slate-800 shadow-md overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-500/30 hover:bg-gradient-to-br hover:from-white hover:to-blue-100">
+          <Card className="bg-gradient-to-br from-white/80 to-rose-50/80 dark:from-gray-900/80 dark:to-rose-900/20 shadow-xl overflow-hidden transition-all duration-300 hover:scale-105 border border-white/20 dark:border-gray-700/30 backdrop-blur-sm rounded-2xl">
             <CardContent className="p-8">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-6 dark:bg-blue-900/30 transition-transform duration-300 group-hover:scale-110">
-                <Zap className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-violet-500 rounded-xl flex items-center justify-center mb-6 transform rotate-6 transition-transform duration-300 group-hover:rotate-12 shadow-lg">
+                <Zap className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">Customize for Success</h3>
-              <p className="text-slate-600 dark:text-slate-400">
+              <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Customize for Success</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Use our AI-powered ATS tool to tailor your resume for each job. It matches keywords from the job description to boost your chances of landing an interview.
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-green-100 bg-gradient-to-br from-white to-green-50 dark:from-slate-900 dark:to-slate-800 shadow-md overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-green-200 dark:hover:border-green-500/30 hover:bg-gradient-to-br hover:from-white hover:to-green-100">
+          <Card className="bg-gradient-to-br from-white/80 to-violet-50/80 dark:from-gray-900/80 dark:to-violet-900/20 shadow-xl overflow-hidden transition-all duration-300 hover:scale-105 border border-white/20 dark:border-gray-700/30 backdrop-blur-sm rounded-2xl">
             <CardContent className="p-8">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-6 dark:bg-green-900/30 transition-transform duration-300 group-hover:scale-110">
-                <Star className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-teal-500 rounded-xl flex items-center justify-center mb-6 transform -rotate-6 transition-transform duration-300 group-hover:-rotate-12 shadow-lg">
+                <Star className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">Show Off Your Strengths</h3>
-              <p className="text-slate-600 dark:text-slate-400">
+              <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Show Off Your Strengths</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Highlight what makes you unique. Our AI resume builder gives clear suggestions so you can stand out from the competition.
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-orange-100 bg-gradient-to-br from-white to-orange-50 dark:from-slate-900 dark:to-slate-800 shadow-md overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-orange-200 dark:hover:border-orange-500/30 hover:bg-gradient-to-br hover:from-white hover:to-orange-100">
+          <Card className="bg-gradient-to-br from-white/80 to-teal-50/80 dark:from-gray-900/80 dark:to-teal-900/20 shadow-xl overflow-hidden transition-all duration-300 hover:scale-105 border border-white/20 dark:border-gray-700/30 backdrop-blur-sm rounded-2xl">
             <CardContent className="p-8">
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mb-6 dark:bg-orange-900/30 transition-transform duration-300 group-hover:scale-110">
-                <Trophy className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-rose-500 rounded-xl flex items-center justify-center mb-6 transform rotate-6 transition-transform duration-300 group-hover:rotate-12 shadow-lg">
+                <Trophy className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">Make Your Experience Count</h3>
-              <p className="text-slate-600 dark:text-slate-400">
+              <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Make Your Experience Count</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Beyond basic checks, our AI refines your resume to showcase impactful achievements and make every experience count.
               </p>
             </CardContent>

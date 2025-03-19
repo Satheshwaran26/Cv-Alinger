@@ -1,199 +1,118 @@
-
 import { Layout } from "@/components/Layout";
-import { Button } from "@/components/ui/button";
-import { Ribbon } from "lucide-react";
+import { Ribbon, Linkedin, Coffee, ChevronRight, Star, Sparkles, Brain, Users, Target, MessageCircle } from "lucide-react";
 
 const About = () => {
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-20 md:py-24">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-10 items-center md:items-start">
-            {/* Profile Image */}
-            <div className="w-full md:w-1/3 flex-shrink-0">
-              <div className="rounded-xl overflow-hidden shadow-xl">
-                <img 
-                  src="/lovable-uploads/02a454e3-669a-4993-ab5c-956cd4e535c9.png" 
-                  alt="Hanan Amos" 
-                  className="w-full h-auto"
-                />
-              </div>
-              
-              {/* Collaboration section under profile image - with LinkedIn button */}
-              <div className="mt-6 p-5 bg-card rounded-xl shadow-md">
-                <h3 className="text-xl font-bold mb-4">Ready to Collaborate?</h3>
-                <p className="text-base mb-5">
-                  If you want to consult with me, please reach out.
-                </p>
-                <div className="flex flex-col gap-3 items-start">
-                  {/* LinkedIn Button */}
+      <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-fuchsia-100 via-white to-cyan-100 dark:from-gray-900 dark:via-slate-900 dark:to-cyan-950 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-fuchsia-200/40 via-violet-200/40 to-cyan-200/40 rounded-full blur-3xl dark:from-fuchsia-900/20 dark:via-violet-900/20 dark:to-cyan-900/20 animate-float"></div>
+          <div className="absolute -bottom-20 -left-20 w-[800px] h-[800px] bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-cyan-200/40 via-violet-200/40 to-fuchsia-200/40 rounded-full blur-3xl dark:from-cyan-900/20 dark:via-violet-900/20 dark:to-fuchsia-900/20 animate-float-delayed"></div>
+        </div>
+
+        <div className="container mx-auto px-4 py-24 relative z-10">
+          {/* Hero Section */}
+          <div className="max-w-6xl mx-auto mb-20">
+            <div className="flex flex-col lg:flex-row gap-12 items-center">
+              {/* Profile Image Section */}
+              <div className="w-full lg:w-1/3">
+                <div className="relative group">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-fuchsia-500 via-violet-500 to-cyan-500 rounded-2xl blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse-slow"></div>
+                  <div className="relative rounded-xl overflow-hidden">
+                    <img 
+                      src="/lovable-uploads/image.png" 
+                      alt="tino britty"
+                      className="w-full h-auto transform transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+
+                {/* Social Links */}
+                <div className="mt-8 flex gap-4 justify-center">
                   <a 
-                    className="libutton"
-                    href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=hanan-amos" 
-                    target="_blank" 
+                    href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=hanan-amos"
+                    className="group bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-600 p-0.5 rounded-xl hover:from-fuchsia-500 hover:via-violet-500 hover:to-cyan-500 transition-all duration-300"
+                    target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Follow on LinkedIn
+                    <div className="bg-white dark:bg-gray-900 px-6 py-3 rounded-[9px] flex items-center gap-2">
+                      <Linkedin className="h-5 w-5 text-[#0A66C2]" />
+                      <span className="font-semibold bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-600 text-transparent bg-clip-text">Follow</span>
+                    </div>
                   </a>
                   
-                  {/* Buy Me a Coffee Button */}
                   <a 
-                    className="bmcbutton"
-                    href="https://buymeacoffee.com/hanana" 
-                    target="_blank" 
+                    href="https://buymeacoffee.com/hanana"
+                    className="group bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-600 p-0.5 rounded-xl hover:from-fuchsia-500 hover:via-violet-500 hover:to-cyan-500 transition-all duration-300"
+                    target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img 
-                      src="/lovable-uploads/e2677669-689e-4db1-915d-3ed8aee2f9e7.png" 
-                      alt="Buy Me A Coffee"
-                      className="w-full h-auto"
-                    />
+                    <div className="bg-white dark:bg-gray-900 px-6 py-3 rounded-[9px] flex items-center gap-2">
+                      <Coffee className="h-5 w-5 text-amber-500" />
+                      <span className="font-semibold bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-600 text-transparent bg-clip-text">Support</span>
+                    </div>
                   </a>
                 </div>
               </div>
-            </div>
-            
-            {/* Profile Information */}
-            <div className="w-full md:w-2/3">
-              <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center gap-2">
-                Hanan Amos
-                <span className="inline-flex animate-bounce">
-                  <Ribbon className="h-6 w-6 text-yellow-400" />
-                </span>
-              </h1>
-              <h2 className="text-xl text-primary mb-6">Head of Marketing Operations</h2>
-              
-              <p className="text-lg mb-8 text-muted-foreground">
-                I blend data, strategy, and a passion for people to make marketing smarter. With a keen interest in generative AI and process optimization, I continuously seek ways to drive efficiency and create engaging experiences.
-              </p>
-              
-              <h3 className="text-xl font-semibold mb-4">What I Do:</h3>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 7L9 19L3.5 13.5L4.91 12.09L9 16.17L19.59 5.59L21 7Z" fill="currentColor" />
-                    </svg>
+
+              {/* Profile Info Section */}
+              <div className="w-full lg:w-2/3">
+                <div className="space-y-6">
+                  <div className="inline-block">
+                    <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-600 text-transparent bg-clip-text flex items-center gap-3">
+                      Tino Britty
+                      <Sparkles className="h-8 w-8 text-fuchsia-500 dark:text-fuchsia-400 animate-pulse" />
+                    </h1>
                   </div>
-                  <span><strong>Streamline Processes:</strong> I design and implement systems that simplify operations and boost productivity.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 7L9 19L3.5 13.5L4.91 12.09L9 16.17L19.59 5.59L21 7Z" fill="currentColor" />
-                    </svg>
-                  </div>
-                  <span><strong>Data-Driven Decisions:</strong> I use analytics and emerging AI tools to refine strategies and optimize campaigns.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 7L9 19L3.5 13.5L4.91 12.09L9 16.17L19.59 5.59L21 7Z" fill="currentColor" />
-                    </svg>
-                  </div>
-                  <span><strong>Empower Teams:</strong> I believe in a people-first approach that values collaboration and continuous learning.</span>
-                </li>
-              </ul>
-              
-              <h3 className="text-xl font-semibold mb-4">My Approach:</h3>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 7L9 19L3.5 13.5L4.91 12.09L9 16.17L19.59 5.59L21 7Z" fill="currentColor" />
-                    </svg>
-                  </div>
-                  <span><strong>Audience Focus:</strong> I shift the focus from what I want to say to what you need to know.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 7L9 19L3.5 13.5L4.91 12.09L9 16.17L19.59 5.59L21 7Z" fill="currentColor" />
-                    </svg>
-                  </div>
-                  <span><strong>Clear & Concise:</strong> I prioritize brevity and clarity so key messages cut through the noise.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 7L9 19L3.5 13.5L4.91 12.09L9 16.17L19.59 5.59L21 7Z" fill="currentColor" />
-                    </svg>
-                  </div>
-                  <span><strong>Innovative Mindset:</strong> Embracing generative AI, I blend new technologies with proven methods to stay ahead.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 7L9 19L3.5 13.5L4.91 12.09L9 16.17L19.59 5.59L21 7Z" fill="currentColor" />
-                    </svg>
-                  </div>
-                  <span><strong>Human Touch:</strong> Beyond numbers and processes, I care deeply about people and fostering a culture of trust and growth.</span>
-                </li>
-              </ul>
-              
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold mb-4">Ready to Collaborate?</h3>
-                <p className="text-lg mb-6">
-                  If you want to consult with me, please reach out.
-                </p>
-                <div className="flex flex-wrap gap-3 items-start">
-                  {/* LinkedIn Button */}
-                  <a 
-                    className="libutton"
-                    href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=hanan-amos" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    Follow on LinkedIn
-                  </a>
-                  
-                  {/* Buy Me a Coffee Button */}
-                  <a 
-                    className="bmcbutton"
-                    href="https://buymeacoffee.com/hanana" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    <img 
-                      src="/lovable-uploads/e2677669-689e-4db1-915d-3ed8aee2f9e7.png" 
-                      alt="Buy Me A Coffee"
-                      className="w-[200px] h-auto"
-                    />
-                  </a>
+                  <h2 className="text-2xl font-semibold text-violet-600 dark:text-violet-400">
+                    CEO of Divine Infotech
+                  </h2>
+                  <p className="text-xl text-slate-700 dark:text-slate-300 leading-relaxed">
+                    I blend data, strategy, and a passion for people to make marketing smarter. With a keen interest in generative AI and process optimization, I continuously seek ways to drive efficiency and create engaging experiences.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Skills & Approach Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                icon: <Brain className="h-8 w-8 text-white" />,
+                title: "Data-Driven Strategy",
+                description: "Using analytics and AI to optimize campaigns and refine strategies.",
+                gradient: "from-fuchsia-500 to-violet-500"
+              },
+              {
+                icon: <Users className="h-8 w-8 text-white" />,
+                title: "Team Empowerment",
+                description: "Fostering collaboration and continuous learning with a people-first approach.",
+                gradient: "from-violet-500 to-cyan-500"
+              },
+              {
+                icon: <Target className="h-8 w-8 text-white" />,
+                title: "Process Optimization",
+                description: "Streamlining operations to boost productivity and efficiency.",
+                gradient: "from-cyan-500 to-fuchsia-500"
+              },
+            ].map((item, index) => (
+              <div key={index} className="group bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-900/95 dark:to-gray-900/90 backdrop-blur-xl rounded-3xl border-2 border-white/50 dark:border-gray-700/50 shadow-2xl p-8 transition-all duration-500 hover:scale-105">
+                <div className={`w-16 h-16 mb-6 bg-gradient-to-br ${item.gradient} rounded-2xl flex items-center justify-center transform rotate-3 transition-transform duration-300 group-hover:rotate-6 shadow-xl`}>
+                  {item.icon}
+                </div>
+                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-600 text-transparent bg-clip-text">
+                  {item.title}
+                </h3>
+                <p className="text-slate-700 dark:text-slate-300 text-lg">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-
-      {/* CSS for LinkedIn button and Buy Me a Coffee button */}
-      <style>
-        {`
-        .libutton {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 7px;
-          text-align: center;
-          outline: none;
-          text-decoration: none !important;
-          color: #ffffff !important;
-          width: 200px;
-          height: 32px;
-          border-radius: 16px;
-          background-color: #0A66C2;
-          font-family: "SF Pro Text", Helvetica, sans-serif;
-        }
-        
-        .bmcbutton {
-          display: flex;
-          width: 200px;
-          height: auto;
-          text-decoration: none !important;
-        }
-        `}
-      </style>
     </Layout>
   );
 };
