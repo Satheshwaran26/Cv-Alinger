@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, FileText, LightbulbIcon, BookOpenIcon, InfoIcon, GraduationCap } from "lucide-react";
+import { Menu, X, FileText, LightbulbIcon, BookOpenIcon, InfoIcon, GraduationCap, Sparkles } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -63,12 +63,26 @@ export const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
-              <img 
-                alt="Resume AI" 
-                className="h-9 md:h-11" 
-                src="/lovable-uploads/f2ec032b-7fab-47a4-adb9-6d15241ff48d.png" 
-              />
+            <Link to="/" className="group flex items-center gap-3">
+              <div className="relative">
+                {/* Dark box with glow effect */}
+                <div className="w-10 h-10 bg-gray-900 rounded-lg relative overflow-hidden">
+                  {/* Purple glow effect */}
+                  <div className="absolute inset-0 bg-fuchsia-500/30 blur-sm" />
+                  {/* Icon inside */}
+                  <div className="relative z-10 w-full h-full flex items-center justify-center">
+                    <FileText className="h-6 w-6 text-white" />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Logo text */}
+              <div className="flex items-center gap-1">
+                <span className="text-2xl font-bold text-white">
+                  Resume <span className="text-fuchsia-500">AI</span>
+                </span>
+                <Sparkles className="h-5 w-5 text-fuchsia-500 animate-pulse" />
+              </div>
             </Link>
           </div>
 
